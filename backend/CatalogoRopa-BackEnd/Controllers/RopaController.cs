@@ -1,9 +1,10 @@
 ﻿using CatalogoRopa_BackEnd.Data;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 namespace CatalogoRopa_BackEnd.Controllers;
-
+[AllowAnonymous]
 [Route("api/[controller]")]
 [ApiController]
 public class RopaController : ControllerBase
@@ -33,7 +34,7 @@ public class RopaController : ControllerBase
             .Skip((page - 1) * pageSize)
             .Take(pageSize)
             .ToListAsync();
-
+                                                         
         var resultado = new
         {
             TotalProductos = totalProductos,
