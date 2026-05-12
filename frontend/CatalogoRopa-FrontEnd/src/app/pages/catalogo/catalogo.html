@@ -1,0 +1,26 @@
+<div style="padding:20px;">
+
+  <h1>Productos</h1>
+
+  <p *ngIf="cargando">Cargando...</p>
+
+  <ng-container *ngIf="!cargando">
+
+    <p>Total productos: {{ ropa.length }}</p>
+
+    <div *ngFor="let item of ropa" style="border:1px solid gray; margin-bottom:10px; padding:10px; border-radius:8px;">
+
+      <h3>{{ item.nombre }}</h3>
+
+      <p>{{ item.descripcion }}</p>
+
+      <p>
+        <strong>Precio:</strong>
+        {{ item.precio }}
+      </p>
+
+    </div>
+
+  </ng-container>
+
+</div>
