@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CatalogoRopa_BackEnd.Migrations
 {
     [DbContext(typeof(CatalogoDbContext))]
-    [Migration("20260505041924_InitialCreate")]
+    [Migration("20260505061009_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
