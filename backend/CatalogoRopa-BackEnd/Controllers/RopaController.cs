@@ -1,4 +1,5 @@
 ﻿using CatalogoRopa_BackEnd.Data;
+using CatalogoRopa_BackEnd.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -19,21 +20,34 @@ public class RopaController : ControllerBase
     [HttpGet]
     public async Task<IActionResult> GetRopa(
         int page = 1,
-        int pageSize = 8)
+        int pageSize = 8, bool todas=false)
     {
-        if (page <= 0)
+        if (page <= 0 && todas==false) 
             page = 1;
 
-        if (pageSize <= 0)
+        if (pageSize <= 0 && todas==false)
             pageSize = 8;
 
         var totalProductos = await _context.Ropa.CountAsync();
 
-        var ropa = await _context.Ropa
+        List<Ropa> respuesta = [];
+
+        if (todas == false)
+        {
+            respuesta = await _context.Ropa
             .OrderBy(r => r.Id)
             .Skip((page - 1) * pageSize)
             .Take(pageSize)
             .ToListAsync();
+        }
+
+        else
+
+        {
+            respuesta = await _context.Ropa
+                .OrderBy(r => r.Id)
+                .ToListAsync();
+        }
                                                          
         var resultado = new
         {
@@ -41,7 +55,7 @@ public class RopaController : ControllerBase
             PaginaActual = page,
             TamanoPagina = pageSize,
             TotalPaginas = (int)Math.Ceiling((double)totalProductos / pageSize),
-            Datos = ropa
+            Datos = respuesta
         };
 
         return Ok(resultado);
