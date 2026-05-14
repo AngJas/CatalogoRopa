@@ -15,11 +15,11 @@ export class RopaService {
 
   getRopa(
     page: number = 1,
-    pageSize: number = 8
+    pageSize: number = 8, todas: boolean = false
   ): Observable<RespuestaRopa> {
 
     return this.http.get<RespuestaRopa>(
-      `${this.apiUrl}?page=${page}&pageSize=${pageSize}`
+      `${this.apiUrl}?page=${page}&pageSize=${pageSize}&todas=${todas}`
     );
   }
 }
