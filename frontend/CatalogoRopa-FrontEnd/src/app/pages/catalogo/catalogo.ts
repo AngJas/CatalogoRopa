@@ -23,7 +23,7 @@ export class CatalogoComponent implements OnInit {
   async ngOnInit(): Promise<void> {
     console.log('COMPONENTE INICIADO');
 
-    this.ropaService.getRopa().subscribe({
+    this.ropaService.getRopa(0,0,true).subscribe({
       next: (respuesta: RespuestaRopa) => {
 
         console.log('RESPUESTA:', respuesta);
@@ -41,5 +41,12 @@ export class CatalogoComponent implements OnInit {
         this.cargando = false;
       }
     });
+  }
+
+  obtenerImagenUrl(imagenBase64: string ): string {
+    if (imagenBase64.startsWith('data:image')) {
+      return imagenBase64;
+    }
+    return `data:image/jpeg;base64,${imagenBase64}`;
   }
 }
