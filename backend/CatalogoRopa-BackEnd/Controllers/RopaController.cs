@@ -55,7 +55,7 @@ public class RopaController : ControllerBase
             PaginaActual = page,
             TamanoPagina = pageSize,
             TotalPaginas = (int)Math.Ceiling((double)totalProductos / pageSize),
-            Datos = respuesta
+            Datos = respuesta.OrderByDescending (r=> r.FechaRegistro)
         };
 
         return Ok(resultado);
