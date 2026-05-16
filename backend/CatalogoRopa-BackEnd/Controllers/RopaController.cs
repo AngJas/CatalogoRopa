@@ -46,4 +46,14 @@ public class RopaController : ControllerBase
 
         return Ok(resultado);
     }
+
+    [HttpGet("prueba")]
+    public async Task<IActionResult> GetPrueba()
+    {
+        var ropa = await _context.PRUEBA
+            .OrderBy(r => r.DATOEQUISDE)
+            .ToListAsync();
+
+        return Ok(ropa);
+    }
 }

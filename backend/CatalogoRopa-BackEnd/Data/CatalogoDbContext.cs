@@ -11,12 +11,18 @@ namespace CatalogoRopa_BackEnd.Data
         }
 
         public DbSet<Ropa> Ropa { get; set; }
+        public DbSet<PRUEBA> PRUEBA { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Ropa>()
                 .Property(r => r.Precio)
                 .HasPrecision(10, 2);
+
+            modelBuilder.Entity<PRUEBA>(entity =>
+            {
+                entity.HasKey(e => e.DATOEQUISDE);
+            });
         }
     }
 }
