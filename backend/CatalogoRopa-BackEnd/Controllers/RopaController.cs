@@ -28,14 +28,14 @@ public class RopaController : ControllerBase
         if (pageSize <= 0 && todas==false)
             pageSize = 8;
 
-        var totalProductos = await _context.Ropa.CountAsync();
+        var totalProductos = await _context.Producto.CountAsync();
 
-        List<Ropa> respuesta = [];
+        List<Producto> respuesta = [];
 
         if (todas == false)
         {
-            respuesta = await _context.Ropa
-            .OrderBy(r => r.Id)
+            respuesta = await _context.Producto
+            .OrderBy(r => r.IdProducto)
             .Skip((page - 1) * pageSize)
             .Take(pageSize)
             .ToListAsync();
@@ -44,8 +44,8 @@ public class RopaController : ControllerBase
         else
 
         {
-            respuesta = await _context.Ropa
-                .OrderBy(r => r.Id)
+            respuesta = await _context.Producto
+                .OrderBy(r => r.IdProducto)
                 .ToListAsync();
         }
                                                          
@@ -55,7 +55,7 @@ public class RopaController : ControllerBase
             PaginaActual = page,
             TamanoPagina = pageSize,
             TotalPaginas = (int)Math.Ceiling((double)totalProductos / pageSize),
-            Datos = respuesta.OrderByDescending (r=> r.FechaRegistro)
+            Datos = respuesta.OrderByDescending (r=> r.FechaPublicacion)
         };
 
         return Ok(resultado);
