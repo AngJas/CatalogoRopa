@@ -13,6 +13,9 @@ public class ImagenProducto
     public int? Orden { get; set; }
     public bool EsPrincipal { get; set; }
 
+    public string? ImagenBase64 { get; set; }
+    public string? TipoContenido { get; set; }
+
     public int IdProducto { get; set; }
     public Producto? Producto { get; set; }
 }

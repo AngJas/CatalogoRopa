@@ -52,6 +52,12 @@ namespace CatalogoRopa_BackEnd.Data
                 .HasOne(p => p.Promocion)
                 .WithMany(p => p.Productos)
                 .HasForeignKey(p => p.IdPromocion);
+
+            modelBuilder.Entity<ImagenProducto>()
+                 .HasOne(i => i.Producto)
+                 .WithMany(p => p.Imagenes)
+                 .HasForeignKey(i => i.IdProducto);
+
         }
     }
 }
