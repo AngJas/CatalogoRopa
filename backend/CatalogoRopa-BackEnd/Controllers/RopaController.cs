@@ -28,36 +28,127 @@ public class RopaController : ControllerBase
         if (pageSize <= 0 && todas==false)
             pageSize = 8;
 
-        var totalProductos = await _context.Producto.CountAsync();
+        var query = _context.Producto
+      .Include(p => p.Imagenes)
+      .AsQueryable();
 
-        List<Producto> respuesta = [];
+        var totalProductos = await query.CountAsync();
 
-        if (todas == false)
-        {
-            respuesta = await _context.Producto
-            .OrderBy(r => r.IdProducto)
-            .Skip((page - 1) * pageSize)
-            .Take(pageSize)
-            .ToListAsync();
-        }
-
-        else
-
-        {
-            respuesta = await _context.Producto
-                .OrderBy(r => r.IdProducto)
+        var productos = todas
+            ? await query
+                .OrderByDescending(p => p.FechaPublicacion)
+                .Select(p => new
+                {
+                    p.IdProducto,
+                    p.Nombre,
+                    p.Descripcion,
+                    p.PrecioBase,
+                    p.Genero,
+                    p.Material,
+                    p.FechaPublicacion,
+                    Imagenes = p.Imagenes
+                        .OrderBy(i => i.Orden)
+                        .Select(i => new
+                        {
+                            i.IdImagen,
+                            i.ImagenBase64,
+                            i.TipoContenido,
+                            i.TextoAlternativo,
+                            i.Orden,
+                            i.EsPrincipal
+                        })
+                        .ToList()
+                })
+                .ToListAsync()
+            : await query
+                .OrderByDescending(p => p.FechaPublicacion)
+                .Skip((page - 1) * pageSize)
+                .Take(pageSize)
+                .Select(p => new
+                {
+                    p.IdProducto,
+                    p.Nombre,
+                    p.Descripcion,
+                    p.PrecioBase,
+                    p.Genero,
+                    p.Material,
+                    p.FechaPublicacion,
+                    Imagenes = p.Imagenes
+                        .OrderBy(i => i.Orden)
+                        .Select(i => new
+                        {
+                            i.IdImagen,
+                            i.ImagenBase64,
+                            i.TipoContenido,
+                            i.TextoAlternativo,
+                            i.Orden,
+                            i.EsPrincipal
+                        })
+                        .ToList()
+                })
                 .ToListAsync();
-        }
-                                                         
+
         var resultado = new
         {
             TotalProductos = totalProductos,
             PaginaActual = page,
             TamanoPagina = pageSize,
-            TotalPaginas = (int)Math.Ceiling((double)totalProductos / pageSize),
-            Datos = respuesta.OrderByDescending (r=> r.FechaPublicacion)
+            TotalPaginas = todas ? 1 : (int)Math.Ceiling((double)totalProductos / pageSize),
+            Datos = productos
         };
 
         return Ok(resultado);
     }
+
+
+    [HttpPost]
+    public async Task<IActionResult> CrearProducto(CrearProductoDto dto)
+    {
+        var producto = new Producto
+        {
+            Nombre = dto.Nombre,
+            Descripcion = dto.Descripcion,
+            PrecioBase = dto.PrecioBase,
+            Genero = dto.Genero,
+            Material = dto.Material,
+            FechaPublicacion = DateTime.Now,
+            IdMarca = dto.IdMarca,
+            IdCategoria = dto.IdCategoria,
+            IdColeccion = dto.IdColeccion,
+            IdPromocion = dto.IdPromocion
+        };
+
+        _context.Producto.Add(producto);
+        await _context.SaveChangesAsync();
+
+        if (!string.IsNullOrWhiteSpace(dto.ImagenBase64))
+        {
+            var imagen = new ImagenProducto
+            {
+                Url = null,
+                UrlMiniatura = null,
+                TextoAlternativo = producto.Nombre,
+                Orden = 1,
+                EsPrincipal = true,
+                IdProducto = producto.IdProducto,
+                ImagenBase64 = dto.ImagenBase64,
+                TipoContenido = dto.TipoContenido ?? "image/png"
+            };
+
+            _context.ImagenProducto.Add(imagen);
+            await _context.SaveChangesAsync();
+        }
+
+        return Ok(new
+        {
+            producto.IdProducto,
+            producto.Nombre,
+            producto.Descripcion,
+            producto.PrecioBase,
+            producto.Genero,
+            producto.Material,
+            producto.FechaPublicacion
+        });
+    }
+
 }
