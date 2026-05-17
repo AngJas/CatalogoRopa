@@ -10,7 +10,7 @@ public class Usuario
     public string Nombre { get; set; } = string.Empty;
     public string? Apellido { get; set; }
     public string Email { get; set; } = string.Empty;
-    public string PasswordHash { get; set; } = string.Empty;
+    public string Contraseña { get; set; } = string.Empty;
     public string? Telefono { get; set; }
     public DateTime FechaRegistro { get; set; } = DateTime.Now;
     public string Estado { get; set; } = "Activo";
