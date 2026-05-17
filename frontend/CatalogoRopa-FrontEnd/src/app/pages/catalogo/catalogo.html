@@ -10,9 +10,10 @@
       <article class="producto" *ngFor="let item of ropa">
         <div class="imagen-producto">
           <img 
-            *ngIf="item.imagenes && item.imagenes.length > 0; else sinImagen"
-            [src]="obtenerImagenUrl(item.imagenes[0])"
-            [alt]="item.nombre"
+  *ngIf="item.imagenes && item.imagenes.length > 0; else sinImagen"
+  [src]="obtenerImagenUrl(item.imagenes[0])"
+  [alt]="item.imagenes[0].textoAlternativo || item.nombre"
+/>
         >
 
         <ng-template #sinImagen>
