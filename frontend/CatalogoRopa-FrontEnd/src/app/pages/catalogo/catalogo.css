@@ -5,6 +5,15 @@
     margin-right: 45px;
 }
 
+/*Estilo encargado del título del catálogo */
+.Titulo {
+    margin: 24px 0 14px;
+    color: #000000;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 16px;
+    font-weight: 400;
+}
+
 /*Estilo encargado del contenedor del catálogo */
 .catalogo {
     width: 100%;
@@ -17,15 +26,15 @@
 /*Estilo encargado del título del catálogo */
 .catalogo h2 { 
     margin: 0 0 14px; 
-    color: #000;
-    font-family: Georgia, "Times New Roman", serif;
+    color: #000000;
+    font-family: Arial, Helvetica, sans-serif;
     font-size: 16px;
     font-weight: 400;
 }
 
 /*Estilo encargado del estado del producto */
 .estado {
-    font-family: Georgia, 'Times New Roman', Times, serif;
+    font-family: Arial, Helvetica, sans-serif;
     font-size: 14px;
 }
 
@@ -74,8 +83,8 @@
 /*Estilo encargado de la descripción del producto */
 .descripcion {
     margin: 5px 0 1px;
-    color: #000;
-    font-family: Georgia, 'Times New Roman', Times, serif;
+    color: #000000;
+    font-family: Arial, Helvetica, sans-serif;
     font-size: 15px;
     line-height: 1.15;
 }
@@ -83,9 +92,10 @@
 /*Estilo encargado del precio del producto */
 .precio {
     margin: 0;
-    color: #000;
-    font-family: Georgia, 'Times New Roman', Times, serif;
-    font-size: 15px; 
+    color: #000000;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 18px; 
+    font-weight: bold;
     line-height: 1.15;
 }
 

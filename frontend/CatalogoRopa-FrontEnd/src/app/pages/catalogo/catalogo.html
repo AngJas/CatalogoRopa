@@ -1,6 +1,7 @@
 <div class="margenes">
-<section clas="catalogo">
-  <h2> LO MAS NUEVO EN NUESTRO CATALOGO </h2>
+  <div class="Titulo">
+    <h2> LO MAS NUEVO EN NUESTRO CATALOGO </h2>
+  </div>
 
   <p *ngIf="cargando" class="estado">cargando productos </p>
 
@@ -9,8 +10,8 @@
       <article class="producto" *ngFor="let item of ropa">
         <div class="imagen-producto">
           <img 
-            *ngIf="item.imagenBase64; else sinImagen"
-            [src]="obtenerImagenUrl(item.imagenBase64)"
+            *ngIf="item.imagenes && item.imagenes.length > 0; else sinImagen"
+            [src]="obtenerImagenUrl(item.imagenes[0])"
             [alt]="item.nombre"
         >
 
@@ -18,15 +19,19 @@
           <div class="placeholder-imagen">Sin imagen</div>
         </ng-template>
         </div>
+
+        <h3 class="nombre" style="color: #000;">
+          {{ item.nombre || 'Nombre del producto...'}}
+        </h3>
+        
         <p class="descripcion">
           {{ item.descripcion || 'descripcion de la prenda...'}}
         </p>
         
         <p class="precio">
-          ${{item.precio}}
+          ${{item.precioBase}}
         </p>
       </article>
     </div>
     </ng-container>
-    </section>
 </div>

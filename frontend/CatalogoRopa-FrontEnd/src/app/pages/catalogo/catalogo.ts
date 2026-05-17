@@ -3,11 +3,12 @@ import { CommonModule } from '@angular/common';
 import { RopaService } from '../../services/ropa.service';
 import { RespuestaRopa } from '../../models/RespuestaRopa';
 import { RopaModel } from '../../models/ropa-model';
+import { BannerPromocionalComponent } from "../banner-promocional/banner-promocional.component";
 
 @Component({
   selector: 'app-catalogo',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, BannerPromocionalComponent],
   templateUrl: './catalogo.html',
   styleUrls: ['./catalogo.css'],
 })
