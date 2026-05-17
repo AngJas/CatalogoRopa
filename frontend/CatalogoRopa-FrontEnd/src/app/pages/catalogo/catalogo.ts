@@ -43,10 +43,16 @@ export class CatalogoComponent implements OnInit {
     });
   }
 
-  obtenerImagenUrl(imagenBase64: string ): string {
-    if (imagenBase64.startsWith('data:image')) {
-      return imagenBase64;
-    }
-    return `data:image/jpeg;base64,${imagenBase64}`;
+  obtenerImagenUrl(imagen: any): string {
+  if (!imagen?.imagenBase64) {
+    return '';
   }
+
+  if (imagen.imagenBase64.startsWith('data:image')) {
+    return imagen.imagenBase64;
+  }
+
+  const tipo = imagen.tipoContenido || 'image/png';
+  return `data:${tipo};base64,${imagen.imagenBase64}`;
+}
 }
