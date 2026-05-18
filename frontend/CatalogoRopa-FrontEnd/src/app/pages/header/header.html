@@ -18,7 +18,7 @@
           <button type="submit" aria-label="Buscar">🔍</button>
         </form>
 
-        <a class="boton-agregar-producto" routerLink="/producto/nuevo" title="Agregar producto" aria-label="Agregar producto">
+        <a *ngIf="auth.isAdmin()" class="boton-agregar-producto" routerLink="/producto/nuevo" title="Agregar producto" aria-label="Agregar producto">
         📦
         </a>
         <div class="auth-actions" role="region" aria-label="Autenticación">

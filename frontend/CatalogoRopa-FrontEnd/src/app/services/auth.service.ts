@@ -25,6 +25,11 @@ export class AuthService {
     return !!localStorage.getItem('token');
   }
 
+  isAdmin(): boolean {
+    const user = this.userSubject.getValue();
+    return !!(user && user.esAdmin);
+  }
+
   register(payload: { nombre: string; apellido?: string; email: string; contrasena: string; telefono?: string }) {
     return this.http.post<AuthResponse>(`${this.apiUrl}/auth/register`, payload).pipe(
       tap(res => this.saveAuth(res))
