@@ -14,8 +14,5 @@ public class Usuarios
     public string Contrasena { get; set; } = string.Empty;
     public string? Telefono { get; set; }
     public DateTime FechaRegistro { get; set; } = DateTime.Now;
-    public string Estado { get; set; } = "Activo";
     public bool EsAdmin { get; set; }
-
-    public ICollection<Favorito> Favoritos { get; set; } = new List<Favorito>();
 }

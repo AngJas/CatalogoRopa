@@ -11,6 +11,6 @@ public class Favorito
     public int IdProducto { get; set; }
     public DateTime FechaAgregado { get; set; } = DateTime.Now;
 
-    public Usuario? Usuario { get; set; }
+    public Usuarios? Usuario { get; set; }
     public Producto? Producto { get; set; }
 }

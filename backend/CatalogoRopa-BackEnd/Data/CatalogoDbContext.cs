@@ -17,7 +17,7 @@ namespace CatalogoRopa_BackEnd.Data
         public DbSet<Promocion> Promocion { get; set; }
         public DbSet<ImagenProducto> ImagenProducto { get; set; }
         public DbSet<Variante> Variante { get; set; }
-        public DbSet<Usuario> Usuario { get; set; }
+        public DbSet<Usuarios> Usuarios { get; set; }
         public DbSet<Favorito> Favorito { get; set; }
 
 
@@ -58,6 +58,10 @@ namespace CatalogoRopa_BackEnd.Data
                  .WithMany(p => p.Imagenes)
                  .HasForeignKey(i => i.IdProducto);
 
+            modelBuilder.Entity<Usuarios>(entity =>
+            {
+                entity.HasKey(e => e.IdUsuario);
+            });
         }
     }
 }

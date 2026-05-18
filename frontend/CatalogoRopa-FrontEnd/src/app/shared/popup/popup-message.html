@@ -1,0 +1,14 @@
+<div *ngIf="popup.state$ | async as state">
+  <div class="overlay" *ngIf="state.visible">
+    <div class="modal" [ngClass]="state.type">
+      <button class="close" (click)="close()">✕</button>
+      <div class="icon" *ngIf="state.type === 'loading'">⏳</div>
+      <div class="icon" *ngIf="state.type === 'success'">✅</div>
+      <div class="icon" *ngIf="state.type === 'error'">❌</div>
+      <div class="icon" *ngIf="state.type === 'info'">ℹ️</div>
+
+      <h3 class="title">{{ state.title }}</h3>
+      <div class="message">{{ state.message }}</div>
+    </div>
+  </div>
+</div>

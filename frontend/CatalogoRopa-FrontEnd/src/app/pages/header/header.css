@@ -137,3 +137,63 @@
   font-size: 17px;
   line-height: 1;
 }
+
+/* Authentication actions styling */
+.auth-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-left: 12px;
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 12px;
+  border-radius: 999px;
+  font-size: 0.95rem;
+  line-height: 1;
+  cursor: pointer;
+  text-decoration: none;
+  border: 1px solid transparent;
+  transition: all 160ms ease;
+  color: #111;
+  background: transparent;
+}
+
+.btn svg { display: block; color: currentColor; }
+
+.btn-ghost {
+  background: rgb(255, 255, 255);
+  border-color: rgba(0,0,0,0.06);
+}
+.btn-ghost:hover { transform: translateY(-1px); box-shadow: 0 6px 12px rgba(0,0,0,0.06); }
+
+.btn-primary {
+  background: linear-gradient(180deg,#ff1493,#ff6aa6);
+  color: #fff;
+  box-shadow: 0 6px 18px rgba(255,20,147,0.12);
+}
+.btn-primary:hover { transform: translateY(-1px); }
+
+.btn-logout {
+  background: white;
+  border: 1px solid rgba(0,0,0,0.08);
+  padding: 6px 10px;
+  border-radius: 8px;
+}
+.btn-logout:hover { background: rgba(0,0,0,0.04); }
+
+.user-area { display:flex; align-items:center; gap:8px; }
+.user-btn { display:flex; align-items:center; gap:8px; background: linear-gradient(180deg,#ff6aa6,#ff1493); border:0; padding:1px 10px; cursor:default; border-radius:999px; color: #fff; }
+.avatar { display:inline-grid; place-items:center; width:32px; height:32px; border-radius:50%; background: rgba(255,255,255,0.18); color: #fff; font-size:16px; }
+.username { font-size:0.95rem; margin-left:4px; color: #fff; font-weight:600; }
+
+/* Responsive adjustments */
+@media (max-width: 520px) {
+  .auth-actions { gap:8px; }
+  .label { display:none; }
+  .btn { padding:6px; }
+  .username { display:none; }
+}
