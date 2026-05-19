@@ -292,4 +292,68 @@ public class RopaController : ControllerBase
         return Ok(new { eliminado = true, id = id });
     }
 
+
+    [HttpGet("marcas")]
+    public async Task<IActionResult> GetMarca()
+    {
+        var marcas = await _context.Marca
+            .OrderBy(m => m.Nombre)
+            .Select(m => new
+            {
+                m.IdMarca,
+                m.Nombre,
+            })
+            .ToListAsync();
+        return Ok(marcas);
+    }
+
+    [HttpGet("categorias")]
+    public async Task<IActionResult> GetCategorias()
+    {
+        var categorias = await _context.Categoria
+            .OrderBy(c => c.Nombre)
+            .Select(c => new
+            {
+                c.IdCategoria,
+                c.Nombre
+            })
+            .ToListAsync();
+
+        return Ok(categorias);
+    }
+
+
+    [HttpGet("colecciones")]
+    public async Task<IActionResult> GetColecciones()
+    {
+        var colecciones = await _context.Coleccion
+            .OrderBy(c => c.Nombre)
+            .Select(c => new
+            {
+                c.IdColeccion,
+                c.Nombre
+            })
+            .ToListAsync();
+
+        return Ok(colecciones);
+    }
+
+    [HttpGet("promociones")]
+    public async Task<IActionResult> GetPromociones()
+    {
+        var promociones = await _context.Promocion
+            .OrderBy(p => p.Nombre)
+            .Select(p => new
+            {
+                p.IdPromocion,
+                p.Nombre
+            })
+            .ToListAsync();
+
+        return Ok(promociones);
+    }
+
+
+
+
 }
