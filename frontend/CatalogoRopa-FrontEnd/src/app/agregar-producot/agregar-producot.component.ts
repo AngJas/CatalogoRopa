@@ -194,6 +194,9 @@ export class AgregarProductoComponent {
 
   buscarProducto(): void {
     const id = Number(this.buscarId);
+    if(this.buscarId.trim() === '') {
+      return;
+    }
     if (!id || isNaN(id) || id <= 0) {
       this.popup.showError('ID inválido', 'Ingresa un número válido para IdProducto');
       return;
