@@ -510,34 +510,139 @@ Después de completar todos los pasos:
 
 
 
-## 5 Uso de sistema
+## 5. Uso del Sistema
 
-## Funciones Disponibles Actualmente
+El sistema **Turopa.com** está diseñado para permitir que los usuarios consulten los productos disponibles en el catálogo digital. Desde la página principal se pueden visualizar prendas, imágenes, precios e información básica de cada producto.
 
-El sistema permite:
+---
 
-Para usuarios que no son admin
-- Mostrar productos del catálogo.
-- Consultar productos desde SQL Server.
-- Mostrar imágenes de productos guardados.
-- Registrar usuarios.
+### 5.1 Funciones Disponibles Actualmente
+
+#### Usuarios generales
+
+Los usuarios que no cuentan con permisos de administrador pueden realizar las siguientes acciones:
+
+- Visualizar productos del catálogo.
+- Consultar productos almacenados en SQL Server.
+- Ver imágenes de los productos registrados.
+- Registrarse en el sistema.
 - Iniciar sesión.
 - Cerrar sesión.
 
-Para usuarios que son admin tienen disponibles las funciones anteriormente mencionadas y adicionalmente: 
+#### Usuarios administradores
+
+Los usuarios administradores cuentan con todas las funciones anteriores y, adicionalmente, pueden:
+
 - Crear productos desde el formulario de administración.
-- Actualiar productos desde un formulario.
-- Borrar productos desde el formulario.
-- Consultar un listado con todos los productos registrados hasta el momento. 
-- Mostrar botón de agregar producto solo a usuarios administradores.
-- Mostrar mensajes emergentes de éxito, error o carga.
+- Actualizar productos existentes.
+- Eliminar productos registrados.
+- Consultar un listado con todos los productos registrados.
+- Acceder al botón de administración de inventario.
+- Visualizar mensajes emergentes de éxito, error o carga.
 
+> Nota: Actualmente un usuario no puede registrarse directamente como administrador. El permiso de administrador debe asignarse desde la base de datos.
 
+---
 
-<p align="justify"> El sistema Turopa.com está diseñado para proporcionarle a los usuarios la posibilidad de consultar los productos que se encuentran disponibles en el catalogo, permitiendo a los usuarios navegar por el catálogo de productos, aplicar filtros y realizar búsquedas específicas. </p>
+### 5.2 Pantalla Principal
 
+Al ingresar al sistema se muestra la pantalla principal del catálogo:
 
+![Funcionamiento 1](./documentacion/imagenes%20de%20documentacion/FUNCIONAMIENTO1.png)
 
+![Funcionamiento 2](./documentacion/imagenes%20de%20documentacion/FUNCIONAMIENTO2.png)
+
+![Funcionamiento 3](./documentacion/imagenes%20de%20documentacion/FUNCIONAMIENTO%203.png)
+
+En la parte superior se muestra la barra de navegación, donde aparecen las siguientes opciones:
+
+- Novedades
+- Promociones
+- Hombres
+- Mujeres
+- Todo
+
+Estas opciones se encuentran visibles en la interfaz, pero actualmente no redirigen a secciones funcionales. Su funcionamiento se contempla para una entrega futura.
+
+También se muestran las opciones de autenticación:
+
+- Iniciar sesión
+- Registrarse
+
+---
+
+### 5.3 Registro de Usuario
+
+Al seleccionar la opción **Registrarse**, se muestra el formulario de creación de cuenta:
+
+![Funcionamiento 4](./documentacion/imagenes%20de%20documentacion/FUNCIONAMIENTO%204%20.png)
+
+El usuario debe llenar correctamente los campos solicitados. Al completar el registro, el sistema inicia sesión automáticamente y redirige al usuario a la página principal.
+
+![Funcionamiento 5](./documentacion/imagenes%20de%20documentacion/FUNCIONAMIENTO5.png)
+
+Cuando la sesión está iniciada, en la barra de navegación aparece el nombre del usuario junto a la opción para cerrar sesión.
+
+---
+
+### 5.4 Acceso de Administrador
+
+Si el usuario cuenta con permisos de administrador, se muestra un icono con forma de caja en la barra de navegación. Este botón permite acceder a la administración del inventario digital.
+
+![Funcionamiento 6](./documentacion/imagenes%20de%20documentacion/FUNCIONAMIENTO6.png)
+
+Al hacer clic en este icono, el administrador es enviado a la pantalla de administración de productos.
+
+---
+
+### 5.5 Administración de Inventario
+
+En la sección de administración de inventario, el administrador puede realizar las siguientes acciones:
+
+- Agregar productos.
+- Editar productos existentes.
+- Eliminar productos.
+- Consultar el listado de productos registrados.
+
+![Funcionamiento 7](./documentacion/imagenes%20de%20documentacion/FUNCIONAMIENTO7.png)
+
+![Funcionamiento 8](./documentacion/imagenes%20de%20documentacion/FUNCIONAMIENTO8.png)
+
+---
+
+### 5.6 Agregar Producto
+
+Para agregar un nuevo producto, el administrador debe llenar el formulario con los datos correspondientes, como nombre, descripción, precio, género, material, marca, categoría, colección, promoción e imagen del producto.
+
+![Funcionamiento 9](./documentacion/imagenes%20de%20documentacion/FUNCIONAMIENTO9.png)
+
+Al guardar el producto, el sistema mostrará un mensaje de confirmación si el registro fue exitoso. En caso de que ocurra algún problema, se mostrará un mensaje de error.
+
+![Funcionamiento 11](./documentacion/imagenes%20de%20documentacion/FUNCIONAMIENTO11.png)
+
+---
+
+### 5.7 Editar Producto
+
+Desde el listado de productos registrados, el administrador puede seleccionar un producto para cargar sus datos en el formulario.
+
+![Funcionamiento 12](./documentacion/imagenes%20de%20documentacion/FUNCIONAMIENTO12.png)
+
+Una vez cargado el producto, se pueden modificar sus datos y guardar los cambios. En el siguiente ejemplo se actualiza el género de la prenda de **Hombre** a **Mujer**.
+
+![Funcionamiento 13](./documentacion/imagenes%20de%20documentacion/FUNCIONAMIENTO13.png)
+
+---
+
+### 5.8 Eliminar Producto
+
+Para eliminar un producto, primero debe seleccionarse desde el listado. Una vez cargado en el formulario, el administrador puede usar la opción **Eliminar producto**.
+
+![Funcionamiento 14](./documentacion/imagenes%20de%20documentacion/FUNCIONAMIENTO14.png)
+
+Después de eliminarlo, el producto deja de aparecer en el listado y ya no estará disponible en el catálogo.
+
+---
 
 ## 6. Base de datos (Modelado)
 
@@ -548,31 +653,14 @@ Para usuarios que son admin tienen disponibles las funciones anteriormente menci
 |Usuario  |Tabla encargada de administrar los datos de los usuarios registrados             |
 |Producto |Tabla encargada de administrar los datos pertinentes de los productos almacenados|
 |Categoria|Tabla encargada de determinar la categoria a la que pertenece un producto       |
-
-
+|Variante|Tabla encargada de determinar la variante del producto (misma camiseta, diferente color)    |
+|Marca|Tabla encargada de determinar la marca del producto        |
+|Favorito|Tabla encargada de determinar si un producto es el favorito de algun usuario      |
+|ImagenProducto|Tabla encargada de proporcionar las imagenes al producto, imagen principal e imagenes adicionales para mostar el producto     |
+|Promocion|Tabla encargada de determinar si un producto cuenta con una promocion activa o no      |
+|coleccion|Tabla encargada de determinar a que coleccion pertenece cada producto, invierno/verano/etc..      |
 
 Diagrama Entidad-Relacion obtenido de sql server management studio: 
 ![Diagrama entidad relacion](./documentacion/imagenes%20de%20documentacion/Diagrama%20entidad-relacion.png)
 
-### 6.1 Modelo conceptual de la base de datos
 
-<p align="justify"> El modelo conceptual de la base de datos de Turopa.com se compone de las siguientes tablas: </p>
-
-| Tabla    | Descripción                         |
-| -------- | ----------------------------------- |
-| Producto | Información general de cada prenda. |
-
-Consideraciones adicionales
-Índices recomendados:
-
-IX_Producto_Categoria sobre IdCategoria
-
-IX_Variante_Producto sobre IdProducto
-
-IX_Promocion_Fechas sobre FechaInicio, FechaFin
-
-Vista útil para el catálogo:
-vw_ProductoConPrecioFinal – calcula el precio aplicando la mejor promoción vigente (si existe) usando una subconsulta.
-
-Datos de prueba:
-Es recomendable insertar al menos 10 productos de ejemplo, con sus variantes, imágenes y alguna promoción activa para validar el comportamiento del sistema.
