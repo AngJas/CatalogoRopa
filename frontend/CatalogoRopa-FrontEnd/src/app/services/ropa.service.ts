@@ -29,4 +29,16 @@ export class RopaService {
     return this.http.post<any>(this.apiUrl, producto);
   }
 
+  getProductoPorId(id: number): Observable<any> {
+    return this.http.get<any>(`${this.apiUrl}/${id}`);
+  }
+
+  actualizarProducto(id: number, producto: CrearProductoModel): Observable<any> {
+    return this.http.put<any>(`${this.apiUrl}/${id}`, producto);
+  }
+
+  obtenerProductos(page: number = 1, pageSize: number = 20): Observable<any> {
+    return this.http.get<any>(`${this.apiUrl}/lista?page=${page}&pageSize=${pageSize}`);
+  }
+
 }

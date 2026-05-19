@@ -130,11 +130,430 @@ El sistema se construye bajo una **arquitectura en capas Cliente-Servidor**, div
 
 ## 4. Instalacion del sistema
 
-<p align="justify"> Para instalar y ejecutar el sistema Turopa.com, se deben seguir los siguientes pasos: </p>
+## Requisitos Previos
+
+Antes de ejecutar el proyecto, la computadora debe tener instalado lo siguiente.
+
+### 1. Git
+
+Necesario para clonar o descargar el repositorio.
+
+Sitio oficial:
+
+```txt
+https://git-scm.com/downloads
+```
+
+Verificar instalación:
+
+```bash
+git --version
+```
+
+### 2. Node.js y npm
+
+Necesario para ejecutar el frontend en Angular.
+
+Sitio oficial:
+
+```txt
+https://nodejs.org/
+```
+
+Verificar instalación:
+
+```bash
+node -v
+npm -v
+```
+
+### 3. Angular CLI
+
+Instalar Angular CLI de forma global:
+
+```bash
+npm install -g @angular/cli
+```
+
+Verificar instalación:
+
+```bash
+ng version
+```
+
+### 4. .NET SDK 9
+
+Necesario para ejecutar el backend en ASP.NET Core.
+
+Sitio oficial:
+
+```txt
+https://dotnet.microsoft.com/download
+```
+
+Verificar instalación:
+
+```bash
+dotnet --version
+```
+
+### 5. SQL Server Management Studio, SSMS
+
+Recomendado para restaurar el backup `.bak`.
+
+Sitio oficial:
+
+```txt
+https://learn.microsoft.com/sql/ssms/download-sql-server-management-studio-ssms
+```
+
+---
+
+## Estructura del Proyecto
+
+Después de descargar el repositorio, la estructura principal debe verse de la siguiente forma:
+
+```txt
+CATALOGO DE ROPA EN LINEA
+├─ CatalogoRopa
+│  ├─ frontend
+│  │  └─ CatalogoRopa-FrontEnd
+│  ├─ backend
+│  │  └─ CatalogoRopa-BackEnd
+│  └─ Base de datos
+│     └─ CatalogoRopaDB.bak
+└─ package-lock.json
+```
+
+El sistema está dividido en tres partes principales:
+
+```txt
+Frontend: Angular
+Backend: ASP.NET Core .NET 9
+Base de datos: SQL Server
+```
+
+---
+
+## Paso 1: Descargar el Repositorio
+
+Recomiendo crear una nueva carpeta en donde se clonara el repositorio si desea almacenarlo en alguna ruta en especifico, de lo contrario el repositorio se clonara 
+en la ruta donde se abrio la terminal.
+
+Si se usa Git, ejecutar:
+
+```bash
+git clone (https://github.com/AngJas/CatalogoRopa.git)
+```
+
+Después entrar a la carpeta del proyecto:
+
+```bash
+cd "CATALOGO DE ROPA EN LINEA"
+```
+
+---
+
+## Paso 2: Restaurar la Base de Datos
+
+El proyecto incluye un backup en la siguiente ruta:
+
+```txt
+CatalogoRopa\Base de datos\CatalogoRopaDB.bak
+```
+
+Para restaurarlo usando SQL Server Management Studio:
+
+1. Abrir **SQL Server Management Studio**.
+2. Conectarse al servidor local, por ejemplo:
+
+```txt
+.\SQLEXPRESS
+```
+
+o:
+
+```txt
+localhost\SQLEXPRESS
+```
+
+3. Hacer clic derecho en **Databases**.
+4. Seleccionar **Restore Database**.
+5. Elegir la opción **Device**.
+6. Presionar **Add**.
+7. Buscar y seleccionar el archivo:
+
+```txt
+CatalogoRopaDB.bak
+```
+
+8. En el nombre de la base de datos colocar:
+
+```txt
+CatalogoRopaDB
+```
+Es de suma importancia que el nombre sea exactamente el mismo, de lo contrario se tendran que hacer modificaciones en el backend y especificar el nombre colocado.
+
+9. Presionar **OK** para restaurar.
+
+Al finalizar debe existir una base de datos llamada:
+
+```txt
+CatalogoRopaDB
+```
+
+---
+
+## Paso 3: Configurar la Cadena de Conexión
+
+En el backend, abrir el archivo:
+
+```txt
+CatalogoRopa\backend\CatalogoRopa-BackEnd\appsettings.json
+```
+
+Actualmente la conexión puede estar configurada así:
+
+```json
+"ConnectionStrings": {
+  "DefaultConnection": "Server=ACCD62\\SQLEXPRESS;Database=CatalogoRopaDB;Trusted_Connection=True;TrustServerCertificate=True;"
+}
+```
+
+La persona que instale el sistema debe cambiar `ACCD62\\SQLEXPRESS` por el nombre de su servidor SQL.
+
+Ejemplo usando SQL Server Express local:
+
+```json
+"ConnectionStrings": {
+  "DefaultConnection": "Server=.\\SQLEXPRESS;Database=CatalogoRopaDB;Trusted_Connection=True;TrustServerCertificate=True;"
+}
+```
+
+Otra opción común:
+
+```json
+"ConnectionStrings": {
+  "DefaultConnection": "Server=localhost\\SQLEXPRESS;Database=CatalogoRopaDB;Trusted_Connection=True;TrustServerCertificate=True;"
+}
+```
+
+Si SQL Server no usa instancia:
+
+```json
+"ConnectionStrings": {
+  "DefaultConnection": "Server=localhost;Database=CatalogoRopaDB;Trusted_Connection=True;TrustServerCertificate=True;"
+}
+```
+
+---
+
+
+
+## Paso 4: Instalar Dependencias del Backend
+
+Entrar a la carpeta del backend:
+
+```bash
+cd CatalogoRopa/backend/CatalogoRopa-BackEnd
+```
+
+Restaurar paquetes NuGet:
+
+```bash
+dotnet restore
+```
+
+El backend usa estas dependencias principales:
+
+```txt
+Microsoft.AspNetCore.Authentication.JwtBearer
+Microsoft.EntityFrameworkCore.SqlServer
+Microsoft.EntityFrameworkCore.Tools
+Swashbuckle.AspNetCore
+```
+
+Estas dependencias se instalan automáticamente con `dotnet restore`.
+
+---
+
+## Paso 5: Ejecutar el Backend
+
+Desde la carpeta:
+
+```txt
+CatalogoRopa\backend\CatalogoRopa-BackEnd
+```
+
+Ejecutar:
+
+```bash
+dotnet run
+```
+
+El backend debería iniciar en:
+
+```txt
+http://localhost:5260
+```
+
+La API principal queda disponible en:
+
+```txt
+http://localhost:5260/api
+```
+
+Swagger puede abrirse normalmente en:
+
+```txt
+http://localhost:5260/swagger
+```
+
+Endpoints principales:
+
+```http
+GET  http://localhost:5260/api/Ropa
+POST http://localhost:5260/api/Ropa
+
+POST http://localhost:5260/api/Auth/register
+POST http://localhost:5260/api/Auth/login
+```
+
+---
+
+## Paso 6: Instalar Dependencias del Frontend
+
+Abrir otra terminal y entrar a:
+
+```bash
+cd CatalogoRopa/frontend/CatalogoRopa-FrontEnd
+```
+
+Instalar dependencias:
+
+```bash
+npm install
+```
+
+El frontend usa principalmente:
+
+```txt
+Angular 21
+Bootstrap
+RxJS
+TypeScript
+Zone.js
+```
+
+---
+
+## Paso 7: Ejecutar el Frontend
+
+Desde la carpeta del frontend:
+
+```bash
+npm start
+```
+
+También puede ejecutarse con:
+
+```bash
+ng serve
+```
+
+Angular normalmente se ejecutará en:
+
+```txt
+http://localhost:4200
+```
+
+Abrir esa dirección en el navegador.
+
+
+## Notas Importantes
+
+El backend y el frontend deben ejecutarse al mismo tiempo.
+
+El frontend espera que la API esté disponible en:
+
+```txt
+http://localhost:5260/api
+```
+
+Esta URL se encuentra configurada en los archivos:
+
+```txt
+src\app\services\ropa.service.ts
+src\app\services\auth.service.ts
+```
+
+Si el backend se ejecuta en otro puerto, se deben actualizar esas URLs.
+
+También es importante que la base de datos restaurada se llame exactamente:
+
+```txt
+CatalogoRopaDB
+```
+
+Si se usa otro nombre, también debe modificarse en `appsettings.json`.
+
+---
+
+## Comandos Resumidos
+
+### Backend
+
+```bash
+cd CatalogoRopa/backend/CatalogoRopa-BackEnd
+dotnet restore
+dotnet run
+```
+
+### Frontend
+
+```bash
+cd CatalogoRopa/frontend/CatalogoRopa-FrontEnd
+npm install
+npm start
+```
+
+### URLs del Sistema
+
+```txt
+Frontend: http://localhost:4200
+Backend:  http://localhost:5260
+Swagger:  http://localhost:5260/swagger
+```
+
+---
+
+## Resultado Esperado
+
+Después de completar todos los pasos:
+
+1. La base de datos estará restaurada en SQL Server.
+2. El backend estará ejecutándose en `http://localhost:5260`.
+3. El frontend estará ejecutándose en `http://localhost:4200`.
+4. El usuario podrá navegar por el catálogo, registrarse, iniciar sesión y probar las funciones disponibles del sistema.
 
 
 
 ## 5 Uso de sistema
+
+## Funciones Disponibles Actualmente
+
+El sistema permite:
+
+- Mostrar productos del catálogo.
+- Consultar productos desde SQL Server.
+- Mostrar imágenes de productos guardadas en Base64.
+- Registrar usuarios.
+- Iniciar sesión.
+- Guardar sesión con token JWT.
+- Cerrar sesión.
+- Crear productos desde el formulario de administración.
+- Mostrar botón de agregar producto solo a usuarios administradores.
+- Mostrar mensajes emergentes de éxito, error o carga.
 
 
 

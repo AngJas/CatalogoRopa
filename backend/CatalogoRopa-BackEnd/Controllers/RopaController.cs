@@ -151,4 +151,125 @@ public class RopaController : ControllerBase
         });
     }
 
+    [HttpGet("{id}")]
+    public async Task<IActionResult> GetProductoPorId(int id)
+    {
+        var producto = await _context.Producto
+            .Include(p => p.Imagenes)
+            .Include(p => p.Marca)
+            .Include(p => p.Categoria)
+            .Include(p => p.Coleccion)
+            .Include(p => p.Promocion)
+            .FirstOrDefaultAsync(p => p.IdProducto == id);
+
+        if (producto == null)
+            return NotFound();
+
+        return Ok(new
+        {
+            producto.IdProducto,
+            producto.Nombre,
+            producto.Descripcion,
+            producto.PrecioBase,
+            producto.Genero,
+            producto.Material,
+            producto.FechaPublicacion,
+            producto.IdMarca,
+            producto.IdCategoria,
+            producto.IdColeccion,
+            producto.IdPromocion,
+            Imagenes = producto.Imagenes.Select(i => new
+            {
+                i.IdImagen,
+                i.ImagenBase64,
+                i.TipoContenido,
+                i.TextoAlternativo,
+                i.Orden,
+                i.EsPrincipal
+            }).OrderBy(i => i.Orden).ToList()
+        });
+    }
+
+    [HttpGet("lista")]
+    public async Task<IActionResult> Lista(int page = 1, int pageSize = 20)
+    {
+        if (page <= 0) page = 1;
+        if (pageSize <= 0) pageSize = 20;
+
+        var query = _context.Producto.AsQueryable();
+
+        var total = await query.CountAsync();
+
+        var datos = await query
+            .OrderByDescending(p => p.FechaPublicacion)
+            .Skip((page - 1) * pageSize)
+            .Take(pageSize)
+            .Select(p => new
+            {
+                p.IdProducto,
+                p.Nombre,
+                p.PrecioBase,
+                p.Genero,
+                p.Material,
+                p.FechaPublicacion
+            })
+            .ToListAsync();
+
+        return Ok(new { Total = total, Page = page, PageSize = pageSize, Datos = datos });
+    }
+
+    [HttpPut("{id}")]
+    public async Task<IActionResult> ActualizarProducto(int id, CrearProductoDto dto)
+    {
+        var producto = await _context.Producto
+            .Include(p => p.Imagenes)
+            .FirstOrDefaultAsync(p => p.IdProducto == id);
+
+        if (producto == null)
+            return NotFound();
+
+        producto.Nombre = dto.Nombre;
+        producto.Descripcion = dto.Descripcion;
+        producto.PrecioBase = dto.PrecioBase;
+        producto.Genero = dto.Genero;
+        producto.Material = dto.Material;
+        producto.IdMarca = dto.IdMarca;
+        producto.IdCategoria = dto.IdCategoria;
+        producto.IdColeccion = dto.IdColeccion;
+        producto.IdPromocion = dto.IdPromocion;
+
+        // Manejo simple de imagen: si se envía nueva imagen base64, actualizar la imagen principal si existe, sino agregarla
+        if (!string.IsNullOrWhiteSpace(dto.ImagenBase64))
+        {
+            var imagenPrincipal = producto.Imagenes.FirstOrDefault(i => i.EsPrincipal) ?? producto.Imagenes.OrderBy(i => i.Orden).FirstOrDefault();
+
+            if (imagenPrincipal != null)
+            {
+                imagenPrincipal.ImagenBase64 = dto.ImagenBase64;
+                imagenPrincipal.TipoContenido = dto.TipoContenido ?? imagenPrincipal.TipoContenido;
+                imagenPrincipal.TextoAlternativo = producto.Nombre;
+            }
+            else
+            {
+                var nueva = new ImagenProducto
+                {
+                    Url = null,
+                    UrlMiniatura = null,
+                    TextoAlternativo = producto.Nombre,
+                    Orden = 1,
+                    EsPrincipal = true,
+                    IdProducto = producto.IdProducto,
+                    ImagenBase64 = dto.ImagenBase64,
+                    TipoContenido = dto.TipoContenido ?? "image/png"
+                };
+
+                _context.ImagenProducto.Add(nueva);
+            }
+        }
+
+        await _context.SaveChangesAsync();
+
+        return Ok(new { producto.IdProducto });
+    }
+
 }
