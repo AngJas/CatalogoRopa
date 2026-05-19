@@ -29,6 +29,7 @@ export class AgregarProductoComponent {
   error = '';
   buscarId = '';
   editingId: number | null = null;
+  lastLoadedId: number | null = null;
   productos: any[] = [];
   loadingProductos = false;
   productosPage = 1;
@@ -96,7 +97,7 @@ export class AgregarProductoComponent {
         next: () => {
           this.guardando = false;
           this.popup.showSuccess('Producto actualizado', 'El producto se actualizó correctamente');
-          // this.router.navigate(['/catalogo']);
+          this.cargarProductos(this.productosPage);
         },
         error: (err) => {
           console.error(err);
@@ -108,7 +109,16 @@ export class AgregarProductoComponent {
       this.ropaService.crearProducto(producto).subscribe({
         next: () => {
           this.guardando = false;
-          // this.router.navigate(['/catalogo']);
+          this.popup.showSuccess('Producto creado', 'El producto se creó correctamente');
+          // limpiar formulario y vista previa
+          this.formulario.reset({ idMarca: 1, idCategoria: 1, precioBase: 0 });
+          this.imagenBase64 = null;
+          this.tipoContenido = null;
+          this.vistaPrevia = null;
+          this.editingId = null;
+          this.buscarId = '';
+          this.lastLoadedId = null;
+          this.cargarProductos(1);
         },
         error: (error) => {
           console.error(error);
@@ -161,6 +171,11 @@ export class AgregarProductoComponent {
       return;
     }
 
+    // Si ya cargamos ese mismo ID, evitar volver a consultar
+    if (this.lastLoadedId === id) {
+      return;
+    }
+
     this.ropaService.getProductoPorId(id).subscribe({
       next: (res) => {
         if (!res) {
@@ -193,6 +208,7 @@ export class AgregarProductoComponent {
         }
 
         this.editingId = id;
+        this.lastLoadedId = id;
         this.popup.showInfo('Modo edición', 'Datos cargados. Ahora puedes actualizar el producto.');
       },
       error: (err) => {
