@@ -663,4 +663,118 @@ Después de eliminarlo, el producto deja de aparecer en el listado y ya no estar
 Diagrama Entidad-Relacion obtenido de sql server management studio: 
 ![Diagrama entidad relacion](./documentacion/imagenes%20de%20documentacion/Diagrama%20entidad-relacion.png)
 
+## Diagrama de Clases
+
+```mermaid
+classDiagram
+    class Producto {
+        +int IdProducto
+        +string Nombre
+        +string Descripcion
+        +decimal PrecioBase
+        +string Genero
+        +string Material
+        +DateTime FechaPublicacion
+        +int IdMarca
+        +int IdCategoria
+        +int? IdColeccion
+        +int? IdPromocion
+    }
+
+    class Marca {
+        +int IdMarca
+        +string Nombre
+        +string LogoUrl
+        +string Descripcion
+    }
+
+    class Categoria {
+        +int IdCategoria
+        +string Nombre
+        +string Descripcion
+        +int? CategoriaPadre
+    }
+
+    class Coleccion {
+        +int IdColeccion
+        +string Nombre
+        +string Temporada
+        +int? Anio
+        +DateTime? FechaInicio
+        +DateTime? FechaFin
+    }
+
+    class Promocion {
+        +int IdPromocion
+        +string Nombre
+        +string Tipo
+        +decimal? ValorDescuento
+        +DateTime? FechaInicio
+        +DateTime? FechaFin
+    }
+
+    class ImagenProducto {
+        +int IdImagen
+        +string Url
+        +string UrlMiniatura
+        +string TextoAlternativo
+        +int? Orden
+        +bool? EsPrincipal
+        +string ImagenBase64
+        +string TipoContenido
+        +int IdProducto
+    }
+
+    class Variante {
+        +int IdVariante
+        +string Talla
+        +string Color
+        +int Stock
+        +string CodigoBarras
+        +int IdProducto
+    }
+
+    class Usuarios {
+        +int IdUsuario
+        +string Nombre
+        +string Apellido
+        +string Email
+        +string Contrasena
+        +string Telefono
+        +DateTime? FechaRegistro
+        +bool EsAdmin
+    }
+
+    class Favorito {
+        +int IdFavorito
+        +int IdUsuario
+        +int IdProducto
+        +DateTime? FechaAgregado
+    }
+
+    Marca "1" --> "0..*" Producto : tiene
+    Categoria "1" --> "0..*" Producto : clasifica
+    Coleccion "0..1" --> "0..*" Producto : agrupa
+    Promocion "0..1" --> "0..*" Producto : aplica
+
+    Producto "1" --> "0..*" ImagenProducto : contiene
+    Producto "1" --> "0..*" Variante : tiene
+    Producto "1" --> "0..*" Favorito : aparece en
+
+    Usuarios "1" --> "0..*" Favorito : guarda
+    Categoria "0..1" --> "0..*" Categoria : subcategorias
+```
+
+### Descripción del Diagrama
+
+El sistema se centra en la entidad `Producto`, la cual se relaciona con una `Marca`, una `Categoria`, una `Coleccion` opcional y una `Promocion` opcional.
+
+Cada producto puede tener múltiples imágenes mediante `ImagenProducto`, múltiples variantes mediante `Variante` y puede ser agregado como favorito por distintos usuarios mediante la entidad `Favorito`.
+
+La entidad `Usuarios` almacena la información de las cuentas registradas, incluyendo si el usuario tiene permisos de administrador mediante el campo `EsAdmin`.
+
+La entidad `Categoria` permite una relación jerárquica, ya que una categoría puede tener una categoría padre y varias subcategorías.
+
+
+
 
