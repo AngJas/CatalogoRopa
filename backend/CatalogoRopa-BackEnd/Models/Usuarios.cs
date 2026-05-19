@@ -13,6 +13,6 @@ public class Usuarios
     // Almacena la contraseña hasheada (SHA256)
     public string Contrasena { get; set; } = string.Empty;
     public string? Telefono { get; set; }
-    public DateTime FechaRegistro { get; set; } = DateTime.Now;
+    public DateTime? FechaRegistro { get; set; } = DateTime.Now;
     public bool EsAdmin { get; set; }
 }

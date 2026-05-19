@@ -11,7 +11,7 @@ public class Producto
     public decimal PrecioBase { get; set; }
     public string? Genero { get; set; }
     public string? Material { get; set; }
-    public DateTime FechaPublicacion { get; set; } = DateTime.Now;
+    public DateTime? FechaPublicacion { get; set; } = DateTime.Now;
 
     public int IdMarca { get; set; }
     public int IdCategoria { get; set; }

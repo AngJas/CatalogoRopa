@@ -11,7 +11,7 @@ public class ImagenProducto
     public string? UrlMiniatura { get; set; }
     public string? TextoAlternativo { get; set; }
     public int? Orden { get; set; }
-    public bool EsPrincipal { get; set; }
+    public bool? EsPrincipal { get; set; }
 
     public string? ImagenBase64 { get; set; }
     public string? TipoContenido { get; set; }

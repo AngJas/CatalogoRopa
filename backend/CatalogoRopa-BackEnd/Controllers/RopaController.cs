@@ -241,7 +241,7 @@ public class RopaController : ControllerBase
         // Manejo simple de imagen: si se envía nueva imagen base64, actualizar la imagen principal si existe, sino agregarla
         if (!string.IsNullOrWhiteSpace(dto.ImagenBase64))
         {
-            var imagenPrincipal = producto.Imagenes.FirstOrDefault(i => i.EsPrincipal) ?? producto.Imagenes.OrderBy(i => i.Orden).FirstOrDefault();
+            var imagenPrincipal = producto.Imagenes.FirstOrDefault(i => i.EsPrincipal == true) ?? producto.Imagenes.OrderBy(i => i.Orden).FirstOrDefault();
 
             if (imagenPrincipal != null)
             {
@@ -270,6 +270,26 @@ public class RopaController : ControllerBase
         await _context.SaveChangesAsync();
 
         return Ok(new { producto.IdProducto });
+    }
+
+    [HttpDelete("{id}")]
+    public async Task<IActionResult> EliminarProducto(int id)
+    {
+        var producto = await _context.Producto
+            .FirstOrDefaultAsync(p => p.IdProducto == id);
+
+        if (producto == null)
+            return NotFound();
+
+        // Eliminar entidades relacionadas directamente por SQL para evitar excepciones si hay columnas NULL
+        await _context.Database.ExecuteSqlInterpolatedAsync($"DELETE FROM ImagenProducto WHERE idProducto = {id}");
+        await _context.Database.ExecuteSqlInterpolatedAsync($"DELETE FROM Variante WHERE idProducto = {id}");
+        await _context.Database.ExecuteSqlInterpolatedAsync($"DELETE FROM Favorito WHERE idProducto = {id}");
+
+        _context.Producto.Remove(producto);
+        await _context.SaveChangesAsync();
+
+        return Ok(new { eliminado = true, id = id });
     }
 
 }

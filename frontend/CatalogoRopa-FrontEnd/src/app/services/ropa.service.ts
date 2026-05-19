@@ -41,4 +41,8 @@ export class RopaService {
     return this.http.get<any>(`${this.apiUrl}/lista?page=${page}&pageSize=${pageSize}`);
   }
 
+  eliminarProducto(id: number): Observable<any> {
+    return this.http.delete<any>(`${this.apiUrl}/${id}`);
+  }
+
 }

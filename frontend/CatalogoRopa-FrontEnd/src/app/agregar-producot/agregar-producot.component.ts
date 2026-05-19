@@ -129,6 +129,34 @@ export class AgregarProductoComponent {
     }
   }
 
+  limpiarFormulario(): void {
+    this.formulario.reset({ idMarca: 1, idCategoria: 1, precioBase: 0 });
+    this.imagenBase64 = null;
+    this.tipoContenido = null;
+    this.vistaPrevia = null;
+    this.editingId = null;
+    this.buscarId = '';
+    this.lastLoadedId = null;
+  }
+
+  eliminarProducto(): void {
+    if (!this.editingId) return;
+
+    const id = this.editingId;
+    this.popup.showLoading('Eliminando', 'Eliminando producto...');
+    this.ropaService.eliminarProducto(id).subscribe({
+      next: () => {
+        this.popup.showSuccess('Eliminado', 'El producto fue eliminado');
+        this.limpiarFormulario();
+        this.cargarProductos(1);
+      },
+      error: (err) => {
+        console.error(err);
+        this.popup.showError('Error', 'No se pudo eliminar el producto.');
+      }
+    });
+  }
+
   cargarProductos(page: number = 1): void {
     this.loadingProductos = true;
     this.ropaService.obtenerProductos(page, this.productosPageSize).subscribe({

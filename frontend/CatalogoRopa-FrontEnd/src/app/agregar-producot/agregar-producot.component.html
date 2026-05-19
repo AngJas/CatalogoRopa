@@ -75,9 +75,15 @@
 
     <p class="error" *ngIf="error">{{ error }}</p>
 
-    <button type="submit" [disabled]="guardando">
-      {{ guardando ? (editingId ? 'Actualizando...' : 'Guardando...') : (editingId ? 'Actualizar producto' : 'Guardar producto') }}
-    </button>
+    <div class="botones-accion">
+      <button type="submit" [disabled]="guardando">
+        {{ guardando ? (editingId ? 'Actualizando...' : 'Guardando...') : (editingId ? 'Actualizar producto' : 'Guardar producto') }}
+      </button>
+
+      <button *ngIf="editingId" type="button" class="btn-limpiar" (click)="limpiarFormulario()">Limpiar</button>
+
+      <button *ngIf="editingId" type="button" class="btn-eliminar" (click)="eliminarProducto()">Eliminar producto</button>
+    </div>
   </form>
 
   <section class="tabla-productos">
