@@ -11,7 +11,7 @@ namespace CatalogoRopa_BackEnd.Data
         }
 
         public DbSet<Producto> Producto { get; set; }
-        public DbSet<Marca> Marcas { get; set; }
+        public DbSet<Marca> Marca { get; set; }
         public DbSet<Categoria> Categoria { get; set; }
         public DbSet<Coleccion> Coleccion { get; set; }
         public DbSet<Promocion> Promocion { get; set; }

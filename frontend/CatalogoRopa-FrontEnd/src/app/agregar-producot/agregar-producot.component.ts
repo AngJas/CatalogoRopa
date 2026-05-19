@@ -5,6 +5,7 @@ import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
 import { RopaService } from '../services/ropa.service';
 import { CrearProductoModel } from '../models/Crear-Producto-Model';
+import { PopupService } from '../services/popup.service';
 
 
 @Component({
@@ -18,12 +19,15 @@ export class AgregarProductoComponent {
   private fb = inject(FormBuilder);
   private ropaService = inject(RopaService);
   private router = inject(Router);
+  private popup = inject(PopupService);
 
   imagenBase64: string | null = null;
   tipoContenido: string | null = null;
   vistaPrevia: string | null = null;
   guardando = false;
   error = '';
+  buscarId = '';
+  editingId: number | null = null;
 
   formulario = this.fb.group({
     nombre: ['', Validators.required],
@@ -81,16 +85,83 @@ export class AgregarProductoComponent {
     this.guardando = true;
     this.error = '';
 
-    this.ropaService.crearProducto(producto).subscribe({
-      next: () => {
-        this.guardando = false;
-        this.router.navigate(['/catalogo']);
+    if (this.editingId) {
+      this.ropaService.actualizarProducto(this.editingId, producto).subscribe({
+        next: () => {
+          this.guardando = false;
+          this.popup.showSuccess('Producto actualizado', 'El producto se actualizó correctamente');
+          // this.router.navigate(['/catalogo']);
+        },
+        error: (err) => {
+          console.error(err);
+          this.guardando = false;
+          this.popup.showError('Error', 'No se pudo actualizar el producto.');
+        }
+      });
+    } else {
+      this.ropaService.crearProducto(producto).subscribe({
+        next: () => {
+          this.guardando = false;
+          // this.router.navigate(['/catalogo']);
+        },
+        error: (error) => {
+          console.error(error);
+          this.guardando = false;
+          this.error = 'No se pudo guardar el producto. Revisa los datos ingresados.';
+        }
+      });
+    }
+  }
+
+  buscarProducto(): void {
+    const id = Number(this.buscarId);
+    if (!id || isNaN(id) || id <= 0) {
+      this.popup.showError('ID inválido', 'Ingresa un número válido para IdProducto');
+      return;
+    }
+
+    this.ropaService.getProductoPorId(id).subscribe({
+      next: (res) => {
+        if (!res) {
+          this.popup.showError('No encontrado', 'No existe un producto con ese Id');
+          return;
+        }
+
+        // Mapear valores al formulario
+        this.formulario.patchValue({
+          nombre: res.nombre ?? res.Nombre ?? '',
+          descripcion: res.descripcion ?? res.Descripcion ?? '',
+          precioBase: res.precioBase ?? res.PrecioBase ?? 0,
+          genero: res.genero ?? res.Genero ?? '',
+          material: res.material ?? res.Material ?? '',
+          idMarca: res.idMarca ?? res.IdMarca ?? 1,
+          idCategoria: res.idCategoria ?? res.IdCategoria ?? 1,
+          idColeccion: res.idColeccion ?? res.IdColeccion ?? null,
+          idPromocion: res.idPromocion ?? res.IdPromocion ?? null
+        });
+
+        // imagen principal
+        const imagenes = res.Imagenes ?? res.imagenes ?? [];
+        if (imagenes.length > 0) {
+          const principal = imagenes.find((i: any) => i.EsPrincipal || i.esPrincipal || i.EsPrincipal === true) || imagenes[0];
+          if (principal && principal.ImagenBase64) {
+            this.imagenBase64 = principal.ImagenBase64 ?? principal.imagenBase64;
+            this.tipoContenido = principal.TipoContenido ?? principal.tipoContenido ?? 'image/png';
+            this.vistaPrevia = `data:${this.tipoContenido};base64,${this.imagenBase64}`;
+          }
+        }
+
+        this.editingId = id;
+        this.popup.showInfo('Modo edición', 'Datos cargados. Ahora puedes actualizar el producto.');
       },
-      error: (error) => {
-        console.error(error);
-        this.guardando = false;
-        this.error = 'No se pudo guardar el producto. Revisa los datos ingresados.';
+      error: (err) => {
+        console.error(err);
+        this.popup.showError('Error', 'No se pudo consultar el producto.');
       }
     });
+  }
+
+  constructor() {
+    // keep default constructor-less injection style used by this component
   }
 }
