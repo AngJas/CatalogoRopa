@@ -557,10 +557,7 @@ El sistema permite:
 
 
 
-
-
-
-<p align="justify"> El sistema Turopa.com está diseñado para facilitar la experiencia de compra en línea, permitiendo a los usuarios navegar por el catálogo de productos, aplicar filtros y realizar búsquedas específicas. </p>
+<p align="justify"> El sistema Turopa.com está diseñado para proporcionarle a los usuarios la posibilidad de consultar los productos que se encuentran disponibles en el catalogo, permitiendo a los usuarios navegar por el catálogo de productos, aplicar filtros y realizar búsquedas específicas. </p>
 
 
 
@@ -591,7 +588,14 @@ Botón “Ver más” (no hay compra, solo informativo).
 
 ## 6. Base de datos (Modelado)
 
-<p align="justify"> La base de datos de Turopa.com almacena información sobre los productos, categorías, marcas, colecciones, promociones e imágenes. A continuación, se presenta un modelo conceptual simplificado de la base de datos. </p>
+<p align="justify"> La base de datos de Turopa.com almacena información sobre los productos, categorías, marcas, colecciones, promociones e imágenes, implementando SQL Server Management studio y se cuenta con los siguientes elementos: </p>
+
+|Tabla  |Descripcion            |
+|-------|-----------------------|
+|
+
+Diagrama Entidad-Relacion: 
+![Diagrama entidad relacion](./
 
 ### 6.1 Modelo conceptual de la base de datos
 
