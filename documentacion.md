@@ -243,14 +243,9 @@ en la ruta donde se abrio la terminal.
 Si se usa Git, ejecutar:
 
 ```bash
-git clone (https://github.com/AngJas/CatalogoRopa.git)
+git clone https://github.com/AngJas/CatalogoRopa.git
 ```
 
-Después entrar a la carpeta del proyecto:
-
-```bash
-cd "CATALOGO DE ROPA EN LINEA"
-```
 
 ---
 
@@ -280,8 +275,9 @@ localhost\SQLEXPRESS
 3. Hacer clic derecho en **Databases**.
 4. Seleccionar **Restore Database**.
 5. Elegir la opción **Device**.
-6. Presionar **Add**.
-7. Buscar y seleccionar el archivo:
+6. Seleccionar los 3 puntos a la derecha de **Device**.
+7. Presionar **Add**.
+8. Buscar y seleccionar el archivo:
 
 ```txt
 CatalogoRopaDB.bak
@@ -312,7 +308,7 @@ En el backend, abrir el archivo:
 CatalogoRopa\backend\CatalogoRopa-BackEnd\appsettings.json
 ```
 
-Actualmente la conexión puede estar configurada así:
+Actualmente la conexión esta configurada de la siguiente forma:
 
 ```json
 "ConnectionStrings": {
@@ -322,34 +318,15 @@ Actualmente la conexión puede estar configurada así:
 
 La persona que instale el sistema debe cambiar `ACCD62\\SQLEXPRESS` por el nombre de su servidor SQL.
 
-Ejemplo usando SQL Server Express local:
+Puedes saber cual es el servidor de tu SQL server al abrir SQL server y verificar el siguiente campo: 
+![Nombre del servidor SQL](./documentacion/imagenes%20de%20documentacion/Nombre%20del%20servidor%20.png)
 
-```json
-"ConnectionStrings": {
-  "DefaultConnection": "Server=.\\SQLEXPRESS;Database=CatalogoRopaDB;Trusted_Connection=True;TrustServerCertificate=True;"
-}
-```
+Se sustituye el servidor especificado en el backend por el nombre del servidor que aparece al abrir sql server.
 
-Otra opción común:
-
-```json
-"ConnectionStrings": {
-  "DefaultConnection": "Server=localhost\\SQLEXPRESS;Database=CatalogoRopaDB;Trusted_Connection=True;TrustServerCertificate=True;"
-}
-```
-
-Si SQL Server no usa instancia:
-
-```json
-"ConnectionStrings": {
-  "DefaultConnection": "Server=localhost;Database=CatalogoRopaDB;Trusted_Connection=True;TrustServerCertificate=True;"
-}
-```
-
----
 
 
 
+---
 ## Paso 4: Instalar Dependencias del Backend
 
 Entrar a la carpeta del backend:
@@ -403,20 +380,15 @@ La API principal queda disponible en:
 http://localhost:5260/api
 ```
 
-Swagger puede abrirse normalmente en:
-
-```txt
-http://localhost:5260/swagger
-```
 
 Endpoints principales:
 
 ```http
 GET  http://localhost:5260/api/Ropa
 POST http://localhost:5260/api/Ropa
-
 POST http://localhost:5260/api/Auth/register
 POST http://localhost:5260/api/Auth/login
+GET  http://localhost:5260/api/
 ```
 
 ---
@@ -544,14 +516,19 @@ Después de completar todos los pasos:
 
 El sistema permite:
 
+Para usuarios que no son admin
 - Mostrar productos del catálogo.
 - Consultar productos desde SQL Server.
-- Mostrar imágenes de productos guardadas en Base64.
+- Mostrar imágenes de productos guardados.
 - Registrar usuarios.
 - Iniciar sesión.
-- Guardar sesión con token JWT.
 - Cerrar sesión.
+
+Para usuarios que son admin tienen disponibles las funciones anteriormente mencionadas y adicionalmente: 
 - Crear productos desde el formulario de administración.
+- Actualiar productos desde un formulario.
+- Borrar productos desde el formulario.
+- Consultar un listado con todos los productos registrados hasta el momento. 
 - Mostrar botón de agregar producto solo a usuarios administradores.
 - Mostrar mensajes emergentes de éxito, error o carga.
 
@@ -561,41 +538,21 @@ El sistema permite:
 
 
 
-1. **Navegar por el catálogo**: Explorar el catálogo de productos, seleccionar la categoría y prenda deseada.
-
-En la barra lateral o superior (según diseño), el usuario puede seleccionar:
-
-Tipo de prenda (camisa, pantalón, chaqueta, etc.) – se carga dinámicamente desde la base de datos.
-
-Talla (S, M, L, XL, etc.).
-
-Rango de precio (desde – hasta).
-
-Al aplicar los filtros, el sistema recarga automáticamente la lista de productos sin recargar la página completa.
-
-Visualización de detalles
-Al hacer clic en una tarjeta de producto, se abre una vista modal o una página de detalle que muestra:
-
-Imagen principal y galería de imágenes adicionales.
-
-Nombre, descripción, marca, colección.
-
-Precio original (si aplica descuento) y precio final con promoción.
-
-Variantes disponibles (tallas y colores con stock).
-
-Botón “Ver más” (no hay compra, solo informativo).
 
 ## 6. Base de datos (Modelado)
 
 <p align="justify"> La base de datos de Turopa.com almacena información sobre los productos, categorías, marcas, colecciones, promociones e imágenes, implementando SQL Server Management studio y se cuenta con los siguientes elementos: </p>
 
-|Tabla  |Descripcion            |
-|-------|-----------------------|
-|
+|Tabla  |Descripcion                                                                       |
+|-------|----------------------------------------------------------------------------------|
+|Usuario  |Tabla encargada de administrar los datos de los usuarios registrados             |
+|Producto |Tabla encargada de administrar los datos pertinentes de los productos almacenados|
+|Categoria|Tabla encargada de determinar la categoria a la que pertenece un producto       |
 
-Diagrama Entidad-Relacion: 
-![Diagrama entidad relacion](./
+
+
+Diagrama Entidad-Relacion obtenido de sql server management studio: 
+![Diagrama entidad relacion](./documentacion/imagenes%20de%20documentacion/Diagrama%20entidad-relacion.png)
 
 ### 6.1 Modelo conceptual de la base de datos
 
