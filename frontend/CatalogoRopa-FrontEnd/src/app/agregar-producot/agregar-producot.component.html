@@ -12,7 +12,8 @@
         [value]="buscarId"
         (input)="buscarId = ($any($event.target).value || '').replace(/[^0-9]/g, '')"
         (blur)="buscarProducto()"
-        (keydown.enter)="$event.preventDefault(); buscarProducto()">
+        (keydown.enter)="$event.preventDefault(); buscarProducto()"
+        [disabled]="this.editingId && this.editingId > 0">
     </label>
     <label>
       Nombre
