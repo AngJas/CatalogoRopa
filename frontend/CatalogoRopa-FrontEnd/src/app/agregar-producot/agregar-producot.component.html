@@ -46,24 +46,44 @@
     </label>
 
     <label>
-      ID Marca
-      <input type="number" formControlName="idMarca">
-    </label>
+  Marca
+  <select formControlName="idMarca">
+    <option [ngValue]="null">Seleccionar marca</option>
+    <option *ngFor="let marca of marcas" [ngValue]="marca.idMarca">
+      {{ marca.nombre }}
+    </option>
+  </select>
+</label>
 
-    <label>
-      ID Categoria
-      <input type="number" formControlName="idCategoria">
-    </label>
+<label>
+  Categoria
+  <select formControlName="idCategoria">
+    <option [ngValue]="null">Seleccionar categoria</option>
+    <option *ngFor="let categoria of categorias" [ngValue]="categoria.idCategoria">
+      {{ categoria.nombre }}
+    </option>
+  </select>
+</label>
 
-    <label>
-      ID Coleccion
-      <input type="number" formControlName="idColeccion">
-    </label>
+<label>
+  Coleccion
+  <select formControlName="idColeccion">
+    <option [ngValue]="null">Sin coleccion</option>
+    <option *ngFor="let coleccion of colecciones" [ngValue]="coleccion.idColeccion">
+      {{ coleccion.nombre }}
+    </option>
+  </select>
+</label>
 
-    <label>
-      ID Promocion
-      <input type="number" formControlName="idPromocion">
-    </label>
+<label>
+  Promocion
+  <select formControlName="idPromocion">
+    <option [ngValue]="null">Sin promocion</option>
+    <option *ngFor="let promocion of promociones" [ngValue]="promocion.idPromocion">
+      {{ promocion.nombre }}
+    </option>
+  </select>
+</label>
 
     <label class="campo-imagen">
       Imagen del producto

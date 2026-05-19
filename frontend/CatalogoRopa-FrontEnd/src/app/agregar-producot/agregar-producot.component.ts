@@ -261,7 +261,28 @@ export class AgregarProductoComponent {
     // keep default constructor-less injection style used by this component
   }
 
+  
+
+ marcas: any[] = [];
+  categorias: any[] = [];
+  colecciones: any[] = [];
+  promociones: any[] = [];
+
+  
   ngOnInit(): void {
+    this.cargarCatalogos();
     this.cargarProductos(1);
   }
+
+
+   cargarCatalogos(): void {
+    this.ropaService.obtenerMarcas().subscribe(res => this.marcas = res);
+    this.ropaService.obtenerCategorias().subscribe(res => this.categorias = res);
+    this.ropaService.obtenerColecciones().subscribe(res => this.colecciones = res);
+    this.ropaService.obtenerPromociones().subscribe(res => this.promociones = res);
+  }
+
+ 
+
+
 }

@@ -45,4 +45,27 @@ export class RopaService {
     return this.http.delete<any>(`${this.apiUrl}/${id}`);
   }
 
+  obtenerMarcas(): Observable<any[]> {
+    return this.http.get<any[]>(`${this.apiUrl}/marcas`);
+  }
+
+  obtenerCategorias(): Observable<any[]> {
+    return this.http.get<any[]>(`${this.apiUrl}/categorias`);
+  }
+
+  obtenerColecciones(): Observable<any[]> {
+    return this.http.get<any[]>(`${this.apiUrl}/colecciones`);
+  }
+
+  obtenerPromociones(): Observable<any[]> {
+    return this.http.get<any[]>(`${this.apiUrl}/promociones`);
+  }
+
+  marcas: any[] = [];
+  categorias: any[] = [];
+  colecciones: any[] = []
+  promociones: any[] = [];
+
+ 
+
 }
