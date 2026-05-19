@@ -207,6 +207,7 @@ export class AgregarProductoComponent {
     this.ropaService.getProductoPorId(id).subscribe({
       next: (res) => {
         if (!res) {
+          this.limpiarFormulario();
           this.popup.showError('No encontrado', 'No existe un producto con ese Id');
           return;
         }
@@ -241,7 +242,14 @@ export class AgregarProductoComponent {
       },
       error: (err) => {
         console.error(err);
-        this.popup.showError('Error', 'No se pudo consultar el producto.');
+        // Si el backend responde 404, limpiar el formulario
+        const status = err?.status ?? err?.statusCode;
+        if (status === 404) {
+          this.limpiarFormulario();
+          this.popup.showError('No encontrado', 'No existe un producto con ese Id');
+        } else {
+          this.popup.showError('Error', 'No se pudo consultar el producto.');
+        }
       }
     });
   }
