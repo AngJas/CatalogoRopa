@@ -190,6 +190,34 @@ public class RopaController : ControllerBase
         });
     }
 
+    [HttpGet("lista")]
+    public async Task<IActionResult> Lista(int page = 1, int pageSize = 20)
+    {
+        if (page <= 0) page = 1;
+        if (pageSize <= 0) pageSize = 20;
+
+        var query = _context.Producto.AsQueryable();
+
+        var total = await query.CountAsync();
+
+        var datos = await query
+            .OrderByDescending(p => p.FechaPublicacion)
+            .Skip((page - 1) * pageSize)
+            .Take(pageSize)
+            .Select(p => new
+            {
+                p.IdProducto,
+                p.Nombre,
+                p.PrecioBase,
+                p.Genero,
+                p.Material,
+                p.FechaPublicacion
+            })
+            .ToListAsync();
+
+        return Ok(new { Total = total, Page = page, PageSize = pageSize, Datos = datos });
+    }
+
     [HttpPut("{id}")]
     public async Task<IActionResult> ActualizarProducto(int id, CrearProductoDto dto)
     {

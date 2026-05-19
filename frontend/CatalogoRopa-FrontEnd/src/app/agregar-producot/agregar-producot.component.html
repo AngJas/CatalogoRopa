@@ -79,4 +79,49 @@
       {{ guardando ? (editingId ? 'Actualizando...' : 'Guardando...') : (editingId ? 'Actualizar producto' : 'Guardar producto') }}
     </button>
   </form>
+
+  <section class="tabla-productos">
+    <h3>Productos existentes</h3>
+
+    <div class="tabla-contenedor">
+      <div class="loading" *ngIf="loadingProductos">Cargando productos...</div>
+
+      <div *ngIf="!loadingProductos && productos.length === 0" class="sin-productos">
+        No hay productos para mostrar.
+      </div>
+
+      <div *ngIf="!loadingProductos && productos.length > 0" class="tabla-scroll">
+        <table>
+          <thead>
+            <tr>
+              <th>IdProducto</th>
+              <th>Nombre</th>
+              <th>PrecioBase</th>
+              <th>Genero</th>
+              <th>Material</th>
+              <th>FechaPublicacion</th>
+              <th>Acciones</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let p of productos">
+              <td>{{ p.IdProducto ?? p.idProducto }}</td>
+              <td>{{ p.Nombre ?? p.nombre }}</td>
+              <td>{{ (p.PrecioBase ?? p.precioBase) | number:'1.2-2' }}</td>
+              <td>{{ p.Genero ?? p.genero }}</td>
+              <td>{{ p.Material ?? p.material }}</td>
+              <td>{{ (p.FechaPublicacion ?? p.fechaPublicacion) | date:'shortDate' }}</td>
+              <td>
+                <button type="button" class="btn-seleccionar" (click)="seleccionarDeTabla(p)">Seleccionar</button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="acciones" *ngIf="!loadingProductos && productos.length > 0">
+        <button type="button" (click)="cargarMas()" [disabled]="productos.length >= productosTotal">Cargar más</button>
+      </div>
+    </div>
+  </section>
 </section>

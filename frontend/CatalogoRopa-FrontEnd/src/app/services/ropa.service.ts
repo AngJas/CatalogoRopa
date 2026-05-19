@@ -37,4 +37,8 @@ export class RopaService {
     return this.http.put<any>(`${this.apiUrl}/${id}`, producto);
   }
 
+  obtenerProductos(page: number = 1, pageSize: number = 20): Observable<any> {
+    return this.http.get<any>(`${this.apiUrl}/lista?page=${page}&pageSize=${pageSize}`);
+  }
+
 }

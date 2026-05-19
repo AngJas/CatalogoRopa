@@ -1,6 +1,6 @@
 
 import { CommonModule } from '@angular/common';
-import { Component, inject } from '@angular/core';
+import { ChangeDetectorRef, Component, inject, OnInit } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
 import { RopaService } from '../services/ropa.service';
@@ -20,6 +20,7 @@ export class AgregarProductoComponent {
   private ropaService = inject(RopaService);
   private router = inject(Router);
   private popup = inject(PopupService);
+  private cd = inject(ChangeDetectorRef);
 
   imagenBase64: string | null = null;
   tipoContenido: string | null = null;
@@ -28,6 +29,11 @@ export class AgregarProductoComponent {
   error = '';
   buscarId = '';
   editingId: number | null = null;
+  productos: any[] = [];
+  loadingProductos = false;
+  productosPage = 1;
+  productosPageSize = 20;
+  productosTotal = 0;
 
   formulario = this.fb.group({
     nombre: ['', Validators.required],
@@ -113,6 +119,41 @@ export class AgregarProductoComponent {
     }
   }
 
+  cargarProductos(page: number = 1): void {
+    this.loadingProductos = true;
+    this.ropaService.obtenerProductos(page, this.productosPageSize).subscribe({
+      next: (res) => {
+        const datos = res?.Datos ?? res?.datos ?? [];
+        if (page === 1) {
+          this.productos = datos;
+        } else {
+          this.productos = this.productos.concat(datos);
+        }
+        this.productosTotal = res?.Total ?? res?.total ?? this.productos.length;
+        this.productosPage = page;
+        this.loadingProductos = false;
+        this.cd.detectChanges();
+      },
+      error: (err) => {
+        console.error(err);
+        this.loadingProductos = false;
+        this.popup.showError('Error', 'No se pudieron cargar los productos');
+      }
+    });
+  }
+
+  cargarMas(): void {
+    if (this.productos.length >= this.productosTotal) return;
+    this.cargarProductos(this.productosPage + 1);
+  }
+
+  seleccionarDeTabla(producto: any): void {
+    const id = producto?.IdProducto ?? producto?.idProducto;
+    if (!id) return;
+    this.buscarId = String(id);
+    this.buscarProducto();
+  }
+
   buscarProducto(): void {
     const id = Number(this.buscarId);
     if (!id || isNaN(id) || id <= 0) {
@@ -163,5 +204,9 @@ export class AgregarProductoComponent {
 
   constructor() {
     // keep default constructor-less injection style used by this component
+  }
+
+  ngOnInit(): void {
+    this.cargarProductos(1);
   }
 }
