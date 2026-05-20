@@ -1,0 +1,24 @@
+.auth-form { max-width: 520px; margin: 1rem auto; }
+label { display: block; margin-bottom: 0.6rem; }
+input { width: 100%; padding: 0.5rem; border: 1px solid #ccc; border-radius: 4px; }
+input.invalid { border-color: #dc3545; background: #fff5f5; }
+.error-msg {
+    color: #dc3545;
+    background-color: #fff;
+    font-size: 0.85rem;
+    margin-top: 0.25rem;
+    padding: 0.35rem 0.5rem;
+    border-radius: 4px;
+    display: inline-block;
+}
+button[disabled] { opacity: 0.6; cursor: not-allowed; }
+
+/* Button styles copied from header to match appearance */
+.btn { display: inline-flex; align-items: center; gap: 8px; padding: 6px 12px; border-radius: 999px; font-size: 0.95rem; line-height: 1; cursor: pointer; text-decoration: none; border: 1px solid transparent; transition: all 160ms ease; color: #111; background: transparent; }
+.btn svg { display:block; color: currentColor; }
+.btn-ghost { background: rgb(255, 255, 255); border-color: rgba(0,0,0,0.06); }
+.btn-ghost:hover { transform: translateY(-1px); box-shadow: 0 6px 12px rgba(0,0,0,0.06); }
+
+.label { display: inline-block; }
+
+@media (max-width:520px) { .label { display:none; } }

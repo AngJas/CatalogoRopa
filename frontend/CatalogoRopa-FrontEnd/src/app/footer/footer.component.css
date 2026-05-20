@@ -1,0 +1,141 @@
+:host {
+  display: block;
+  width: 100%;
+}
+
+.footer-principal {
+  width: 100%;
+  margin-top: 56px;
+  font-family: Georgia, "Times New Roman", serif;
+}
+
+.footer-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr 2fr;
+  gap: 8px;
+  padding: 10px;
+}
+
+.footer-panel {
+  min-height: 360px;
+  padding: 18px 20px;
+  border-radius: 8px;
+  background: #d7d7d7;
+  box-sizing: border-box;
+}
+
+.footer-panel h3 {
+  margin: 0 0 22px;
+  color: #000;
+  font-size: 22px;
+  font-weight: 900;
+  letter-spacing: 0;
+}
+
+.footer-panel a {
+  display: block;
+  width: fit-content;
+  margin-bottom: 14px;
+  color: #000;
+  font-size: 15px;
+  font-weight: 700;
+  line-height: 1.2;
+  text-decoration: none;
+}
+
+.footer-panel a:hover {
+  text-decoration: underline;
+}
+
+.footer-redes {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.footer-redes h3 {
+  align-self: flex-start;
+}
+
+.footer-redes p {
+  max-width: 460px;
+  margin: 20px 0 28px;
+  font-size: 15px;
+  font-weight: 700;
+}
+
+.iconos-redes {
+  display: flex;
+  gap: 12px;
+  margin-top: auto;
+  margin-bottom: 28px;
+}
+
+.iconos-redes a {
+  display: grid;
+  place-items: center;
+  width: 34px;
+  height: 34px;
+  margin: 0;
+  border: 1px solid #000;
+  border-radius: 50%;
+  font-size: 18px;
+  font-weight: 700;
+}
+
+.suscripcion {
+  display: flex;
+  width: min(100%, 420px);
+  height: 48px;
+  margin-bottom: 40px;
+}
+
+.suscripcion input {
+  flex: 1;
+  min-width: 0;
+  border: 0;
+  padding: 0 16px;
+  background: #eee;
+  font-size: 14px;
+  outline: none;
+}
+
+.suscripcion button {
+  width: 110px;
+  border: 0;
+  background: #c7c7c7;
+  color: #6b5c5c;
+  font-size: 14px;
+  font-weight: 900;
+  cursor: pointer;
+}
+
+.footer-logo {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 34px;
+  background: #e5e5e5;
+}
+
+.footer-logo a {
+  color: #000;
+  font-size: 15px;
+  font-weight: 900;
+  text-decoration: none;
+}
+
+@media (max-width: 900px) {
+  .footer-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .footer-panel {
+    min-height: auto;
+  }
+
+  .footer-redes h3 {
+    align-self: center;
+  }
+}

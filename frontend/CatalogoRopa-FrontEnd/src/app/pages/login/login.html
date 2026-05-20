@@ -1,0 +1,23 @@
+<div class="auth-form">
+  <h2>Iniciar sesión</h2>
+  <form (ngSubmit)="submit()" [formGroup]="form">
+    <label>
+      Email
+      <input formControlName="email" type="email" [class.invalid]="isInvalid('email')">
+      <div *ngIf="isInvalid('email')" class="error-msg">{{ getErrorMessage('email') }}</div>
+    </label>
+
+    <label>
+      Contraseña
+      <input formControlName="contrasena" type="password" [class.invalid]="isInvalid('contrasena')">
+      <div *ngIf="isInvalid('contrasena')" class="error-msg">{{ getErrorMessage('contrasena') }}</div>
+    </label>
+
+    <div *ngIf="error" class="error">{{ error }}</div>
+
+    <button type="submit" class="btn btn-ghost" [disabled]="form.invalid" aria-label="Iniciar sesión">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M10 17l5-5-5-5v10z" fill="currentColor"/></svg>
+      <span class="label">Iniciar sesión</span>
+    </button>
+  </form>
+</div>

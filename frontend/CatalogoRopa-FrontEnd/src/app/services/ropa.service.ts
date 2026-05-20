@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { RopaModel } from '../models/ropa-model';
 import { RespuestaRopa } from '../models/RespuestaRopa';
+import { CrearProductoModel } from '../models/Crear-Producto-Model';
 
 @Injectable({
   providedIn: 'root',
@@ -15,11 +16,56 @@ export class RopaService {
 
   getRopa(
     page: number = 1,
-    pageSize: number = 8
+    pageSize: number = 8, todas: boolean = false
   ): Observable<RespuestaRopa> {
 
     return this.http.get<RespuestaRopa>(
-      `${this.apiUrl}?page=${page}&pageSize=${pageSize}`
+      `${this.apiUrl}?page=${page}&pageSize=${pageSize}&todas=${todas}`
     );
   }
+
+
+  crearProducto(producto: CrearProductoModel): Observable <any> {
+    return this.http.post<any>(this.apiUrl, producto);
+  }
+
+  getProductoPorId(id: number): Observable<any> {
+    return this.http.get<any>(`${this.apiUrl}/${id}`);
+  }
+
+  actualizarProducto(id: number, producto: CrearProductoModel): Observable<any> {
+    return this.http.put<any>(`${this.apiUrl}/${id}`, producto);
+  }
+
+  obtenerProductos(page: number = 1, pageSize: number = 20): Observable<any> {
+    return this.http.get<any>(`${this.apiUrl}/lista?page=${page}&pageSize=${pageSize}`);
+  }
+
+  eliminarProducto(id: number): Observable<any> {
+    return this.http.delete<any>(`${this.apiUrl}/${id}`);
+  }
+
+  obtenerMarcas(): Observable<any[]> {
+    return this.http.get<any[]>(`${this.apiUrl}/marcas`);
+  }
+
+  obtenerCategorias(): Observable<any[]> {
+    return this.http.get<any[]>(`${this.apiUrl}/categorias`);
+  }
+
+  obtenerColecciones(): Observable<any[]> {
+    return this.http.get<any[]>(`${this.apiUrl}/colecciones`);
+  }
+
+  obtenerPromociones(): Observable<any[]> {
+    return this.http.get<any[]>(`${this.apiUrl}/promociones`);
+  }
+
+  marcas: any[] = [];
+  categorias: any[] = [];
+  colecciones: any[] = []
+  promociones: any[] = [];
+
+ 
+
 }

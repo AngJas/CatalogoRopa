@@ -1,26 +1,38 @@
-<div style="padding:20px;">
+<div class="margenes">
+  <div class="Titulo">
+    <h2> LO MAS NUEVO EN NUESTRO CATALOGO </h2>
+  </div>
 
-  <h1>Productos</h1>
-
-  <p *ngIf="cargando">Cargando...</p>
+  <p *ngIf="cargando" class="estado">cargando productos </p>
 
   <ng-container *ngIf="!cargando">
+    <div class="grid-productos"> 
+      <article class="producto" *ngFor="let item of ropa">
+        <div class="imagen-producto">
+          <img 
+  *ngIf="item.imagenes && item.imagenes.length > 0; else sinImagen"
+  [src]="obtenerImagenUrl(item.imagenes[0])"
+  [alt]="item.imagenes[0].textoAlternativo || item.nombre"
+/>
+        >
 
-    <p>Total productos: {{ ropa.length }}</p>
+        <ng-template #sinImagen>
+          <div class="placeholder-imagen">Sin imagen</div>
+        </ng-template>
+        </div>
 
-    <div *ngFor="let item of ropa" style="border:1px solid gray; margin-bottom:10px; padding:10px; border-radius:8px;">
-
-      <h3>{{ item.nombre }}</h3>
-
-      <p>{{ item.descripcion }}</p>
-
-      <p>
-        <strong>Precio:</strong>
-        {{ item.precio }}
-      </p>
-
+        <h3 class="nombre" style="color: #000;">
+          {{ item.nombre || 'Nombre del producto...'}}
+        </h3>
+        
+        <p class="descripcion">
+          {{ item.descripcion || 'descripcion de la prenda...'}}
+        </p>
+        
+        <p class="precio">
+          ${{item.precioBase}}
+        </p>
+      </article>
     </div>
-
-  </ng-container>
-
+    </ng-container>
 </div>

@@ -1,12 +1,10 @@
 export class RopaModel {
-  id?: number;
+  idProducto?: number;
   nombre?: string;
   descripcion?: string;
-  precio?: number;
-  talla?: string;
-  color?: string;
-  categoria?: string;
-  imagenBase64?: string;
-  stock?: number;
-  fechaRegistro?: string;
+  precioBase?: number;
+  genero?: string;
+  material?: string;
+  fechaPublicacion?: string;
+  imagenes?: any[];
 }

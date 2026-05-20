@@ -1,0 +1,48 @@
+.carousel-container {
+  width: 100%;
+  height: auto;
+  overflow: hidden;
+  position: relative;
+  background: #c8b9b9;
+}
+
+.carousel-track {
+  display: flex;
+  width: 200%;
+  animation: cambiarBanner 20s infinite;
+}
+
+.carousel-track img {
+  width: 50%;
+  height: auto;
+  display: block;
+  object-fit: contain;
+  flex-shrink: 0;
+}
+@keyframes cambiarBanner {
+  0% {
+    transform: translateX(0);
+  }
+
+  45% {
+    transform: translateX(0);
+  }
+
+  50% {
+    transform: translateX(-50%);
+  }
+
+  95% {
+    transform: translateX(-50%);
+  }
+
+  100% {
+    transform: translateX(0);
+  }
+}
+
+@media (max-width: 700px) {
+  .carousel-container {
+    height: 120px;
+  }
+}

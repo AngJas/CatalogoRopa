@@ -1,0 +1,154 @@
+<section class="pantalla-producto">
+  <div class="encabezado-formulario">
+    <h2>{{ editingId ? 'Editar producto' : 'Agregar producto' }}</h2>
+    <a routerLink="/catalogo">Volver al catalogo</a>
+  </div>
+
+
+  <form class="formulario-producto" [formGroup]="formulario" (ngSubmit)="guardarProducto()">
+    <label>
+      IdProducto
+      <input type="number"
+        [value]="buscarId"
+        (input)="buscarId = ($any($event.target).value || '').replace(/[^0-9]/g, '')"
+        (blur)="buscarProducto()"
+        (keydown.enter)="$event.preventDefault(); buscarProducto()"
+        [disabled]="this.editingId && this.editingId > 0">
+    </label>
+    <label>
+      Nombre
+      <input type="text" formControlName="nombre">
+    </label>
+
+    <label>
+      Descripcion
+      <textarea rows="4" formControlName="descripcion"></textarea>
+    </label>
+
+    <label>
+      Precio base
+      <input type="number" formControlName="precioBase">
+    </label>
+
+    <label>
+      Genero
+      <select formControlName="genero">
+        <option value="">Seleccionar</option>
+        <option value="Hombre">Hombre</option>
+        <option value="Mujer">Mujer</option>
+        <option value="Unisex">Unisex</option>
+      </select>
+    </label>
+
+    <label>
+      Material
+      <input type="text" formControlName="material">
+    </label>
+
+    <label>
+  Marca
+  <select formControlName="idMarca">
+    <option [ngValue]="null">Seleccionar marca</option>
+    <option *ngFor="let marca of marcas" [ngValue]="marca.idMarca">
+      {{ marca.nombre }}
+    </option>
+  </select>
+</label>
+
+<label>
+  Categoria
+  <select formControlName="idCategoria">
+    <option [ngValue]="null">Seleccionar categoria</option>
+    <option *ngFor="let categoria of categorias" [ngValue]="categoria.idCategoria">
+      {{ categoria.nombre }}
+    </option>
+  </select>
+</label>
+
+<label>
+  Coleccion
+  <select formControlName="idColeccion">
+    <option [ngValue]="null">Sin coleccion</option>
+    <option *ngFor="let coleccion of colecciones" [ngValue]="coleccion.idColeccion">
+      {{ coleccion.nombre }}
+    </option>
+  </select>
+</label>
+
+<label>
+  Promocion
+  <select formControlName="idPromocion">
+    <option [ngValue]="null">Sin promocion</option>
+    <option *ngFor="let promocion of promociones" [ngValue]="promocion.idPromocion">
+      {{ promocion.nombre }}
+    </option>
+  </select>
+</label>
+
+    <label class="campo-imagen">
+      Imagen del producto
+      <input type="file" accept="image/*" (change)="seleccionarImagen($event)">
+    </label>
+
+    <div class="vista-previa" *ngIf="vistaPrevia">
+      <img [src]="vistaPrevia" alt="Vista previa del producto">
+    </div>
+
+    <p class="error" *ngIf="error">{{ error }}</p>
+
+    <div class="botones-accion">
+      <button type="submit" [disabled]="guardando">
+        {{ guardando ? (editingId ? 'Actualizando...' : 'Guardando...') : (editingId ? 'Actualizar producto' : 'Guardar producto') }}
+      </button>
+
+      <button *ngIf="editingId" type="button" class="btn-limpiar" (click)="limpiarFormulario()">Limpiar</button>
+
+      <button *ngIf="editingId" type="button" class="btn-eliminar" (click)="eliminarProducto()">Eliminar producto</button>
+    </div>
+  </form>
+
+  <section class="tabla-productos">
+    <h3>Productos existentes</h3>
+
+    <div class="tabla-contenedor">
+      <div class="loading" *ngIf="loadingProductos">Cargando productos...</div>
+
+      <div *ngIf="!loadingProductos && productos.length === 0" class="sin-productos">
+        No hay productos para mostrar.
+      </div>
+
+      <div *ngIf="!loadingProductos && productos.length > 0" class="tabla-scroll">
+        <table>
+          <thead>
+            <tr>
+              <th>IdProducto</th>
+              <th>Nombre</th>
+              <th>PrecioBase</th>
+              <th>Genero</th>
+              <th>Material</th>
+              <th>FechaPublicacion</th>
+              <th>Acciones</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let p of productos">
+              <td>{{ p.IdProducto ?? p.idProducto }}</td>
+              <td>{{ p.Nombre ?? p.nombre }}</td>
+              <td>{{ (p.PrecioBase ?? p.precioBase) | number:'1.2-2' }}</td>
+              <td>{{ p.Genero ?? p.genero }}</td>
+              <td>{{ p.Material ?? p.material }}</td>
+              <td>{{ (p.FechaPublicacion ?? p.fechaPublicacion) | date:'shortDate' }}</td>
+              <td>
+                <button type="button" class="btn-seleccionar" (click)="seleccionarDeTabla(p)">Seleccionar</button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="acciones" *ngIf="!loadingProductos && productos.length > 0">
+        <button type="button" (click)="cargarMas()" [disabled]="productos.length >= productosTotal">Cargar más</button>
+      </div>
+    </div>
+  </section>
+</section>
