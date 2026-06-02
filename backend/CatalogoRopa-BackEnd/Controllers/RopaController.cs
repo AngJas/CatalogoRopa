@@ -91,6 +91,16 @@ public class RopaController : ControllerBase
                     i.EsPrincipal
                 })
                 .ToList()
+            ,
+            Variante = p.Variantes
+                .Select(v => new
+                {
+                    v.IdVariante,
+                    v.Talla,
+                    v.Color,
+                    v.Stock
+                })
+                .FirstOrDefault()
         })
         .ToListAsync()
     : await query
@@ -147,6 +157,16 @@ public class RopaController : ControllerBase
                     i.EsPrincipal
                 })
                 .ToList()
+            ,
+            Variante = p.Variantes
+                .Select(v => new
+                {
+                    v.IdVariante,
+                    v.Talla,
+                    v.Color,
+                    v.Stock
+                })
+                .FirstOrDefault()
         })
         .ToListAsync();
 

@@ -32,4 +32,17 @@ export class RopaModel {
   } | null;
 
   imagenes?: any[];
+  // Variante (puede venir como 'variante' o 'Variante' desde el backend)
+  variante?: {
+    idVariante?: number;
+    talla?: string;
+    color?: string;
+    stock?: number;
+  };
+  Variante?: {
+    IdVariante?: number;
+    Talla?: string;
+    Color?: string;
+    Stock?: number;
+  };
 }

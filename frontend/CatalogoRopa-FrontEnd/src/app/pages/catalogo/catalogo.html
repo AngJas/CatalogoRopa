@@ -30,7 +30,7 @@
           </div>
 
 
-          
+
 
           <h3 class="nombre">
             {{ item.nombre || 'Nombre del producto...' }}
@@ -40,6 +40,9 @@
           </p>
           <p class="precio">
             ${{ item.precioBase }}
+          </p>
+          <p class="stock">
+            Disponibles: {{ item.variante?.stock ?? item.Variante?.Stock ?? 0 }}
           </p>
         </article>
       </div>
