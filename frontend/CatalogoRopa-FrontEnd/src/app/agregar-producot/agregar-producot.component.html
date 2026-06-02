@@ -1,4 +1,4 @@
-<section class="pantalla-producto">
+﻿<section class="pantalla-producto">
   <div class="encabezado-formulario">
     <h2>{{ editingId ? 'Editar producto' : 'Agregar producto' }}</h2>
     <a routerLink="/catalogo">Volver al catalogo</a>
@@ -33,6 +33,13 @@
         <small class="error" *ngIf="formulario.get('precioBase')?.errors?.['required']">El precio base es requerido.</small>
       </div>
     </label>
+    <label>
+      Stock
+      <input type="number" formControlName="stock" min="0">
+      <div class="campo-error" *ngIf="formulario.get('stock')?.invalid && formulario.get('stock')?.touched">
+        <small class="error" *ngIf="formulario.get('stock')?.errors?.['min']">El stock no puede ser negativo.</small>
+      </div>
+    </label>
 
     <label>
       Genero
@@ -57,14 +64,6 @@
     <label>
       Color
       <input type="text" formControlName="color">
-    </label>
-
-    <label>
-      Stock
-      <input type="number" formControlName="stock" min="0">
-      <div class="campo-error" *ngIf="formulario.get('stock')?.invalid && formulario.get('stock')?.touched">
-        <small class="error" *ngIf="formulario.get('stock')?.errors?.['min']">El stock no puede ser negativo.</small>
-      </div>
     </label>
 
     <label>
@@ -146,6 +145,7 @@
               <th>IdProducto</th>
               <th>Nombre</th>
               <th>PrecioBase</th>
+              <th>Stock</th>
               <th>Genero</th>
               <th>Material</th>
               <th>FechaPublicacion</th>
@@ -157,6 +157,7 @@
               <td>{{ p.IdProducto ?? p.idProducto }}</td>
               <td>{{ p.Nombre ?? p.nombre }}</td>
               <td>{{ (p.PrecioBase ?? p.precioBase) | number:'1.2-2' }}</td>
+              <td>{{ p.StockReal ?? p.stockReal ?? p.Variante?.Stock ?? p.variante?.stock ?? 0 }}</td>
               <td>{{ p.Genero ?? p.genero }}</td>
               <td>{{ p.Material ?? p.material }}</td>
               <td>{{ (p.FechaPublicacion ?? p.fechaPublicacion) | date:'shortDate' }}</td>
@@ -169,8 +170,10 @@
       </div>
 
       <div class="acciones" *ngIf="!loadingProductos && productos.length > 0">
-        <button type="button" (click)="cargarMas()" [disabled]="productos.length >= productosTotal">Cargar más</button>
+        <button type="button" (click)="cargarMas()" [disabled]="productos.length >= productosTotal">Cargar mÃ¡s</button>
       </div>
     </div>
   </section>
 </section>
+
+
