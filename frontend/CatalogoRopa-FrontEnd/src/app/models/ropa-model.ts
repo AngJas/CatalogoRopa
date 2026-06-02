@@ -6,5 +6,30 @@ export class RopaModel {
   genero?: string;
   material?: string;
   fechaPublicacion?: string;
+
+  idCategoria?: number;
+  categoria?: {
+    idCategoria?: number;
+    nombre?: string;
+  };
+
+  idMarca?: number;
+  marca?: {
+    idMarca?: number;
+    nombre?: string;
+  };
+
+  idColeccion?: number;
+  coleccion?: {
+    idColeccion?: number;
+    nombre?: string;
+  };
+
+  idPromocion?: number | null;
+  promocion?: {
+    idPromocion?: number;
+    nombre?: string;
+  } | null;
+
   imagenes?: any[];
 }

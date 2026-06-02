@@ -30,63 +30,125 @@ public class RopaController : ControllerBase
 
         var query = _context.Producto
       .Include(p => p.Imagenes)
+      .Include(p => p.Categoria)
+      .Include(p => p.Marca)
+      .Include(p => p.Coleccion)
+      .Include(p => p.Promocion)
       .AsQueryable();
 
         var totalProductos = await query.CountAsync();
 
         var productos = todas
-            ? await query
-                .OrderByDescending(p => p.FechaPublicacion)
-                .Select(p => new
+    ? await query
+        .OrderByDescending(p => p.FechaPublicacion)
+        .Select(p => new
+        {
+            p.IdProducto,
+            p.Nombre,
+            p.Descripcion,
+            p.PrecioBase,
+            p.Genero,
+            p.Material,
+            p.FechaPublicacion,
+
+            p.IdCategoria,
+            Categoria = p.Categoria == null ? null : new
+            {
+                p.Categoria.IdCategoria,
+                p.Categoria.Nombre
+            },
+
+            p.IdMarca,
+            Marca = p.Marca == null ? null : new
+            {
+                p.Marca.IdMarca,
+                p.Marca.Nombre
+            },
+
+            p.IdColeccion,
+            Coleccion = p.Coleccion == null ? null : new
+            {
+                p.Coleccion.IdColeccion,
+                p.Coleccion.Nombre
+            },
+
+            p.IdPromocion,
+            Promocion = p.Promocion == null ? null : new
+            {
+                p.Promocion.IdPromocion,
+                p.Promocion.Nombre
+            },
+
+            Imagenes = p.Imagenes
+                .OrderBy(i => i.Orden)
+                .Select(i => new
                 {
-                    p.IdProducto,
-                    p.Nombre,
-                    p.Descripcion,
-                    p.PrecioBase,
-                    p.Genero,
-                    p.Material,
-                    p.FechaPublicacion,
-                    Imagenes = p.Imagenes
-                        .OrderBy(i => i.Orden)
-                        .Select(i => new
-                        {
-                            i.IdImagen,
-                            i.ImagenBase64,
-                            i.TipoContenido,
-                            i.TextoAlternativo,
-                            i.Orden,
-                            i.EsPrincipal
-                        })
-                        .ToList()
+                    i.IdImagen,
+                    i.ImagenBase64,
+                    i.TipoContenido,
+                    i.TextoAlternativo,
+                    i.Orden,
+                    i.EsPrincipal
                 })
-                .ToListAsync()
-            : await query
-                .OrderByDescending(p => p.FechaPublicacion)
-                .Skip((page - 1) * pageSize)
-                .Take(pageSize)
-                .Select(p => new
+                .ToList()
+        })
+        .ToListAsync()
+    : await query
+        .OrderByDescending(p => p.FechaPublicacion)
+        .Skip((page - 1) * pageSize)
+        .Take(pageSize)
+        .Select(p => new
+        {
+            p.IdProducto,
+            p.Nombre,
+            p.Descripcion,
+            p.PrecioBase,
+            p.Genero,
+            p.Material,
+            p.FechaPublicacion,
+
+            p.IdCategoria,
+            Categoria = p.Categoria == null ? null : new
+            {
+                p.Categoria.IdCategoria,
+                p.Categoria.Nombre
+            },
+
+            p.IdMarca,
+            Marca = p.Marca == null ? null : new
+            {
+                p.Marca.IdMarca,
+                p.Marca.Nombre
+            },
+
+            p.IdColeccion,
+            Coleccion = p.Coleccion == null ? null : new
+            {
+                p.Coleccion.IdColeccion,
+                p.Coleccion.Nombre
+            },
+
+            p.IdPromocion,
+            Promocion = p.Promocion == null ? null : new
+            {
+                p.Promocion.IdPromocion,
+                p.Promocion.Nombre
+            },
+
+            Imagenes = p.Imagenes
+                .OrderBy(i => i.Orden)
+                .Select(i => new
                 {
-                    p.IdProducto,
-                    p.Nombre,
-                    p.Descripcion,
-                    p.PrecioBase,
-                    p.Genero,
-                    p.Material,
-                    p.FechaPublicacion,
-                    Imagenes = p.Imagenes
-                        .OrderBy(i => i.Orden)
-                        .Select(i => new
-                        {
-                            i.IdImagen,
-                            i.ImagenBase64,
-                            i.TipoContenido,
-                            i.TextoAlternativo,
-                            i.Orden,
-                            i.EsPrincipal
-                        })
-                        .ToList()
+                    i.IdImagen,
+                    i.ImagenBase64,
+                    i.TipoContenido,
+                    i.TextoAlternativo,
+                    i.Orden,
+                    i.EsPrincipal
                 })
-                .ToListAsync();
+                .ToList()
+        })
+        .ToListAsync();
 
         var resultado = new
         {
@@ -98,6 +160,9 @@ public class RopaController : ControllerBase
         };
 
         return Ok(resultado);
+
+
+
     }
 
 
