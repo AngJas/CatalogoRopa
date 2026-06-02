@@ -1,3 +1,4 @@
+<!--Este componente muestra un mensaje emergente con diferentes tipos de notificaciones (cargando, éxito, error, información)-->
 <div *ngIf="popup.state$ | async as state">
   <div class="overlay" *ngIf="state.visible">
     <div class="modal" [ngClass]="state.type">

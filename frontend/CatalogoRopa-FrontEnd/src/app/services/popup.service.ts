@@ -8,6 +8,10 @@ export interface PopupState {
   message?: string;
 }
 
+//Este es un servicio de angular que se encarga de manejar el estado de los popups en la aplicación.
+//Utiliza un BehaviorSubject para mantener el estado actual del popup, que incluye si está visible o no, el tipo de popup (error, éxito, carga o información), el título y el mensaje.
+//El servicio proporciona métodos para mostrar diferentes tipos de popups (error, éxito, carga e información) y un método para ocultar el popup. 
+//Los componentes de la aplicación pueden suscribirse al estado del popup para mostrar u ocultar los popups según sea necesario.
 @Injectable({ providedIn: 'root' })
 export class PopupService {
   private state = new BehaviorSubject<PopupState>({ visible: false });

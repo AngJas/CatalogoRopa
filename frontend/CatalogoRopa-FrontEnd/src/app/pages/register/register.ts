@@ -5,6 +5,7 @@ import { Router } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
 import { PopupService } from '../../services/popup.service';
 
+//Este componente se encarga de manejar el registro de nuevos usuarios en la aplicacion.
 @Component({
   selector: 'app-register',
   standalone: true,
@@ -16,12 +17,15 @@ export class RegisterComponent {
   form: any;
 
   error = '';
-
+  //El constructor del componente inyecta los servicios necesarios para manejar el formulario de registro, 
+  // la autenticación de usuarios, la navegación y los popups.
   constructor(private fb: FormBuilder, private auth: AuthService, private router: Router, private popup: PopupService) {
     this.form = this.fb.group({
       nombre: ['', [Validators.required, Validators.minLength(2), Validators.pattern(/^(?!\s*$).+/)]],
       apellido: [''],
       email: ['', [Validators.required, Validators.email]],
+
+      //La contraseña debe tener al menos 8 caracteres, incluyendo al menos una letra mayúscula, una letra minúscula, un número y un carácter especial.
       contrasena: ['', [Validators.required, Validators.minLength(8), Validators.pattern(/(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^A-Za-z0-9]).+/)]],
       telefono: ['', [Validators.pattern('^[0-9]*$'), Validators.minLength(10), Validators.maxLength(15)]]
     });

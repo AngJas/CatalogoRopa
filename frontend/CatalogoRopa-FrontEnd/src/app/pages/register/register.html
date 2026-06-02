@@ -1,37 +1,45 @@
+
 <div class="auth-form">
   <h2>Registrarse</h2>
   <form (ngSubmit)="submit()" [formGroup]="form">
+
+    <!-- Seccion que se encarga de manejar el nombre -->
     <label>
       Nombre
       <input formControlName="nombre" [class.invalid]="isInvalid('nombre')">
       <div *ngIf="isInvalid('nombre')" class="error-msg">{{ getErrorMessage('nombre') }}</div>
     </label>
-
+<!-- Seccion que se encarga de manejar el apellido -->
     <label>
       Apellido
       <input formControlName="apellido">
     </label>
 
+    <!-- Seccion que se encarga de manejar el email-->
     <label>
       Email
       <input formControlName="email" type="email" [class.invalid]="isInvalid('email')">
       <div *ngIf="isInvalid('email')" class="error-msg">{{ getErrorMessage('email') }}</div>
     </label>
 
+      <!-- Seccion que se encarga de manejar la contraseña-->
     <label>
       Contraseña
       <input formControlName="contrasena" type="password" [class.invalid]="isInvalid('contrasena')">
       <div *ngIf="isInvalid('contrasena')" class="error-msg">{{ getErrorMessage('contrasena') }}</div>
     </label>
 
+      <!-- Seccion que se encarga de manejar el telefono-->
     <label>
       Teléfono
       <input formControlName="telefono" [class.invalid]="isInvalid('telefono')">
       <div *ngIf="isInvalid('telefono')" class="error-msg">{{ getErrorMessage('telefono') }}</div>
     </label>
 
+    <!-- Si ocurre un error durante el registro, se muestra el mensaje de error aquí -->
     <div *ngIf="error" class="error">{{ error }}</div>
 
+    <!-- El boton de registro se habilita solo si el formulario es valido, y al hacer clic se llama al metodo submit() para procesar el registro del usuario -->
     <button type="submit" class="btn btn-ghost" [disabled]="form.invalid" aria-label="Registrarse">
       <svg width="14" height="14" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 12c2.7 0 5-2.3 5-5s-2.3-5-5-5-5 2.3-5 5 2.3 5 5 5z" fill="currentColor"/></svg>
       <span class="label">Registrarse</span>

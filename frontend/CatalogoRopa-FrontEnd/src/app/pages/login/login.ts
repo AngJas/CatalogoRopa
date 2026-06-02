@@ -24,7 +24,9 @@ export class LoginComponent {
       contrasena: ['', Validators.required]
     });
   }
-
+//El metodo submit se encarga de procesar el inicio de sesión del usuario. Primero verifica si el formulario es válido, y si no lo es, 
+// muestra un mensaje de error utilizando el servicio de popups. 
+// Si el formulario es válido, muestra un popup de carga mientras se realiza la solicitud de inicio de sesión al servicio de autenticación.
   submit() {
     if (this.form.invalid) {
       this.form.markAllAsTouched();
@@ -51,15 +53,24 @@ export class LoginComponent {
     });
   }
 
+  //El metodo control se encarga de obtener el control del formulario para un campo especifico, 
+//lo cual es necesario para verificar su estado de validacion y mostrar mensajes de error correspondientes en la interfaz de usuario.
   control(name: string) {
     return this.form.get(name);
   }
 
+
+//El metodo isInvalid se encarga de verificar si un campo específico del formulario es inválido, 
+// lo cual se determina si el campo tiene errores de validación y ha sido tocado o modificado por el usuario. 
+// Esto es útil para mostrar mensajes de error o estilos de validación en la interfaz de usuario.
   isInvalid(name: string) {
     const c = this.control(name);
     return c && c.invalid && (c.touched || c.dirty);
   }
 
+
+
+  /*El metodo getErrorMessage se encarga de obtener el mensaje de error para un campo específico cuando es inválido*/ 
   getErrorMessage(name: string) {
     const c = this.control(name);
     if (!c || !c.errors) return null;

@@ -142,7 +142,7 @@ export class CatalogoComponent implements OnInit {
     const idProducto = item.IdProducto ?? item.idProducto;
     const disponibles = item.disponibles ?? item.Disponibles ?? 0;
 
-    // If already favorited by this user, allow removal even if disponibles == 0
+    // si ya es favorito, se intenta remover sin importar disponibilidad
     if (item.isFavorito) {
       this.ropaService.removeFavorito(idUsuario, idProducto).subscribe({
         next: () => {
@@ -154,7 +154,7 @@ export class CatalogoComponent implements OnInit {
       return;
     }
 
-    // Otherwise (trying to add): enforce availability
+    // por otro lado, si no es favorito, se intenta agregar pero primero se verifica disponibilidad
     if (disponibles <= 0) {
       this.popup.showInfo('Agotado', 'No hay unidades disponibles para apartar.');
       return;

@@ -13,7 +13,7 @@ input.invalid { border-color: #dc3545; background: #fff5f5; }
 }
 button[disabled] { opacity: 0.6; cursor: not-allowed; }
 
-/* Button styles copied from header to match appearance */
+/*Estilos del boton copiados del header*/
 .btn { display: inline-flex; align-items: center; gap: 8px; padding: 6px 12px; border-radius: 999px; font-size: 0.95rem; line-height: 1; cursor: pointer; text-decoration: none; border: 1px solid transparent; transition: all 160ms ease; color: #111; background: transparent; }
 .btn svg { display:block; color: currentColor; }
 .btn-ghost { background: rgb(255, 255, 255); border-color: rgba(0,0,0,0.06); }
