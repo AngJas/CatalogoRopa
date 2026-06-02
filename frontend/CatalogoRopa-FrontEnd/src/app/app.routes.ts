@@ -2,7 +2,7 @@ import { Routes } from '@angular/router';
 import { CatalogoComponent } from './pages/catalogo/catalogo';
 import { InicioComponent } from './pages/inicio/inicio';
 import { AgregarProductoComponent } from './agregar-producot/agregar-producot.component';
-
+import { FooterInfoComponent } from './footer-info/footer-info.component';
 export const routes: Routes = [
   {
     path: '',
@@ -62,5 +62,23 @@ export const routes: Routes = [
   {
     path: 'register',
     loadComponent: () => import('./pages/register/register').then(m => m.RegisterComponent)
-  }
+  },
+
+  {
+  path: 'nosotros/:slug',
+  component: FooterInfoComponent
+},
+
+{
+  path: 'ayuda/:slug',
+  component: FooterInfoComponent
+},
+
+{
+  path: 'ayuda',
+  redirectTo: 'ayuda/ayuda',
+  pathMatch: 'full'
+}
+
+
 ];

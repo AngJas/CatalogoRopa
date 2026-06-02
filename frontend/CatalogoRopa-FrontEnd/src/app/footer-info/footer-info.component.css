@@ -1,0 +1,30 @@
+.pagina-texto {
+  min-height: 70vh;
+  padding: 48px 24px;
+  background: #d8d8d8;
+  box-sizing: border-box;
+}
+
+.contenedor-texto {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 32px;
+  background: #f2f2f2;
+  border: 1px solid #b8b8b8;
+  border-radius: 8px;
+  color: #000;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+.contenedor-texto h1 {
+  margin: 0 0 22px;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 32px;
+  font-weight: 800;
+}
+
+.contenedor-texto p {
+  margin: 0 0 16px;
+  font-size: 17px;
+  line-height: 1.5;
+}
