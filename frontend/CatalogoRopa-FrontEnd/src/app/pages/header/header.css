@@ -197,3 +197,25 @@
   .btn { padding:6px; }
   .username { display:none; }
 }
+
+.boton-entregas {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 78px;
+  height: 28px;
+  margin-left: 8px;
+  padding: 0 12px;
+  border-radius: 16px;
+  background: #111;
+  color: #fff;
+  font-size: 13px;
+  font-weight: 700;
+  line-height: 1;
+  text-decoration: none;
+}
+
+.boton-entregas:hover,
+.boton-entregas.activo {
+  background: #ff1493;
+}

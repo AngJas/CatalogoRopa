@@ -21,6 +21,9 @@
         <a *ngIf="auth.isAdmin()" class="boton-agregar-producto" routerLink="/producto/nuevo" title="Agregar producto" aria-label="Agregar producto">
         📦
         </a>
+        <a *ngIf="auth.isAdmin()" class="boton-entregas" routerLink="/entregas" title="Entregas" aria-label="Entregas">
+          Entregas
+        </a>
         <div class="auth-actions" role="region" aria-label="Autenticación">
           <ng-container *ngIf="!auth.isLoggedIn(); else logged">
             <a class="btn btn-ghost" routerLink="/login" aria-label="Iniciar sesión">

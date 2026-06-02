@@ -3,6 +3,7 @@ import { CatalogoComponent } from './pages/catalogo/catalogo';
 import { InicioComponent } from './pages/inicio/inicio';
 import { AgregarProductoComponent } from './agregar-producot/agregar-producot.component';
 import { FooterInfoComponent } from './footer-info/footer-info.component';
+import { EntregasComponent } from './pages/entregas/entregas';
 export const routes: Routes = [
   {
     path: '',
@@ -47,6 +48,11 @@ export const routes: Routes = [
     path: 'todo',
     redirectTo: 'catalogo/todo',
     pathMatch: 'full'
+  },
+
+  {
+    path: 'entregas',
+    component: EntregasComponent
   },
 
   {
