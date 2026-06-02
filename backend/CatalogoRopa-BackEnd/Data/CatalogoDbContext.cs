@@ -58,6 +58,12 @@ namespace CatalogoRopa_BackEnd.Data
                  .WithMany(p => p.Imagenes)
                  .HasForeignKey(i => i.IdProducto);
 
+            // Mapear relación Variante -> Producto usando la columna existente IdProducto
+            modelBuilder.Entity<Variante>()
+                .HasOne(v => v.Producto)
+                .WithMany(p => p.Variantes)
+                .HasForeignKey(v => v.IdProducto);
+
             modelBuilder.Entity<Usuarios>(entity =>
             {
                 entity.HasKey(e => e.IdUsuario);

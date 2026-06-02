@@ -42,6 +42,9 @@ export class AgregarProductoComponent {
     precioBase: [0, [Validators.required, Validators.min(1)]],
     genero: [''],
     material: [''],
+    talla: [''],
+    color: [''],
+    stock: [0],
     idMarca: [1, [Validators.required, Validators.min(1)]],
     idCategoria: [1, [Validators.required, Validators.min(1)]],
     idColeccion: [null as number | null],
@@ -81,6 +84,9 @@ export class AgregarProductoComponent {
       precioBase: Number(valores.precioBase),
       genero: valores.genero ?? '',
       material: valores.material ?? '',
+      talla: valores.talla ?? '',
+      color: valores.color ?? '',
+      stock: Number(valores.stock ?? 0),
       idMarca: Number(valores.idMarca),
       idCategoria: Number(valores.idCategoria),
       idColeccion: valores.idColeccion ? Number(valores.idColeccion) : null,
@@ -130,7 +136,7 @@ export class AgregarProductoComponent {
   }
 
   limpiarFormulario(): void {
-    this.formulario.reset({ idMarca: 1, idCategoria: 1, precioBase: 0 });
+    this.formulario.reset({ idMarca: 1, idCategoria: 1, precioBase: 0, talla: '', color: '', stock: 0 });
     this.imagenBase64 = null;
     this.tipoContenido = null;
     this.vistaPrevia = null;
@@ -241,6 +247,13 @@ export class AgregarProductoComponent {
 
         this.editingId = id;
         this.lastLoadedId = id;
+        // Cargar variante si existe
+        const variante = res.variante ?? res.Variante ?? null;
+        this.formulario.patchValue({
+          talla: variante?.talla ?? variante?.Talla ?? '',
+          color: variante?.color ?? variante?.Color ?? '',
+          stock: variante?.stock ?? variante?.Stock ?? 0
+        });
         this.popup.showInfo('Modo edición', 'Datos cargados. Ahora puedes actualizar el producto.');
       },
       error: (err) => {
@@ -261,14 +274,14 @@ export class AgregarProductoComponent {
     // keep default constructor-less injection style used by this component
   }
 
-  
+
 
  marcas: any[] = [];
   categorias: any[] = [];
   colecciones: any[] = [];
   promociones: any[] = [];
 
-  
+
   ngOnInit(): void {
     this.cargarCatalogos();
     this.cargarProductos(1);
@@ -282,7 +295,7 @@ export class AgregarProductoComponent {
     this.ropaService.obtenerPromociones().subscribe(res => this.promociones = res);
   }
 
- 
+
 
 
 }

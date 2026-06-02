@@ -186,6 +186,31 @@ public class RopaController : ControllerBase
         _context.Producto.Add(producto);
         await _context.SaveChangesAsync();
 
+        // Crear o actualizar variante asociada al producto (evitar duplicados)
+        var variante = await _context.Variante
+            .FirstOrDefaultAsync(v => v.IdProducto == producto.IdProducto);
+
+        if (variante == null)
+        {
+            variante = new Variante
+            {
+                IdProducto = producto.IdProducto,
+                Talla = dto.Talla,
+                Color = dto.Color,
+                Stock = dto.Stock
+            };
+
+            _context.Variante.Add(variante);
+        }
+        else
+        {
+            variante.Talla = dto.Talla;
+            variante.Color = dto.Color;
+            variante.Stock = dto.Stock;
+        }
+
+        await _context.SaveChangesAsync();
+
         if (!string.IsNullOrWhiteSpace(dto.ImagenBase64))
         {
             var imagen = new ImagenProducto
@@ -221,6 +246,7 @@ public class RopaController : ControllerBase
     {
         var producto = await _context.Producto
             .Include(p => p.Imagenes)
+            .Include(p => p.Variantes)
             .Include(p => p.Marca)
             .Include(p => p.Categoria)
             .Include(p => p.Coleccion)
@@ -251,7 +277,16 @@ public class RopaController : ControllerBase
                 i.TextoAlternativo,
                 i.Orden,
                 i.EsPrincipal
-            }).OrderBy(i => i.Orden).ToList()
+            }).OrderBy(i => i.Orden).ToList(),
+            Variante = producto.Variantes
+                .Select(v => new
+                {
+                    v.IdVariante,
+                    v.Talla,
+                    v.Color,
+                    v.Stock
+                })
+                .FirstOrDefault()
         });
     }
 
@@ -331,6 +366,24 @@ public class RopaController : ControllerBase
                 _context.ImagenProducto.Add(nueva);
             }
         }
+
+        // Manejo de variante: crear si no existe, o actualizar
+        var variante = await _context.Variante
+            .FirstOrDefaultAsync(v => v.IdProducto == producto.IdProducto);
+
+        if (variante == null)
+        {
+            variante = new Variante
+            {
+                IdProducto = producto.IdProducto
+            };
+
+            _context.Variante.Add(variante);
+        }
+
+        variante.Talla = dto.Talla;
+        variante.Color = dto.Color;
+        variante.Stock = dto.Stock;
 
         await _context.SaveChangesAsync();
 

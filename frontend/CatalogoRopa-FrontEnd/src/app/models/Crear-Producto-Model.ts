@@ -4,6 +4,11 @@ export interface CrearProductoModel {
   precioBase: number;
   genero?: string;
   material?: string;
+
+  // Variante
+  talla?: string;
+  color?: string;
+  stock: number;
   idMarca: number;
   idCategoria: number;
   idColeccion?: number | null;

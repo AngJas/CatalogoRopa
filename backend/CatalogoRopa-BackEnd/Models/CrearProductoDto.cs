@@ -10,6 +10,11 @@ public class CrearProductoDto
     public string? Genero { get; set; }
     public string? Material { get; set; }
 
+    // Variante
+    public string? Talla { get; set; }
+    public string? Color { get; set; }
+    public int Stock { get; set; }
+
     public int IdMarca { get; set; }
     public int IdCategoria { get; set; }
     public int? IdColeccion { get; set; }
