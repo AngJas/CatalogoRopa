@@ -1,38 +1,98 @@
-<div class="margenes">
-  <div class="Titulo">
-    <h2> LO MAS NUEVO EN NUESTRO CATALOGO </h2>
-  </div>
-
-  <p *ngIf="cargando" class="estado">cargando productos </p>
-
-  <ng-container *ngIf="!cargando">
-    <div class="grid-productos"> 
-      <article class="producto" *ngFor="let item of ropa">
-        <div class="imagen-producto">
-          <img 
-  *ngIf="item.imagenes && item.imagenes.length > 0; else sinImagen"
-  [src]="obtenerImagenUrl(item.imagenes[0])"
-  [alt]="item.imagenes[0].textoAlternativo || item.nombre"
-/>
-        >
-
-        <ng-template #sinImagen>
-          <div class="placeholder-imagen">Sin imagen</div>
-        </ng-template>
-        </div>
-
-        <h3 class="nombre" style="color: #000;">
-          {{ item.nombre || 'Nombre del producto...'}}
-        </h3>
-        
-        <p class="descripcion">
-          {{ item.descripcion || 'descripcion de la prenda...'}}
-        </p>
-        
-        <p class="precio">
-          ${{item.precioBase}}
-        </p>
-      </article>
+<div class="pantalla-catalogo" [class.modo-inicio]="esInicio">
+  <main class="area-productos">
+    <div class="Titulo">
+      <h2>{{ tituloCatalogo }}</h2>
     </div>
+
+    <p *ngIf="cargando" class="estado">
+      cargando productos
+    </p>
+
+    <ng-container *ngIf="!cargando">
+      <p *ngIf="ropaFiltrada.length === 0" class="estado">
+        No hay productos con estos filtros.
+      </p>
+
+      <div class="grid-productos">
+        <article class="producto" *ngFor="let item of ropaFiltrada">
+          <div class="imagen-producto">
+            <img
+              *ngIf="item.imagenes && item.imagenes.length > 0; else sinImagen"
+              [src]="obtenerImagenUrl(item.imagenes[0])"
+              [alt]="item.imagenes[0].textoAlternativo || item.nombre"
+            />
+
+            <ng-template #sinImagen>
+              <div class="placeholder-imagen">
+                Sin imagen
+              </div>
+            </ng-template>
+          </div>
+
+
+          
+
+          <h3 class="nombre">
+            {{ item.nombre || 'Nombre del producto...' }}
+          </h3>
+          <p class="descripcion">
+            {{ item.descripcion || 'Descripcion de la prenda...' }}
+          </p>
+          <p class="precio">
+            ${{ item.precioBase }}
+          </p>
+        </article>
+      </div>
     </ng-container>
+  </main>
+
+
+
+
+  <aside *ngIf="!esInicio" class="panel-filtros" aria-label="Filtros de catalogo">
+    <div class="encabezado-filtros">
+      <h3>Filtros</h3>
+
+      <button type="button" (click)="limpiarFiltros(); aplicarFiltros()">
+        Limpiar
+      </button>
+    </div>
+
+
+
+
+
+    <section class="grupo-filtro">
+  <h4>Tipo</h4>
+  <label *ngFor="let tipo of opcionesTipo">
+    <input
+      type="radio"
+      name="tipo"
+      [checked]="filtroTipo === tipo.idCategoria"
+      (click)="seleccionarTipo(tipo.idCategoria)"
+    >
+    {{ tipo.etiqueta }}
+  </label>
+</section>
+
+
+
+
+
+    <section class="grupo-filtro">
+  <h4>Precio</h4>
+  <label *ngFor="let precio of opcionesPrecio">
+    <input
+      type="radio"
+      name="precio"
+      [checked]="filtroPrecio === precio.valor"
+      (click)="seleccionarPrecio(precio.valor)"
+    >
+    {{ precio.etiqueta }}
+  </label>
+</section>
+
+
+
+  </aside>
 </div>
