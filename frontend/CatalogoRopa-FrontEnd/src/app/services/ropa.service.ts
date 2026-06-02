@@ -1,4 +1,4 @@
-import { Injectable, inject } from '@angular/core';
+﻿import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { RopaModel } from '../models/ropa-model';
@@ -73,6 +73,16 @@ export class RopaService {
     return this.http.get<any>(`${this.apiUrl}/favorito/check?idUsuario=${idUsuario}&idProducto=${idProducto}`);
   }
 
+
+
+  obtenerFavoritosPendientes() {
+    return this.http.get<any[]>(`${this.apiUrl}/favoritos/pendientes`);
+  }
+
+  entregarFavorito(idUsuario: number, idProducto: number) {
+    return this.http.post<any>(`${this.apiUrl}/favorito/entregar?idUsuario=${idUsuario}&idProducto=${idProducto}`, {});
+  }
+
   marcas: any[] = [];
   categorias: any[] = [];
   colecciones: any[] = []
@@ -81,3 +91,7 @@ export class RopaService {
 
 
 }
+
+
+
+
