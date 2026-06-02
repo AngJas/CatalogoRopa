@@ -27,7 +27,11 @@
 
     <label>
       Precio base
-      <input type="number" formControlName="precioBase">
+      <input type="number" formControlName="precioBase" min="1">
+      <div class="campo-error" *ngIf="formulario.get('precioBase')?.invalid && formulario.get('precioBase')?.touched">
+        <small class="error" *ngIf="formulario.get('precioBase')?.errors?.['min']">El precio base debe ser mayor o igual a 1.</small>
+        <small class="error" *ngIf="formulario.get('precioBase')?.errors?.['required']">El precio base es requerido.</small>
+      </div>
     </label>
 
     <label>
@@ -57,7 +61,10 @@
 
     <label>
       Stock
-      <input type="number" formControlName="stock">
+      <input type="number" formControlName="stock" min="0">
+      <div class="campo-error" *ngIf="formulario.get('stock')?.invalid && formulario.get('stock')?.touched">
+        <small class="error" *ngIf="formulario.get('stock')?.errors?.['min']">El stock no puede ser negativo.</small>
+      </div>
     </label>
 
     <label>

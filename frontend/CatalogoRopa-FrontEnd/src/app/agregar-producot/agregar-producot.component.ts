@@ -44,7 +44,7 @@ export class AgregarProductoComponent {
     material: [''],
     talla: [''],
     color: [''],
-    stock: [0],
+    stock: [0, [Validators.required, Validators.min(0)]],
     idMarca: [1, [Validators.required, Validators.min(1)]],
     idCategoria: [1, [Validators.required, Validators.min(1)]],
     idColeccion: [null as number | null],
@@ -86,7 +86,7 @@ export class AgregarProductoComponent {
       material: valores.material ?? '',
       talla: valores.talla ?? '',
       color: valores.color ?? '',
-      stock: Number(valores.stock ?? 0),
+      stock: Math.max(0, Number(valores.stock ?? 0)),
       idMarca: Number(valores.idMarca),
       idCategoria: Number(valores.idCategoria),
       idColeccion: valores.idColeccion ? Number(valores.idColeccion) : null,
@@ -252,7 +252,7 @@ export class AgregarProductoComponent {
         this.formulario.patchValue({
           talla: variante?.talla ?? variante?.Talla ?? '',
           color: variante?.color ?? variante?.Color ?? '',
-          stock: variante?.stock ?? variante?.Stock ?? 0
+          stock: Math.max(0, variante?.stock ?? variante?.Stock ?? 0)
         });
         this.popup.showInfo('Modo edición', 'Datos cargados. Ahora puedes actualizar el producto.');
       },
