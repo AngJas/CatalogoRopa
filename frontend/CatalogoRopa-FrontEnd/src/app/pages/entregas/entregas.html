@@ -1,0 +1,46 @@
+<section class="pantalla-entregas">
+  <div class="encabezado-entregas">
+    <div>
+      <h1>Entregas</h1>
+      <p>Apartados pendientes por entregar</p>
+    </div>
+
+    <a routerLink="/catalogo/todo">Volver al catalogo</a>
+  </div>
+
+  <p class="estado" *ngIf="cargando">
+    Cargando apartados...
+  </p>
+
+  <section *ngIf="!cargando && favoritosPendientes.length === 0" class="sin-entregas">
+    No hay apartados pendientes por entregar.
+  </section>
+
+  <section class="grid-entregas" *ngIf="!cargando && favoritosPendientes.length > 0">
+    <article class="entrega-card" *ngFor="let favorito of favoritosPendientes">
+      <div class="imagen-entrega">
+        <img
+          *ngIf="obtenerImagenUrl(favorito); else sinImagen"
+          [src]="obtenerImagenUrl(favorito)"
+          [alt]="favorito.productoNombre ?? favorito.ProductoNombre"
+        >
+
+        <ng-template #sinImagen>
+          <span>Sin imagen</span>
+        </ng-template>
+      </div>
+
+      <div class="info-entrega">
+        <h2>{{ favorito.productoNombre ?? favorito.ProductoNombre }}</h2>
+        <p class="precio">${{ favorito.precioBase ?? favorito.PrecioBase }}</p>
+        <p>Stock actual: {{ favorito.stock ?? favorito.Stock ?? 0 }}</p>
+        <p>Usuario: {{ favorito.usuarioNombre ?? favorito.UsuarioNombre }}</p>
+        <p>{{ favorito.usuarioEmail ?? favorito.UsuarioEmail }}</p>
+      </div>
+
+      <button type="button" (click)="entregarFavorito(favorito)">
+        Entregar
+      </button>
+    </article>
+  </section>
+</section>

@@ -1,0 +1,131 @@
+.pantalla-entregas {
+  min-height: calc(100vh - 90px);
+  padding: 32px 42px;
+  background: #d9d9d9;
+  box-sizing: border-box;
+}
+
+.encabezado-entregas {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 24px;
+}
+
+.encabezado-entregas h1 {
+  margin: 0;
+  color: #000;
+  font-size: 30px;
+  font-weight: 800;
+}
+
+.encabezado-entregas p {
+  margin: 6px 0 0;
+  color: #333;
+  font-size: 16px;
+}
+
+.encabezado-entregas a {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 34px;
+  padding: 0 14px;
+  border-radius: 8px;
+  background: #111;
+  color: #fff;
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.estado,
+.sin-entregas {
+  padding: 18px;
+  border-radius: 8px;
+  background: #fff;
+  color: #111;
+  font-weight: 700;
+}
+
+.grid-entregas {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 18px;
+}
+
+.entrega-card {
+  display: grid;
+  grid-template-rows: 190px 1fr auto;
+  gap: 12px;
+  padding: 14px;
+  border: 1px solid #c7c7c7;
+  border-radius: 8px;
+  background: #fff;
+  box-sizing: border-box;
+}
+
+.imagen-entrega {
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+  border-radius: 8px;
+  background: #eeeeee;
+}
+
+.imagen-entrega img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.imagen-entrega span {
+  color: #555;
+  font-weight: 700;
+}
+
+.info-entrega h2 {
+  margin: 0 0 8px;
+  color: #000;
+  font-size: 20px;
+  line-height: 1.15;
+}
+
+.info-entrega p {
+  margin: 4px 0;
+  color: #111;
+  font-size: 15px;
+}
+
+.info-entrega .precio {
+  font-size: 19px;
+  font-weight: 800;
+}
+
+.entrega-card button {
+  width: 100%;
+  min-height: 38px;
+  border: 0;
+  border-radius: 8px;
+  background: #ff1493;
+  color: #fff;
+  font-size: 15px;
+  font-weight: 800;
+  cursor: pointer;
+}
+
+.entrega-card button:hover {
+  background: #111;
+}
+
+@media (max-width: 720px) {
+  .pantalla-entregas {
+    padding: 22px 14px;
+  }
+
+  .encabezado-entregas {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+}
