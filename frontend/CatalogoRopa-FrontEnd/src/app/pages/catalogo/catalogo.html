@@ -1,4 +1,4 @@
-<div class="pantalla-catalogo" [class.modo-inicio]="esInicio">
+﻿<div class="pantalla-catalogo" [class.modo-inicio]="esInicio">
   <main class="area-productos">
     <div class="Titulo">
       <h2>{{ tituloCatalogo }}</h2>
@@ -30,8 +30,6 @@
           </div>
 
 
-
-
           <h3 class="nombre">
             {{ item.nombre || 'Nombre del producto...' }}
           </h3>
@@ -50,16 +48,14 @@
 
           <div class="acciones-favorito">
             <button *ngIf="isLoggedIn" class="btn-favorito" [class.activo]="item.isFavorito" [disabled]="!item.isFavorito && (item.disponibles ?? item.Disponibles ?? 0) <= 0" (click)="toggleFavorito(item)">
-              <span *ngIf="item.isFavorito">♥</span>
-              <span *ngIf="!item.isFavorito">♡</span>
+              <span *ngIf="item.isFavorito">🖤</span>
+              <span *ngIf="!item.isFavorito">🤍</span>
             </button>
           </div>
         </article>
       </div>
     </ng-container>
   </main>
-
-
 
 
   <aside *ngIf="!esInicio" class="panel-filtros" aria-label="Filtros de catalogo">
@@ -71,9 +67,18 @@
       </button>
     </div>
 
+    <section class="grupo-filtro" *ngIf="auth.isLoggedIn()">
+      <h4>Favoritos</h4>
 
-
-
+      <label>
+        <input
+          type="checkbox"
+          [checked]="mostrarSoloFavoritos"
+          (change)="cambiarFiltroFavoritos()"
+        >
+        Mostrar solo favoritos
+      </label>
+    </section>
 
     <section class="grupo-filtro">
   <h4>Tipo</h4>
@@ -88,10 +93,6 @@
   </label>
 </section>
 
-
-
-
-
     <section class="grupo-filtro">
   <h4>Precio</h4>
   <label *ngFor="let precio of opcionesPrecio">
@@ -105,7 +106,10 @@
   </label>
 </section>
 
-
-
   </aside>
 </div>
+
+
+
+
+

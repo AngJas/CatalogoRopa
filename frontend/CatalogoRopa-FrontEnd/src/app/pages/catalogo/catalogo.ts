@@ -1,4 +1,4 @@
-import { Component, inject, OnInit, ChangeDetectorRef } from '@angular/core';
+﻿import { Component, inject, OnInit, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RopaService } from '../../services/ropa.service';
 import { RespuestaRopa } from '../../models/RespuestaRopa';
@@ -19,7 +19,7 @@ export class CatalogoComponent implements OnInit {
   private ropaService = inject(RopaService);
   private cd = inject(ChangeDetectorRef);
   private route = inject(ActivatedRoute);
-  private auth = inject(AuthService);
+  public auth = inject(AuthService);
   private popup = inject(PopupService);
 
   ropa: RopaModel[] = [];
@@ -33,6 +33,10 @@ export class CatalogoComponent implements OnInit {
 
   filtroTipo: number | null = null;
   filtroPrecio = '';
+  mostrarSoloFavoritos = false;
+  favoritosIds = new Set<number>();
+  favoritosPendientes: any[] = [];
+  cargandoFavoritosPendientes = false;
 
   opcionesTipo = [
   { etiqueta: 'Playeras', idCategoria: 1 },
@@ -74,10 +78,10 @@ export class CatalogoComponent implements OnInit {
         console.log('RESPUESTA OBTENIDA DEL SERVICIO:', respuesta);
 
         this.ropa = respuesta.datos ?? [];
-        // Inicializar bandera de favorito
+        this.favoritosIds.clear();
         this.ropa.forEach((it: any) => it.isFavorito = false);
 
-        // Si el usuario está logueado, consultar cuáles productos ya tiene en favoritos
+        // Si el usuario estÃ¡ logueado, consultar cuÃ¡les productos ya tiene en favoritos
         if (this.auth.isLoggedIn()) {
           const idUsuario = this.auth.getUserId();
           if (idUsuario) {
@@ -87,6 +91,12 @@ export class CatalogoComponent implements OnInit {
               this.ropaService.checkFavorito(idUsuario, idProducto).subscribe({
                 next: (res: any) => {
                   it.isFavorito = !!(res?.existe ?? res?.Existe ?? res?.existe === true);
+                  if (it.isFavorito) {
+                    this.favoritosIds.add(Number(idProducto));
+                  } else {
+                    this.favoritosIds.delete(Number(idProducto));
+                  }
+                  this.aplicarFiltros();
                   this.cd.detectChanges();
                 },
                 error: () => {
@@ -104,6 +114,9 @@ export class CatalogoComponent implements OnInit {
         // Determinar rol de usuario
         this.esAdmin = this.auth.isAdmin();
         this.isLoggedIn = this.auth.isLoggedIn();
+        if (this.esAdmin) {
+          this.cargarFavoritosPendientes();
+        }
         this.cd.detectChanges();
       },
 
@@ -116,13 +129,13 @@ export class CatalogoComponent implements OnInit {
 
   toggleFavorito(item: any): void {
     if (!this.auth.isLoggedIn()) {
-      this.popup.showInfo('Inicia sesión', 'Debes iniciar sesión para agregar a favoritos');
+      this.popup.showInfo('Inicia sesion', 'Debes iniciar sesion para agregar a favoritos');
       return;
     }
 
     const idUsuario = this.auth.getUserId();
     if (!idUsuario) {
-      this.popup.showError('Error', 'No se encontró información del usuario en el token.');
+      this.popup.showError('Error', 'No se encontro informacion del usuario en el token.');
       return;
     }
 
@@ -159,6 +172,7 @@ export class CatalogoComponent implements OnInit {
   private reloadRopaAndFavoritos(): void {
     this.ropaService.getRopa(0, 0, true).subscribe((resp: any) => {
       this.ropa = resp.datos ?? [];
+      this.favoritosIds.clear();
       this.ropa.forEach((it: any) => it.isFavorito = false);
       if (this.auth.isLoggedIn()) {
         const idUsuario = this.auth.getUserId();
@@ -167,7 +181,16 @@ export class CatalogoComponent implements OnInit {
             const idProducto = it.IdProducto ?? it.idProducto;
             if (!idProducto) return;
             this.ropaService.checkFavorito(idUsuario, idProducto).subscribe({
-              next: (res: any) => { it.isFavorito = !!(res?.existe); this.cd.detectChanges(); },
+              next: (res: any) => {
+                it.isFavorito = !!(res?.existe ?? res?.Existe ?? res?.existe === true);
+                if (it.isFavorito) {
+                  this.favoritosIds.add(Number(idProducto));
+                } else {
+                  this.favoritosIds.delete(Number(idProducto));
+                }
+                this.aplicarFiltros();
+                this.cd.detectChanges();
+              },
               error: () => { it.isFavorito = false; }
             });
           });
@@ -178,7 +201,50 @@ export class CatalogoComponent implements OnInit {
     });
   }
 
-  get tituloCatalogo(): string {
+
+  cargarFavoritosPendientes(): void {
+    if (!this.auth.isAdmin()) {
+      this.favoritosPendientes = [];
+      return;
+    }
+
+    this.cargandoFavoritosPendientes = true;
+
+    this.ropaService.obtenerFavoritosPendientes().subscribe({
+      next: (favoritos: any[]) => {
+        this.favoritosPendientes = favoritos ?? [];
+        this.cargandoFavoritosPendientes = false;
+        this.cd.detectChanges();
+      },
+      error: (error) => {
+        console.error('Error al cargar favoritos pendientes:', error);
+        this.cargandoFavoritosPendientes = false;
+        this.popup.showError('Error', 'No se pudieron cargar los apartados por entregar.');
+      }
+    });
+  }
+
+  entregarFavoritoPendiente(favorito: any): void {
+    const idUsuario = favorito.idUsuario ?? favorito.IdUsuario;
+    const idProducto = favorito.idProducto ?? favorito.IdProducto;
+
+    if (!idUsuario || !idProducto) {
+      this.popup.showError('Error', 'No se encontro informacion del apartado.');
+      return;
+    }
+
+    this.ropaService.entregarFavorito(Number(idUsuario), Number(idProducto)).subscribe({
+      next: () => {
+        this.popup.showSuccess('Entregado', 'El apartado fue entregado y el stock se actualizo.');
+        this.reloadRopaAndFavoritos();
+        this.cargarFavoritosPendientes();
+      },
+      error: (error) => {
+        console.error(error);
+        this.popup.showError('Error', 'No se pudo entregar el apartado.');
+      }
+    });
+  }  get tituloCatalogo(): string {
     if (this.esInicio) {
       return 'LO MAS NUEVO EN NUESTRO CATALOGO';
     }
@@ -200,8 +266,8 @@ export class CatalogoComponent implements OnInit {
     resultado = resultado.filter(item => this.perteneceASeccion(item));
 
     if (this.filtroTipo !== null) {
-  resultado = resultado.filter(item => item.idCategoria === this.filtroTipo);
-}
+      resultado = resultado.filter(item => item.idCategoria === this.filtroTipo);
+    }
 
     if (this.filtroPrecio) {
       const [minimo, maximo] = this.filtroPrecio.split('-').map(Number);
@@ -212,12 +278,22 @@ export class CatalogoComponent implements OnInit {
       });
     }
 
+    if (this.mostrarSoloFavoritos) {
+      resultado = resultado.filter(item => {
+        const idProducto = (item as any).idProducto ?? (item as any).IdProducto;
+        return idProducto !== undefined &&
+          idProducto !== null &&
+          this.favoritosIds.has(Number(idProducto));
+      });
+    }
+
     this.ropaFiltrada = resultado;
   }
 
   limpiarFiltros(): void {
     this.filtroTipo = null;
     this.filtroPrecio = '';
+    this.mostrarSoloFavoritos = false;
   }
 
   private perteneceASeccion(item: RopaModel): boolean {
@@ -301,4 +377,12 @@ export class CatalogoComponent implements OnInit {
     this.aplicarFiltros();
   }
 
+  cambiarFiltroFavoritos(): void {
+    this.mostrarSoloFavoritos = !this.mostrarSoloFavoritos;
+    this.aplicarFiltros();
+  }
+
 }
+
+
+

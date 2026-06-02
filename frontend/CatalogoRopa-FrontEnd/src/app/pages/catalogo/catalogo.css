@@ -1,4 +1,4 @@
-.pantalla-catalogo {
+﻿.pantalla-catalogo {
   display: grid;
   grid-template-columns: minmax(0, 1fr) 260px;
   gap: 24px;
@@ -204,4 +204,41 @@
   .Titulo h2 {
     font-size: 22px;
   }
+}
+.panel-entregas-admin {
+  max-height: 360px;
+  overflow-y: auto;
+}
+
+.estado-entregas {
+  margin: 8px 0;
+  font-size: 13px;
+}
+
+.entrega-item {
+  display: grid;
+  gap: 4px;
+  padding: 10px 0;
+  border-top: 1px solid #d0d0d0;
+  font-size: 13px;
+}
+
+.entrega-item strong {
+  font-size: 14px;
+}
+
+.entrega-item span,
+.entrega-item small {
+  color: #333;
+}
+
+.entrega-item button {
+  width: fit-content;
+  border: 0;
+  border-radius: 6px;
+  padding: 6px 10px;
+  background: #111;
+  color: #fff;
+  font-weight: 700;
+  cursor: pointer;
 }
