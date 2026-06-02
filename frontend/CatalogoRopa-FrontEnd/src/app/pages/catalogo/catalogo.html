@@ -42,8 +42,18 @@
             ${{ item.precioBase }}
           </p>
           <p class="stock">
-            Disponibles: {{ item.variante?.stock ?? item.Variante?.Stock ?? 0 }}
+            Disponibles: {{ item.disponibles ?? item.Disponibles ?? 0 }}
           </p>
+          <p class="stock-admin" *ngIf="esAdmin">
+            Existencia: {{ item.stockReal ?? item.StockReal ?? 0 }}
+          </p>
+
+          <div class="acciones-favorito">
+            <button *ngIf="isLoggedIn" class="btn-favorito" [class.activo]="item.isFavorito" [disabled]="!item.isFavorito && (item.disponibles ?? item.Disponibles ?? 0) <= 0" (click)="toggleFavorito(item)">
+              <span *ngIf="item.isFavorito">♥</span>
+              <span *ngIf="!item.isFavorito">♡</span>
+            </button>
+          </div>
         </article>
       </div>
     </ng-container>

@@ -30,6 +30,25 @@ export class AuthService {
     return !!(user && user.esAdmin);
   }
 
+  getUserId(): number | null {
+    const token = localStorage.getItem('token');
+    if (!token) return null;
+
+    try {
+      const parts = token.split('.');
+      if (parts.length < 2) return null;
+      const payload = JSON.parse(atob(parts[1]));
+      const id = payload['http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier'] || payload['nameid'] || payload['name'] || payload['sub'] || payload['http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name'];
+      // The token was generated with ClaimTypes.NameIdentifier => claim type uri
+      const nameId = payload['http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier'] ?? payload['nameidentifier'] ?? payload['nameId'] ?? payload['nameidentifier'];
+      const candidate = payload['http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier'] ?? payload['nameidentifier'] ?? payload['nameid'] ?? payload['sub'];
+      const parsed = Number(candidate);
+      return isNaN(parsed) ? null : parsed;
+    } catch {
+      return null;
+    }
+  }
+
   register(payload: { nombre: string; apellido?: string; email: string; contrasena: string; telefono?: string }) {
     return this.http.post<AuthResponse>(`${this.apiUrl}/auth/register`, payload).pipe(
       tap(res => this.saveAuth(res))

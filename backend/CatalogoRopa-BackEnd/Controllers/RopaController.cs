@@ -28,20 +28,38 @@ public class RopaController : ControllerBase
         if (pageSize <= 0 && todas==false)
             pageSize = 8;
 
-        var query = _context.Producto
-      .Include(p => p.Imagenes)
-      .Include(p => p.Categoria)
-      .Include(p => p.Marca)
-      .Include(p => p.Coleccion)
-      .Include(p => p.Promocion)
-      .AsQueryable();
+                var query = _context.Producto
+            .Include(p => p.Imagenes)
+            .Include(p => p.Categoria)
+            .Include(p => p.Marca)
+            .Include(p => p.Coleccion)
+            .Include(p => p.Promocion)
+            .Include(p => p.Variantes)
+            .Include(p => p.Favoritos)
+            .AsQueryable();
 
         var totalProductos = await query.CountAsync();
 
-        var productos = todas
-    ? await query
-        .OrderByDescending(p => p.FechaPublicacion)
-        .Select(p => new
+        // Materializar entidades primero para evitar que EF genere una subconsulta
+        // que referencia columnas incorrectas en SQL (ProductoIdProducto)
+        List<Producto> entidades;
+
+        if (todas)
+        {
+            entidades = await query
+                .OrderByDescending(p => p.FechaPublicacion)
+                .ToListAsync();
+        }
+        else
+        {
+            entidades = await query
+                .OrderByDescending(p => p.FechaPublicacion)
+                .Skip((page - 1) * pageSize)
+                .Take(pageSize)
+                .ToListAsync();
+        }
+
+        var productos = entidades.Select(p => new
         {
             p.IdProducto,
             p.Nombre,
@@ -100,75 +118,11 @@ public class RopaController : ControllerBase
                     v.Color,
                     v.Stock
                 })
-                .FirstOrDefault()
-        })
-        .ToListAsync()
-    : await query
-        .OrderByDescending(p => p.FechaPublicacion)
-        .Skip((page - 1) * pageSize)
-        .Take(pageSize)
-        .Select(p => new
-        {
-            p.IdProducto,
-            p.Nombre,
-            p.Descripcion,
-            p.PrecioBase,
-            p.Genero,
-            p.Material,
-            p.FechaPublicacion,
-
-            p.IdCategoria,
-            Categoria = p.Categoria == null ? null : new
-            {
-                p.Categoria.IdCategoria,
-                p.Categoria.Nombre
-            },
-
-            p.IdMarca,
-            Marca = p.Marca == null ? null : new
-            {
-                p.Marca.IdMarca,
-                p.Marca.Nombre
-            },
-
-            p.IdColeccion,
-            Coleccion = p.Coleccion == null ? null : new
-            {
-                p.Coleccion.IdColeccion,
-                p.Coleccion.Nombre
-            },
-
-            p.IdPromocion,
-            Promocion = p.Promocion == null ? null : new
-            {
-                p.Promocion.IdPromocion,
-                p.Promocion.Nombre
-            },
-
-            Imagenes = p.Imagenes
-                .OrderBy(i => i.Orden)
-                .Select(i => new
-                {
-                    i.IdImagen,
-                    i.ImagenBase64,
-                    i.TipoContenido,
-                    i.TextoAlternativo,
-                    i.Orden,
-                    i.EsPrincipal
-                })
-                .ToList()
-            ,
-            Variante = p.Variantes
-                .Select(v => new
-                {
-                    v.IdVariante,
-                    v.Talla,
-                    v.Color,
-                    v.Stock
-                })
-                .FirstOrDefault()
-        })
-        .ToListAsync();
+                .FirstOrDefault(),
+            StockReal = p.Variantes.Select(v => v.Stock).FirstOrDefault(),
+            CantidadFavoritos = p.Favoritos.Count(),
+            Disponibles = Math.Max(0, p.Variantes.Select(v => v.Stock).FirstOrDefault() - p.Favoritos.Count())
+        }).ToList();
 
         var resultado = new
         {
@@ -267,6 +221,7 @@ public class RopaController : ControllerBase
         var producto = await _context.Producto
             .Include(p => p.Imagenes)
             .Include(p => p.Variantes)
+            .Include(p => p.Favoritos)
             .Include(p => p.Marca)
             .Include(p => p.Categoria)
             .Include(p => p.Coleccion)
@@ -306,8 +261,76 @@ public class RopaController : ControllerBase
                     v.Color,
                     v.Stock
                 })
-                .FirstOrDefault()
+                .FirstOrDefault(),
+            StockReal = producto.Variantes.Select(v => v.Stock).FirstOrDefault(),
+            CantidadFavoritos = producto.Favoritos.Count(),
+            Disponibles = Math.Max(0, producto.Variantes.Select(v => v.Stock).FirstOrDefault() - producto.Favoritos.Count())
         });
+    }
+
+    [HttpPost("favorito")]
+    public async Task<IActionResult> AgregarFavorito([FromBody] Favorito dto)
+    {
+        if (dto == null || dto.IdProducto <= 0 || dto.IdUsuario <= 0)
+            return BadRequest("Datos inválidos para favorito.");
+
+        var producto = await _context.Producto
+            .Include(p => p.Variantes)
+            .Include(p => p.Favoritos)
+            .FirstOrDefaultAsync(p => p.IdProducto == dto.IdProducto);
+
+        if (producto == null)
+            return NotFound();
+
+        var stockReal = producto.Variantes.Select(v => v.Stock).FirstOrDefault();
+        var cantidadFavoritos = producto.Favoritos.Count();
+        var disponibles = Math.Max(0, stockReal - cantidadFavoritos);
+
+        if (disponibles <= 0)
+            return BadRequest("No hay unidades disponibles para apartar.");
+
+        // Verificar que el usuario no tenga ya un favorito para este producto
+        var existe = await _context.Favorito.AnyAsync(f => f.IdUsuario == dto.IdUsuario && f.IdProducto == dto.IdProducto);
+        if (existe)
+            return BadRequest("Ya tienes una unidad apartada de este producto.");
+
+        var favorito = new Favorito
+        {
+            IdUsuario = dto.IdUsuario,
+            IdProducto = dto.IdProducto,
+            FechaAgregado = DateTime.Now
+        };
+
+        _context.Favorito.Add(favorito);
+        await _context.SaveChangesAsync();
+
+        return Ok(new { agregado = true });
+    }
+
+    [HttpDelete("favorito")]
+    public async Task<IActionResult> EliminarFavorito([FromQuery] int idUsuario, [FromQuery] int idProducto)
+    {
+        if (idUsuario <= 0 || idProducto <= 0)
+            return BadRequest("Parámetros inválidos.");
+
+        var favorito = await _context.Favorito.FirstOrDefaultAsync(f => f.IdUsuario == idUsuario && f.IdProducto == idProducto);
+        if (favorito == null)
+            return NotFound();
+
+        _context.Favorito.Remove(favorito);
+        await _context.SaveChangesAsync();
+
+        return Ok(new { eliminado = true });
+    }
+
+    [HttpGet("favorito/check")]
+    public async Task<IActionResult> CheckFavorito([FromQuery] int idUsuario, [FromQuery] int idProducto)
+    {
+        if (idUsuario <= 0 || idProducto <= 0)
+            return BadRequest(new { existe = false });
+
+        var existe = await _context.Favorito.AnyAsync(f => f.IdUsuario == idUsuario && f.IdProducto == idProducto);
+        return Ok(new { existe = existe });
     }
 
     [HttpGet("lista")]
@@ -316,7 +339,10 @@ public class RopaController : ControllerBase
         if (page <= 0) page = 1;
         if (pageSize <= 0) pageSize = 20;
 
-        var query = _context.Producto.AsQueryable();
+        var query = _context.Producto
+            .Include(p => p.Variantes)
+            .Include(p => p.Favoritos)
+            .AsQueryable();
 
         var total = await query.CountAsync();
 
@@ -331,7 +357,19 @@ public class RopaController : ControllerBase
                 p.PrecioBase,
                 p.Genero,
                 p.Material,
-                p.FechaPublicacion
+                p.FechaPublicacion,
+                Variante = p.Variantes
+                    .Select(v => new
+                    {
+                        v.IdVariante,
+                        v.Talla,
+                        v.Color,
+                        v.Stock
+                    })
+                    .FirstOrDefault(),
+                StockReal = p.Variantes.Select(v => v.Stock).FirstOrDefault(),
+                CantidadFavoritos = p.Favoritos.Count(),
+                Disponibles = Math.Max(0, p.Variantes.Select(v => v.Stock).FirstOrDefault() - p.Favoritos.Count())
             })
             .ToListAsync();
 

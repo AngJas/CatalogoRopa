@@ -61,11 +61,23 @@ export class RopaService {
     return this.http.get<any[]>(`${this.apiUrl}/promociones`);
   }
 
+  addFavorito(payload: { idUsuario: number; idProducto: number }) {
+    return this.http.post<any>(`${this.apiUrl}/favorito`, payload);
+  }
+
+  removeFavorito(idUsuario: number, idProducto: number) {
+    return this.http.delete<any>(`${this.apiUrl}/favorito?idUsuario=${idUsuario}&idProducto=${idProducto}`);
+  }
+
+  checkFavorito(idUsuario: number, idProducto: number) {
+    return this.http.get<any>(`${this.apiUrl}/favorito/check?idUsuario=${idUsuario}&idProducto=${idProducto}`);
+  }
+
   marcas: any[] = [];
   categorias: any[] = [];
   colecciones: any[] = []
   promociones: any[] = [];
 
- 
+
 
 }

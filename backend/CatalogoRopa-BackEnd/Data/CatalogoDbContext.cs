@@ -64,6 +64,17 @@ namespace CatalogoRopa_BackEnd.Data
                 .WithMany(p => p.Variantes)
                 .HasForeignKey(v => v.IdProducto);
 
+            // Mapear relación Favorito -> Producto y Favorito -> Usuario usando columnas existentes
+            modelBuilder.Entity<Favorito>()
+                .HasOne(f => f.Producto)
+                .WithMany(p => p.Favoritos)
+                .HasForeignKey(f => f.IdProducto);
+
+            modelBuilder.Entity<Favorito>()
+                .HasOne(f => f.Usuario)
+                .WithMany()
+                .HasForeignKey(f => f.IdUsuario);
+
             modelBuilder.Entity<Usuarios>(entity =>
             {
                 entity.HasKey(e => e.IdUsuario);

@@ -45,4 +45,16 @@ export class RopaModel {
     Color?: string;
     Stock?: number;
   };
+  // Disponibilidad calculada (dinámica)
+  stockReal?: number;
+  cantidadFavoritos?: number;
+  disponibles?: number;
+
+  // Estado en UI: si el usuario actual marcó como favorito
+  isFavorito?: boolean;
+
+  // PascalCase alternatives from backend
+  StockReal?: number;
+  CantidadFavoritos?: number;
+  Disponibles?: number;
 }
