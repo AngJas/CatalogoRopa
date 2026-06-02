@@ -1,4 +1,4 @@
-﻿using CatalogoRopa_BackEnd.Data;
+using CatalogoRopa_BackEnd.Data;
 using CatalogoRopa_BackEnd.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -121,7 +121,7 @@ public class RopaController : ControllerBase
                 .FirstOrDefault(),
             StockReal = p.Variantes.Select(v => v.Stock).FirstOrDefault(),
             CantidadFavoritos = p.Favoritos.Count(),
-            Disponibles = Math.Max(0, p.Variantes.Select(v => v.Stock).FirstOrDefault() - p.Favoritos.Count())
+            Disponibles = Math.Max(0, p.Variantes.Select(v => v.Stock).FirstOrDefault())
         }).ToList();
 
         var resultado = new
@@ -264,7 +264,7 @@ public class RopaController : ControllerBase
                 .FirstOrDefault(),
             StockReal = producto.Variantes.Select(v => v.Stock).FirstOrDefault(),
             CantidadFavoritos = producto.Favoritos.Count(),
-            Disponibles = Math.Max(0, producto.Variantes.Select(v => v.Stock).FirstOrDefault() - producto.Favoritos.Count())
+            Disponibles = Math.Max(0, producto.Variantes.Select(v => v.Stock).FirstOrDefault())
         });
     }
 
@@ -283,8 +283,7 @@ public class RopaController : ControllerBase
             return NotFound();
 
         var stockReal = producto.Variantes.Select(v => v.Stock).FirstOrDefault();
-        var cantidadFavoritos = producto.Favoritos.Count();
-        var disponibles = Math.Max(0, stockReal - cantidadFavoritos);
+        var disponibles = Math.Max(0, stockReal);
 
         if (disponibles <= 0)
             return BadRequest("No hay unidades disponibles para apartar.");
@@ -321,6 +320,81 @@ public class RopaController : ControllerBase
         await _context.SaveChangesAsync();
 
         return Ok(new { eliminado = true });
+    }
+
+
+
+    [HttpGet("favoritos/pendientes")]
+    public async Task<IActionResult> GetFavoritosPendientes()
+    {
+        var favoritos = await _context.Favorito
+            .Include(f => f.Usuario)
+            .Include(f => f.Producto)
+                .ThenInclude(p => p!.Variantes)
+            .Include(f => f.Producto)
+                .ThenInclude(p => p!.Imagenes)
+            .OrderByDescending(f => f.FechaAgregado)
+            .Select(f => new
+            {
+                f.IdFavorito,
+                f.IdUsuario,
+                UsuarioNombre = f.Usuario == null ? "Usuario" : f.Usuario.Nombre,
+                UsuarioEmail = f.Usuario == null ? "" : f.Usuario.Email,
+                f.IdProducto,
+                ProductoNombre = f.Producto == null ? "Producto" : f.Producto.Nombre,
+                PrecioBase = f.Producto == null ? 0 : f.Producto.PrecioBase,
+                Stock = f.Producto == null ? 0 : f.Producto.Variantes.Select(v => v.Stock).FirstOrDefault(),
+                Imagen = f.Producto == null ? null : f.Producto.Imagenes
+                    .OrderBy(i => i.Orden)
+                    .Select(i => new
+                    {
+                        i.IdImagen,
+                        i.ImagenBase64,
+                        i.TipoContenido,
+                        i.TextoAlternativo,
+                        i.Orden,
+                        i.EsPrincipal
+                    })
+                    .FirstOrDefault(),
+                f.FechaAgregado
+            })
+            .ToListAsync();
+
+        return Ok(favoritos);
+    }
+
+    [HttpPost("favorito/entregar")]
+    public async Task<IActionResult> EntregarFavorito([FromQuery] int idUsuario, [FromQuery] int idProducto)
+    {
+        if (idUsuario <= 0 || idProducto <= 0)
+            return BadRequest("Parametros invalidos.");
+
+        var favorito = await _context.Favorito
+            .FirstOrDefaultAsync(f => f.IdUsuario == idUsuario && f.IdProducto == idProducto);
+
+        if (favorito == null)
+            return NotFound("No existe un favorito/apartado para este usuario y producto.");
+
+        var variante = await _context.Variante
+            .FirstOrDefaultAsync(v => v.IdProducto == idProducto);
+
+        if (variante == null)
+            return NotFound("El producto no tiene variante o stock registrado.");
+
+        if (variante.Stock <= 0)
+            return BadRequest("No hay stock disponible para entregar.");
+
+        variante.Stock -= 1;
+        _context.Favorito.Remove(favorito);
+
+        await _context.SaveChangesAsync();
+
+        return Ok(new
+        {
+            entregado = true,
+            idProducto,
+            stockActual = variante.Stock
+        });
     }
 
     [HttpGet("favorito/check")]
@@ -369,7 +443,7 @@ public class RopaController : ControllerBase
                     .FirstOrDefault(),
                 StockReal = p.Variantes.Select(v => v.Stock).FirstOrDefault(),
                 CantidadFavoritos = p.Favoritos.Count(),
-                Disponibles = Math.Max(0, p.Variantes.Select(v => v.Stock).FirstOrDefault() - p.Favoritos.Count())
+                Disponibles = Math.Max(0, p.Variantes.Select(v => v.Stock).FirstOrDefault())
             })
             .ToListAsync();
 
