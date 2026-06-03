@@ -534,6 +534,11 @@ Los usuarios que no cuentan con permisos de administrador pueden realizar las si
 
 #### Usuarios administradores
 
+Ejemplo de credenciales de usuario admin ya configurado en la base de datos:
+
+Correo: correo@correo.com
+Contraseña: 123456789Aa*
+
 Los usuarios administradores cuentan con todas las funciones anteriores y, adicionalmente, pueden:
 
 - Crear productos desde el formulario de administración.
