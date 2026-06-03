@@ -154,8 +154,7 @@ git --version
 
 Necesario para ejecutar el frontend en Angular.
 
-Sitio oficial:
-
+Sitio ofic
 ```txt
 https://nodejs.org/
 ```
@@ -654,6 +653,39 @@ Después de eliminarlo, el producto deja de aparecer en el listado y ya no estar
 
 Recientemente se agregaron funcionalidades nuevas y se hicieron ajustes a la interfaz. 
 
+Ahora los usuarios podran ver un icono de corazon en las etiquetas de los productos
+![Función nueva 1](./documentacion/imagenes%20de%20documentacion/FUNCION%20NUEVA%201%20.png)
+
+Al hacer clic en una de estas el corazon cambiara a color negro y aparecera un mensaje diciendo que el producto se agrego a los favoritos del usuario registrado. 
+![Función nueva 2](./documentacion/imagenes%20de%20documentacion/FUNCION%20NUEVA%202%20.png)
+
+ADiocionalmente, en el apartado de "agregar productos" que solo es visible para admins, se agrego el apartado de "Stock" para ver el stock disponible de cada uno 
+de los productos. 
+
+![Función nueva 3](./documentacion/imagenes%20de%20documentacion/FUNCION%20NUEVA%203%20.png)
+
+Este nuevo campo nos da la posibilidad de administrar "entregas" por medio de una pantalla nueva disponible solamente para admins. 
+En esta pantalla apareceran todos los favoritos/apartados que los usuarios registrados hayan seleccionado, con la finalidad de que, al pasar a tienda fisica, 
+los empleados puedan entregar el producto a los clientes y actualizar el stock de disponibles al entregarlo.
+
+![Función nueva 4](./documentacion/imagenes%20de%20documentacion/FUNCION%20NUEVA%204%20.png)
+
+![Función nueva 5](./documentacion/imagenes%20de%20documentacion/FUNCION%20NUEVA%205%20.png)
+
+Adicionalmente, ya funcionan los "catalogos" de cada categoria, es decir de "hombre", "mujer", "promociones" y "todo".
+
+![Función nueva 6](./documentacion/imagenes%20de%20documentacion/FUNCION%20NUEVA%206%20.png)
+
+apareceran filtros en el lado posterior de la pantalla que al seleccionarlos filtrara los productos que cumplan con los filtros especificados. 
+![Función nueva 7](./documentacion/imagenes%20de%20documentacion/FUNCION%20NUEVA%207%20.png)
+
+![Función nueva 8](./documentacion/imagenes%20de%20documentacion/FUNCION%20NUEVA%208%20.png)
+
+
+
+
+
+
 ## 6. Base de datos (Modelado)
 
 <p align="justify"> La base de datos de Turopa.com almacena información sobre los productos, categorías, marcas, colecciones, promociones e imágenes, implementando SQL Server Management studio y se cuenta con los siguientes elementos: </p>
@@ -784,6 +816,13 @@ Cada producto puede tener múltiples imágenes mediante `ImagenProducto`, múlti
 La entidad `Usuarios` almacena la información de las cuentas registradas, incluyendo si el usuario tiene permisos de administrador mediante el campo `EsAdmin`.
 
 La entidad `Categoria` permite una relación jerárquica, ya que una categoría puede tener una categoría padre y varias subcategorías.
+
+### Consultas principales a base de datos: 
+En estas consultas podemos visualizar todo el contenido de las tablas. 
+![Consultas en la base de datos 1](./documentacion/imagenes%20de%20documentacion/CONSULTAS%20EN%20LA%20BASE%20DE%20DATOS%201.png)
+![Consultas en la base de datos 2](./documentacion/imagenes%20de%20documentacion/CONSULTAS%20EN%20LA%20BASE%20DE%20DATOS%202%20.png)
+
+
 
 
 
