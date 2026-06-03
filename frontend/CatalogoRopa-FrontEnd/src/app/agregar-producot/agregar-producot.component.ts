@@ -6,6 +6,7 @@ import { Router, RouterLink } from '@angular/router';
 import { RopaService } from '../services/ropa.service';
 import { CrearProductoModel } from '../models/Crear-Producto-Model';
 import { PopupService } from '../services/popup.service';
+import { AuthService } from '../services/auth.service';
 
 
 @Component({
@@ -15,7 +16,8 @@ import { PopupService } from '../services/popup.service';
   templateUrl: './agregar-producot.component.html',
   styleUrl: './agregar-producot.component.css'
 })
-export class AgregarProductoComponent {
+export class AgregarProductoComponent implements OnInit {
+  private auth = inject(AuthService);
   private fb = inject(FormBuilder);
   private ropaService = inject(RopaService);
   private router = inject(Router);
@@ -283,6 +285,11 @@ export class AgregarProductoComponent {
 
 
   ngOnInit(): void {
+    if (!this.auth.isAdmin()) {
+      this.router.navigate(['/']);
+      return;
+    }
+
     this.cargarCatalogos();
     this.cargarProductos(1);
   }
