@@ -877,9 +877,37 @@ CatalogoRopaDB_backup_2026-06-02.bak
 
 ---
 
-### .Solucion de problemas. 
+### 9. SEGURIDAD
 
-### 9.SEGURIDAD
+En esta sección se documentan las medidas de seguridad que ya están implementadas en el sistema (no recomendaciones), indicando dónde encontrar el código relacionado.
+
+- **Resumen:** Principios aplicados en el proyecto: mínimo privilegio, defensa en profundidad, transporte seguro y validación de entradas.
+
+- **Backend:**
+    - Autenticación basada en JWT: el backend genera y devuelve un token JWT en los endpoints `register` y `login` (ver `Controllers/AuthController.cs`). El token incluye claims (`NameIdentifier`, `Name`, `Email`, `EsAdmin`), se firma con HMAC-SHA256 y su expiración se controla con `Jwt:ExpiresMinutes` en la configuración.
+    - Middleware de autenticación y autorización: `Program.cs` registra y activa `AddAuthentication().AddJwtBearer(...)`, y aplica `app.UseAuthentication()` y `app.UseAuthorization()` en la tubería de la aplicación.
+    - Hash de contraseñas: las contraseñas se almacenan como hash usando SHA256 a través de `Helpers/PasswordHelper.cs` antes de guardarlas en la base de datos.
+    - CORS: existe una política `AngularPolicy` registrada y aplicada en `Program.cs` (actualmente configurada con AllowAnyOrigin/AllowAnyHeader/AllowAnyMethod en desarrollo).
+    - Swagger: la documentación de API (Swagger) se habilita en entorno de desarrollo (`Program.cs`).
+    - Configuración centralizada: la cadena de conexión y la clave JWT están en `appsettings.json` (`ConnectionStrings` y `Jwt`).
+    - Acceso a endpoints: el controlador de catálogo `RopaController` está marcado como `[AllowAnonymous]`, lo que hace accesibles sus endpoints sin requerir token; las operaciones relacionadas con favoritos usan `idUsuario` pasado en parámetros para identificar al usuario.
+
+- **Frontend:**
+    - Almacenamiento de sesión: `src/app/services/auth.service.ts` guarda el `token` y el `user` en `localStorage` (`localStorage.setItem('token', ...)`, `localStorage.setItem('user', ...)`) y mantiene el estado con un `BehaviorSubject`.
+    - Decodificación del JWT: `AuthService.getUserId()` decodifica la carga útil del JWT para obtener el `IdUsuario` y lo usa en llamadas que requieren identificar al usuario (por ejemplo, favoritos en `RopaService`).
+    - Uso del token en flujo de la app: el token se conserva en `localStorage` y los servicios consumen las APIs en `http://localhost:5260/api` según las URLs definidas en los servicios (`AuthService`, `RopaService`). No se detectó un interceptor global que adjunte automáticamente el header `Authorization` en todas las peticiones; el token se gestiona manualmente desde `AuthService`.
+
+- **Puntos de trazabilidad:**
+    - `backend/CatalogoRopa-BackEnd/Program.cs` — configuración JWT, CORS, Swagger y middleware.
+    - `backend/CatalogoRopa-BackEnd/Controllers/AuthController.cs` — generación de tokens (`register`, `login`).
+    - `backend/CatalogoRopa-BackEnd/Helpers/PasswordHelper.cs` — hashing SHA256 de contraseñas.
+    - `backend/CatalogoRopa-BackEnd/appsettings.json` — `ConnectionStrings` y sección `Jwt`.
+    - `frontend/CatalogoRopa-FrontEnd/src/app/services/auth.service.ts` — almacenamiento y decodificado del token en `localStorage`.
+    - `frontend/CatalogoRopa-FrontEnd/src/app/services/ropa.service.ts` — consumo de API y uso de `idUsuario` para favoritos.
+
+- **Notas importantes:**
+    - La clave JWT y la cadena de conexión están en `appsettings.json` en el repositorio de desarrollo; en despliegue deberán administrarse de forma segura fuera del repo.
+    - `RopaController` permite acceso anónimo a la mayoría de sus endpoints; la identificación del usuario en acciones como favoritos depende del `idUsuario` pasado desde el cliente.
 
 ### 10.Referencias y recursos.
 
@@ -911,13 +939,6 @@ https://learn.microsoft.com/es-es/ssms/quickstarts/ssms-connect-query-sql-server
 
 -Bootstrap Documentacion: 
 https://getbootstrap.com/docs/5.3/getting-started/introduction/
-
-
-Solución de Problemas
-SEGURIDAD
-Políticas y Consideraciones de Seguridad
-Manejo de Datos Sensibles (Cifrado y Almacenamiento)
-Autenticación y Control de Acceso
 
 
 
