@@ -2,7 +2,6 @@
 
 ---
 
----
 
 ## Información del Producto
 
@@ -14,30 +13,47 @@
 
 ## Integrantes del Equipo 5
 
-| Apellido(s)      | Nombre(s)    |
-| ---------------- | ------------ |
-| Estrada Rios     | Daiana       |
-| González Erenas  | Jean Paul    |
-| Hernández López  | Jesús Noel   |
-| Hernández Valdez | Ángel Jasiel |
+| Alumno(s)     
+| -------------------------- |
+| Estrada Rios Daiana       |
+| González Erenas Jean Paul    |
+| Hernández López Jesús Noel   |
+| Hernández Valdez Ángel Jasiel |
 
 ---
 
-## 1. Introducción
+## 1. INTRODUCCIÓN
+
+### 1.1 Descripción General
 
 <p align="justify">
 Turopa.com es una aplicación web tipo revista digital que funciona como un catálogo de ropa en línea, diseñado para que los usuarios puedan explorar productos de forma rápida, intuitiva y visualmente atractiva. A diferencia de un e-commerce tradicional, este sistema se enfoca exclusivamente en la consulta y visualización de prendas, sin requerir autenticación de usuarios ni procesos de compra en línea.
 El proyecto fue desarrollado siguiendo las fases de análisis y diseño de software, transformando los requerimientos iniciales en una estructura técnica clara que comprende el diagrama de clases, el diseño de base de datos, la interfaz de usuario y la arquitectura del sistema. El objetivo principal es ofrecer una experiencia de navegación fluida que permita al usuario descubrir productos a través de categorías, filtros y elementos visuales que faciliten la toma de decisiones.
 
-Este documento describe los componentes técnicos y funcionales del sistema, sirviendo como referencia para su implementación, mantenimiento y posibles expansiones futuras.
 
 </p>
 
+### 1.2 Cobertura o Alcance
+
+
+- Visualización del catálogo de prendas con imagen, descripción y precio.
+- Consulta de productos almacenados en SQL Server a través de una API REST.
+- Registro, inicio y cierre de sesión de usuarios.
+- Rol de administrador con operaciones CRUD sobre los productos.
+- Gestión de variantes (talla, color, stock), imágenes múltiples y promociones por producto.
+
+
+
+
 ---
 
-## 2. Resumen del Sistema
+## 2. RESUMEN DEL SISTEMA
 
 Es una plataforma web -turopa.com- que presenta un catálogo digital de prendas de vestir organizado por categorías (Novedades, Promociones, Hombre, Mujer, Todo). El sistema permite al usuario navegar entre productos, aplicar filtros de búsqueda y visualizar información detallada de cada artículo sin necesidad de registrarse.
+
+### 2.1. Objetivo General
+Ofrecer una plataforma web que presente un catálogo digital de prendas de vestir organizado por categorías (Novedades, Promociones, Hombre, Mujer, Todo), permitiendo al usuario navegar, filtrar y visualizar información detallada de cada artículo sin necesidad de registrarse, y brindando a los administradores las herramientas para mantener el inventario actualizado.
+
 
 ### 2.1. Características principales
 
@@ -47,6 +63,7 @@ Es una plataforma web -turopa.com- que presenta un catálogo digital de prendas 
 - **Banner promocional**: destaca ofertas y campañas vigentes.
 - **Barra de búsqueda**: permite localizar prendas específicas por nombre.
 - **Diseño responsivo y limpio**: pensado para una experiencia de usuario intuitiva en navegador de escritorio.
+
 
 ### 2.2. Arquitectura
 
@@ -70,71 +87,162 @@ El sistema se construye bajo una **arquitectura en capas Cliente-Servidor**, div
 
 ---
 
-## 3. Requisitos
+## 3. REQUISITOS
 
 ### 3.1 Requisitos Funcionales
 
-| Requisito                           | Descripción                                                                                     |
-| ----------------------------------- | ----------------------------------------------------------------------------------------------- |
-| Visualización de catálogo           | El sistema debe mostrar un listado de productos con imagen, descripción breve y precio.         |
-| Navegación por categorías           | El usuario podrá acceder a secciones específicas: Novedades, Promociones, Hombre, Mujer y Todo. |
-| Filtrado de productos               | El sistema debe permitir filtrar prendas por tipo de prenda, talla y rango de precio.           |
-| Búsqueda de prendas                 | El usuario podrá buscar productos específicos a través de una barra de búsqueda.                |
-| Visualización de promociones        | El sistema debe mostrar un banner promocional con las ofertas vigentes.                         |
-| Gestión de variantes                | Cada producto podrá tener múltiples variantes (talla, color, stock).                            |
-| Cálculo de precio con descuento     | El sistema debe aplicar promociones vigentes sobre el precio base de los productos.             |
-| Categorización jerárquica           | Las categorías podrán contener subcategorías (relación padre/hijo).                             |
-| Visualización de imágenes múltiples | Cada producto puede tener varias imágenes, con una marcada como principal.                      |
-| Navegación rápida                   | El sistema debe ofrecer un botón "Ir Arriba" y acceso al inicio mediante el logotipo.           |
-| Indicador de sección activa         | La opción seleccionada en el menú debe cambiar de color para indicar la ubicación actual.       |
-| Acceso a información de la empresa  | El footer debe mostrar información del negocio, ayuda, tiendas físicas y redes sociales.        |
+- Visualización de catálogo           
+- Navegación por categorías           
+- Filtrado de productos              
+- Búsqueda de prendas                 
+- Visualización de promociones        
+- Gestión de variantes                
+- Cálculo de precio con descuento    
+- Categorización jerárquica          
+- Visualización de imágenes múltiples 
+- Navegación rápida      
+- Indicador de sección activa    
+- Acceso a información de la empresa
 
-### 3.2 Requisitos No Funcionales}
+### 3.2 Requisitos No Funcionales
 
-| Requisito      |
-| -------------- |
-| Usabilidad     |
-| Rendimiento    |
-| Mantenibilidad |
-| Escalabilidad  |
-| Compatibilidad |
-| Disponibilidad |
-| Seguridad      |
+- Usabilidad     
+- Rendimiento   
+- Mantenibilidad 
+- Escalabilidad 
+- Compatibilidad 
+- Disponibilidad
+- Seguridad   
 
 ### 3.3 Tecnicos
 
-<p align="justify"> Los requisitos técnicos definen las herramientas, lenguajes, frameworks y plataformas necesarias para construir, ejecutar y mantener el sistema Turopa.com. </p>
+- Frontend    
+- Backend      
+- Base de Datos 
+- API REST 
+- Servidor   
+- Hosting   
 
-| Requisito     | Descripción                             |
-| ------------- | --------------------------------------- |
-| Frontend      | HTML, CSS, JavaScript, Bootstrap        |
-| Backend       | C#, ASP.NET Core, Entity Framework Core |
-| Base de Datos | SQL Server                              |
-| API REST      | Controlador, Servicio, Repositorio      |
-| Servidor      | IIS, Windows Server                     |
-| Hosting       | Cloud (Azure)                           |
+
+### 3.4 Lenguajes de Programación
+
+- TypeScript -Lógica del frontend en Angular.   
+- HTML / CSS -Estructura y estilos de la interfaz.  
+- C# - Lógica de negocio del backend (ASP.NET Core).  
+- SQL (T-SQL) -  Definición y consulta de datos en SQL Server.  
+
+### 3.5 Frameworks
+
+Frontend:
+- Angular 21 - Construcción de la SPA y componentes de interfaz.
+- Bootstrap - Sistema de diseño responsivo y estilos base. 
+
+Backend:
+- ASP.NET Core (.NET 9)-Exposición de la API REST y lógica de negocio.
+- Entity Framework Core- ORM para el acceso y mapeo de datos con SQL Server. 
+
+### 3.6 Dependencias (librerías)
+
+**Backend (NuGet):**
+
+```txt
+Microsoft.AspNetCore.Authentication.JwtBearer   // Autenticación con tokens JWT
+Microsoft.EntityFrameworkCore.SqlServer         // Proveedor EF Core para SQL Server
+Microsoft.EntityFrameworkCore.Tools             // Migraciones y herramientas de EF
+Swashbuckle.AspNetCore                          // Documentación de la API (Swagger)
+```
+
+**Frontend (npm):**
+
+```txt
+@angular/core / @angular/cli   // Núcleo y CLI de Angular 21
+rxjs                           // Programación reactiva (observables)
+bootstrap                      // Estilos y componentes responsivos
+zone.js                        // Detección de cambios de Angular
+typescript                     // Lenguaje base del frontend
+```
+
+
+### 3.7 Arquitectura del sistema
+
+
+- Cliente-Servidor (El sistema está diseñado como una aplicación Cliente-Servidor, donde el cliente (navegador web) se comunica con el servidor para acceder a los datos y funcionalidades del sistema).
+- Capas de aplicación (El sistema está dividido en capas de aplicación, cada una con responsabilidades específicas: frontend, backend y base de datos).
+
+### 3.8 Diagrama de Arquitectura
+
+```mermaid
+flowchart LR
+    subgraph Cliente["Cliente (Navegador)"]
+        A["Angular 21 SPA<br/>TypeScript · Bootstrap · RxJS"]
+    end
+
+    subgraph Servidor["Servidor — ASP.NET Core .NET 9"]
+        direction TB
+        B["Controladores<br/>(API REST)"]
+        C["Servicios<br/>(Lógica de negocio)"]
+        D["Repositorios<br/>(Entity Framework Core)"]
+        J["Middleware JWT<br/>(Autenticación / Roles)"]
+        B --> C --> D
+        J -. valida .-> B
+    end
+
+    subgraph Datos["Base de Datos"]
+        E[("SQL Server<br/>CatalogoRopaDB")]
+    end
+
+    A -- "HTTP / JSON" --> B
+    B -- "respuesta JSON" --> A
+    D -- "SQL" --> E
+```
+
+### 3.9 Tecnologías Usadas
+
+- Frontend (Angular 21, TypeScript, Bootstrap)
+- Backend ( C#, ASP.NET Core .NET 9)
+- ORM  (Entity Framework Core)
+- Base de datos (SQL Server (SSMS para administración))
+- Autenticación (JWT (JSON Web Tokens)
+- Documentación API (Swagger / Swashbuckle)
+- Control de versiones(Git / GitHub )
+- Servidor / Hosting (IIS, Windows Server, Azure (cloud) )
+
+### 3.10 Estructura de la Aplicación (Componentes)
+
+```txt
+CATALOGO DE ROPA EN LINEA
+├─ CatalogoRopa
+│  ├─ frontend
+│  │  └─ CatalogoRopa-FrontEnd          # Aplicación Angular
+│  │     └─ src/app
+│  │        ├─ components/              # Componentes de interfaz (catálogo, navbar, admin, login)
+│  │        └─ services/                # Servicios HTTP (ropa.service.ts, auth.service.ts)
+│  ├─ backend
+│  │  └─ CatalogoRopa-BackEnd           # API ASP.NET Core
+│  │     ├─ Controllers/                # RopaController, AuthController
+│  │     ├─ Services/                   # Lógica de negocio
+│  │     ├─ Repositories/               # Acceso a datos (EF Core)
+│  │     ├─ Models/                     # Entidades del dominio
+│  │     └─ appsettings.json            # Configuración (cadena de conexión)
+│  └─ Base de datos
+│     └─ CatalogoRopaDB.bak             # Respaldo restaurable de la BD
+└─ package-lock.json
+```
+
+- **Frontend (Angular)**: organiza la interfaz en componentes y centraliza la comunicación con la API en *services* (`ropa.service.ts`, `auth.service.ts`).
+- **Backend (ASP.NET Core)**: separa responsabilidades en Controladores, Servicios y Repositorios, con EF Core como capa de persistencia.
+- **Base de datos**: distribuida como respaldo `.bak` listo para restaurar en SQL Server.
 
 ---
 
-## 3.4 De Arquitectura del sistema
 
-<p align="justify"> La arquitectura del sistema define cómo se organizan y comunican los componentes del sistema para lograr sus objetivos. </p>
+## 4. INSTALACION DEL SISTEMA
 
-| Requisito           | Descripción                                                                                                                                                                         |
-| ------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Cliente-Servidor    | El sistema está diseñado como una aplicación Cliente-Servidor, donde el cliente (navegador web) se comunica con el servidor para acceder a los datos y funcionalidades del sistema. |
-| Capas de aplicación | El sistema está dividido en capas de aplicación, cada una con responsabilidades específicas: frontend, backend y base de datos.                                                     |
-
-
-
-
-## 4. Instalacion del sistema
-
-## Requisitos Previos
+### 4.1 Requisitos de software.
 
 Antes de ejecutar el proyecto, la computadora debe tener instalado lo siguiente.
 
-### 1. Git
+#### 4.1.1. Git
 
 Necesario para clonar o descargar el repositorio.
 
@@ -150,7 +258,7 @@ Verificar instalación:
 git --version
 ```
 
-### 2. Node.js y npm
+#### 4.1.2. Node.js y npm
 
 Necesario para ejecutar el frontend en Angular.
 
@@ -166,7 +274,7 @@ node -v
 npm -v
 ```
 
-### 3. Angular CLI
+#### 4.1.3. Angular CLI
 
 Instalar Angular CLI de forma global:
 
@@ -180,7 +288,7 @@ Verificar instalación:
 ng version
 ```
 
-### 4. .NET SDK 9
+#### 4.1.4. .NET SDK 9
 
 Necesario para ejecutar el backend en ASP.NET Core.
 
@@ -196,7 +304,7 @@ Verificar instalación:
 dotnet --version
 ```
 
-### 5. SQL Server Management Studio, SSMS
+#### 4.1.5. SQL Server Management Studio, SSMS
 
 Recomendado para restaurar el backup `.bak`.
 
@@ -206,9 +314,8 @@ Sitio oficial:
 https://learn.microsoft.com/sql/ssms/download-sql-server-management-studio-ssms
 ```
 
----
 
-## Estructura del Proyecto
+### 4.2. Estructura del Proyecto
 
 Después de descargar el repositorio, la estructura principal debe verse de la siguiente forma:
 
@@ -232,9 +339,9 @@ Backend: ASP.NET Core .NET 9
 Base de datos: SQL Server
 ```
 
----
+### 4.3 Pasos para instalación
 
-## Paso 1: Descargar el Repositorio
+#### Paso 1: Descargar el Repositorio
 
 Recomiendo crear una nueva carpeta en donde se clonara el repositorio si desea almacenarlo en alguna ruta en especifico, de lo contrario el repositorio se clonara 
 en la ruta donde se abrio la terminal.
@@ -248,7 +355,7 @@ git clone https://github.com/AngJas/CatalogoRopa.git
 
 ---
 
-## Paso 2: Restaurar la Base de Datos
+#### Paso 2: Restaurar la Base de Datos
 
 El proyecto incluye un backup en la siguiente ruta:
 
@@ -299,7 +406,7 @@ CatalogoRopaDB
 
 ---
 
-## Paso 3: Configurar la Cadena de Conexión
+#### Paso 3: Configurar la Cadena de Conexión
 
 En el backend, abrir el archivo:
 
@@ -325,8 +432,7 @@ Se sustituye el servidor especificado en el backend por el nombre del servidor q
 
 
 
----
-## Paso 4: Instalar Dependencias del Backend
+#### Paso 4: Instalar Dependencias del Backend
 
 Entrar a la carpeta del backend:
 
@@ -353,7 +459,7 @@ Estas dependencias se instalan automáticamente con `dotnet restore`.
 
 ---
 
-## Paso 5: Ejecutar el Backend
+#### Paso 5: Ejecutar el Backend
 
 Desde la carpeta:
 
@@ -392,7 +498,7 @@ GET  http://localhost:5260/api/
 
 ---
 
-## Paso 6: Instalar Dependencias del Frontend
+#### Paso 6: Instalar Dependencias del Frontend
 
 Abrir otra terminal y entrar a:
 
@@ -418,7 +524,7 @@ Zone.js
 
 ---
 
-## Paso 7: Ejecutar el Frontend
+#### Paso 7: Ejecutar el Frontend
 
 Desde la carpeta del frontend:
 
@@ -441,7 +547,7 @@ http://localhost:4200
 Abrir esa dirección en el navegador.
 
 
-## Notas Importantes
+#### Notas Importantes
 
 El backend y el frontend deben ejecutarse al mismo tiempo.
 
@@ -470,9 +576,9 @@ Si se usa otro nombre, también debe modificarse en `appsettings.json`.
 
 ---
 
-## Comandos Resumidos
+#### Comandos Resumidos
 
-### Backend
+- Backend
 
 ```bash
 cd CatalogoRopa/backend/CatalogoRopa-BackEnd
@@ -480,7 +586,7 @@ dotnet restore
 dotnet run
 ```
 
-### Frontend
+- Frontend
 
 ```bash
 cd CatalogoRopa/frontend/CatalogoRopa-FrontEnd
@@ -488,7 +594,7 @@ npm install
 npm start
 ```
 
-### URLs del Sistema
+- URLs del Sistema
 
 ```txt
 Frontend: http://localhost:4200
@@ -498,7 +604,7 @@ Swagger:  http://localhost:5260/swagger
 
 ---
 
-## Resultado Esperado
+#### Resultado Esperado
 
 Después de completar todos los pasos:
 
@@ -507,15 +613,54 @@ Después de completar todos los pasos:
 3. El frontend estará ejecutándose en `http://localhost:4200`.
 4. El usuario podrá navegar por el catálogo, registrarse, iniciar sesión y probar las funciones disponibles del sistema.
 
+### 4.4 Configuración Inicial y Estructura de Carpetas
 
+El sistema se divide en tres partes que deben ejecutarse en conjunto:
 
-## 5. Uso del Sistema
+```txt
+Frontend:      Angular           → http://localhost:4200
+Backend:       ASP.NET Core .NET 9 → http://localhost:5260
+Base de datos: SQL Server        → CatalogoRopaDB
+Swagger:       http://localhost:5260/swagger
+```
+
+**Notas importantes:**
+
+- El backend y el frontend deben ejecutarse al mismo tiempo.
+- El frontend espera la API en `http://localhost:5260/api`. Si cambias el puerto, actualiza las URLs en:
+
+  ```txt
+  src\app\services\ropa.service.ts
+  src\app\services\auth.service.ts
+  ```
+
+- La base de datos restaurada debe llamarse exactamente `CatalogoRopaDB`; si usas otro nombre, modifícalo en `appsettings.json`.
+
+**Comandos resumidos:**
+
+```bash
+# Backend
+cd CatalogoRopa/backend/CatalogoRopa-BackEnd
+dotnet restore
+dotnet run
+
+# Frontend
+cd CatalogoRopa/frontend/CatalogoRopa-FrontEnd
+npm install
+npm start
+```
+
+**Resultado esperado:** base de datos restaurada, backend en `:5260`, frontend en `:4200`, y el usuario puede navegar el catálogo, registrarse, iniciar sesión y usar las funciones disponibles.
+
+---
+
+## 5. USO DEL SISTEMA
 
 El sistema **Turopa.com** está diseñado para permitir que los usuarios consulten los productos disponibles en el catálogo digital. Desde la página principal se pueden visualizar prendas, imágenes, precios e información básica de cada producto.
 
 ---
 
-### 5.1 Funciones Disponibles Actualmente
+### 5.1 Guía para Usuarios
 
 #### Usuarios generales
 
@@ -529,8 +674,6 @@ Los usuarios que no cuentan con permisos de administrador pueden realizar las si
 - Cerrar sesión.
 - Navegar en la pagina principal del catalogo
 - Ver la barra de navegación con secciones como Novedades, Promociones, Hombres, Mujeres y Todo.
-
-
 
 #### Usuarios administradores
 
@@ -554,7 +697,14 @@ Los usuarios administradores cuentan con todas las funciones anteriores y, adici
 
 ---
 
-### 5.2 Pantalla Principal
+### 5.2 Flujo y Descripción de Procesos
+
+1. **Inicio**: el usuario ingresa a la pantalla principal del catálogo.
+2. **Registro / Login (opcional)**: al registrarse, el sistema inicia sesión automáticamente y muestra el nombre del usuario en la barra de navegación.
+3. **Acceso de administrador**: si el usuario tiene rol administrador, aparece un icono de caja que da acceso a la administración del inventario.
+4. **Administración**: el administrador puede agregar, editar o eliminar productos, recibiendo confirmación visual de cada operación.
+
+### 5.3 Capturas de Pantalla (Interfaz)
 
 Al ingresar al sistema se muestra la pantalla principal del catálogo:
 
@@ -581,7 +731,7 @@ También se muestran las opciones de autenticación:
 
 ---
 
-### 5.3 Registro de Usuario
+### 5.4 Registro de Usuario
 
 Al seleccionar la opción **Registrarse**, se muestra el formulario de creación de cuenta:
 
@@ -595,7 +745,7 @@ Cuando la sesión está iniciada, en la barra de navegación aparece el nombre d
 
 ---
 
-### 5.4 Acceso de Administrador
+### 5.5 Acceso de Administrador
 
 Si el usuario cuenta con permisos de administrador, se muestra un icono con forma de caja en la barra de navegación. Este botón permite acceder a la administración del inventario digital.
 
@@ -605,7 +755,7 @@ Al hacer clic en este icono, el administrador es enviado a la pantalla de admini
 
 ---
 
-### 5.5 Administración de Inventario
+### 5.6 Administración de Inventario
 
 En la sección de administración de inventario, el administrador puede realizar las siguientes acciones:
 
@@ -620,7 +770,7 @@ En la sección de administración de inventario, el administrador puede realizar
 
 ---
 
-### 5.6 Agregar Producto
+### 5.7 Agregar Producto
 
 Para agregar un nuevo producto, el administrador debe llenar el formulario con los datos correspondientes, como nombre, descripción, precio, género, material, marca, categoría, colección, promoción e imagen del producto.
 
@@ -632,7 +782,7 @@ Al guardar el producto, el sistema mostrará un mensaje de confirmación si el r
 
 ---
 
-### 5.7 Editar Producto
+### 5.8 Editar Producto
 
 Desde el listado de productos registrados, el administrador puede seleccionar un producto para cargar sus datos en el formulario.
 
@@ -644,7 +794,7 @@ Una vez cargado el producto, se pueden modificar sus datos y guardar los cambios
 
 ---
 
-### 5.8 Eliminar Producto
+### 5.9 Eliminar Producto
 
 Para eliminar un producto, primero debe seleccionarse desde el listado. Una vez cargado en el formulario, el administrador puede usar la opción **Eliminar producto**.
 
@@ -654,7 +804,7 @@ Después de eliminarlo, el producto deja de aparecer en el listado y ya no estar
 
 ---
 
-### 5.9 FUNCIONALIDADES NUEVAS AGREGADAS 
+### 5.10 FUNCIONALIDADES NUEVAS AGREGADAS 
 
 Recientemente se agregaron funcionalidades nuevas y se hicieron ajustes a la interfaz. 
 
@@ -691,8 +841,9 @@ apareceran filtros en el lado posterior de la pantalla que al seleccionarlos fil
 ---
 
 
+## 6. BASE DE DATOS
 
-## 6. Base de datos (Modelado)
+### 6.1 Modelo de Datos (Diagramas y Descripción)
 
 <p align="justify"> La base de datos de Turopa.com almacena información sobre los productos, categorías, marcas, colecciones, promociones e imágenes, implementando SQL Server Management studio y se cuenta con los siguientes elementos: </p>
 
@@ -823,18 +974,142 @@ La entidad `Usuarios` almacena la información de las cuentas registradas, inclu
 
 La entidad `Categoria` permite una relación jerárquica, ya que una categoría puede tener una categoría padre y varias subcategorías.
 
-### Consultas principales a base de datos: 
+### 6.2 Consultas Principales a Base de Datos
+
+Las operaciones más frecuentes del sistema son:
+
+- Listar productos del catálogo con su marca y categoría.
+- Obtener la imagen principal de cada producto.
+- Calcular el precio final aplicando la promoción vigente.
+- Filtrar productos por género, categoría o rango de precio.
+- Buscar productos por nombre.
+- Consultar variantes con stock disponible.
+- Obtener los favoritos de un usuario.
+
 En estas consultas podemos visualizar todo el contenido de las tablas. 
 ![Consultas en la base de datos 1](./documentacion/imagenes%20de%20documentacion/CONSULTAS%20EN%20LA%20BASE%20DE%20DATOS%201.png)
 ![Consultas en la base de datos 2](./documentacion/imagenes%20de%20documentacion/CONSULTAS%20EN%20LA%20BASE%20DE%20DATOS%202%20.png)
 
+### 6.3 Código de Ejemplo de Consultas
+
+**SQL (T-SQL):**
+
+```sql
+-- 1. Catálogo con marca y categoría
+SELECT  p.IdProducto, p.Nombre, p.PrecioBase, m.Nombre AS Marca, c.Nombre AS Categoria
+FROM    Producto p
+JOIN    Marca     m ON p.IdMarca     = m.IdMarca
+JOIN    Categoria c ON p.IdCategoria = c.IdCategoria;
+
+-- 2. Imagen principal de cada producto
+SELECT  p.IdProducto, p.Nombre, i.Url
+FROM    Producto p
+JOIN    ImagenProducto i ON p.IdProducto = i.IdProducto
+WHERE   i.EsPrincipal = 1;
+
+-- 3. Precio final con promoción vigente
+SELECT  p.Nombre,
+        p.PrecioBase,
+        CASE
+            WHEN pr.Tipo = 'Porcentaje' THEN p.PrecioBase - (p.PrecioBase * pr.ValorDescuento / 100)
+            WHEN pr.Tipo = 'MontoFijo'  THEN p.PrecioBase - pr.ValorDescuento
+            ELSE p.PrecioBase
+        END AS PrecioFinal
+FROM    Producto  p
+LEFT JOIN Promocion pr
+       ON p.IdPromocion = pr.IdPromocion
+      AND GETDATE() BETWEEN pr.FechaInicio AND pr.FechaFin;
+
+-- 4. Filtrar por género y rango de precio
+SELECT  Nombre, PrecioBase, Genero
+FROM    Producto
+WHERE   Genero = 'Mujer'
+  AND   PrecioBase BETWEEN 200 AND 800;
+
+-- 5. Buscar por nombre
+SELECT  IdProducto, Nombre, PrecioBase
+FROM    Producto
+WHERE   Nombre LIKE '%camiseta%';
+
+-- 6. Variantes con stock disponible
+SELECT  v.Talla, v.Color, v.Stock, p.Nombre
+FROM    Variante v
+JOIN    Producto p ON v.IdProducto = p.IdProducto
+WHERE   v.Stock > 0;
+
+-- 7. Favoritos de un usuario
+SELECT  p.Nombre, f.FechaAgregado
+FROM    Favorito f
+JOIN    Producto p ON f.IdProducto = p.IdProducto
+WHERE   f.IdUsuario = @IdUsuario;
+```
+
+**Entity Framework Core (LINQ, equivalente a las consultas 1 y 5):**
+
+```csharp
+// Catálogo con marca y categoría
+var catalogo = await _context.Productos
+    .Include(p => p.Marca)
+    .Include(p => p.Categoria)
+    .Select(p => new {
+        p.IdProducto, p.Nombre, p.PrecioBase,
+        Marca = p.Marca.Nombre,
+        Categoria = p.Categoria.Nombre
+    })
+    .ToListAsync();
+
+// Búsqueda por nombre
+var resultados = await _context.Productos
+    .Where(p => p.Nombre.Contains(termino))
+    .ToListAsync();
+```
+
 ---
 
-### 7.Mantenimiento y Actualizaciones
+### 7.MANTENIMIENTO Y ACTUALIZACIONES
 
 El sistema **TUROPA.COM - Catálogo de Ropa en Línea** ha sido diseñado como una aplicación web modular, dividida en frontend, backend y base de datos. Esta estructura facilita su mantenimiento, permite realizar mejoras de forma ordenada y favorece la incorporación de nuevas funcionalidades conforme evolucionen las necesidades de la tienda.
 
 Actualmente, el sistema funciona como un catálogo digital para una tienda que realiza sus ventas de manera física. Por ello, el mantenimiento se enfoca principalmente en conservar actualizada la información de productos, existencias, imágenes, usuarios y permisos administrativos.
+
+### 7.1 Plan y Estrategias de Actualización
+
+- **Control de versiones**: todo el código se gestiona en Git/GitHub; los cambios se integran mediante ramas y *pull requests* para mantener trazabilidad.
+- **Migraciones de base de datos**: los cambios en el esquema se aplican con Entity Framework Core:
+
+  ```bash
+  dotnet ef migrations add NombreDelCambio
+  dotnet ef database update
+  ```
+
+- **Actualización de dependencias**: revisar periódicamente paquetes NuGet (`dotnet list package --outdated`) y npm (`npm outdated`), aplicando actualizaciones en un entorno de pruebas antes de producción.
+- **Despliegue por capas**: actualizar primero la base de datos, luego el backend y por último el frontend, verificando compatibilidad de la API.
+- **Pruebas previas**: validar en entorno local/desarrollo antes de publicar a producción (Azure/IIS).
+
+### 7.2 Copias de Seguridad y Recuperación
+
+- **Respaldos de base de datos**: generar copias `.bak` de `CatalogoRopaDB` de forma periódica desde SSMS o mediante un *job* programado:
+
+  ```sql
+  BACKUP DATABASE CatalogoRopaDB
+  TO DISK = 'C:\Backups\CatalogoRopaDB.bak'
+  WITH FORMAT, INIT, NAME = 'Respaldo completo Turopa';
+  ```
+
+- **Restauración**: seguir el procedimiento del Paso 2 de la instalación con el archivo `.bak` más reciente.
+- **Política recomendada**: respaldo completo semanal + respaldos diferenciales diarios, almacenados en una ubicación distinta al servidor (regla 3-2-1).
+- **Código fuente**: el repositorio remoto en GitHub actúa como respaldo del código; se recomienda etiquetar (`git tag`) las versiones estables.
+
+### 7.3 Solución de Problemas
+
+| Síntoma                                          | Posible causa                                  | Solución                                                                 |
+| ------------------------------------------------ | ---------------------------------------------- | ------------------------------------------------------------------------ |
+| El frontend no muestra productos                 | Backend apagado o URL de API incorrecta        | Verifica que el backend corra en `:5260` y revisa `ropa.service.ts`.     |
+| Error de conexión a la base de datos             | Nombre de servidor o BD incorrecto             | Ajusta `DefaultConnection` en `appsettings.json`.                        |
+| Error CORS en el navegador                       | Origen del frontend no permitido en el backend | Configura la política CORS en `Program.cs` para `http://localhost:4200`. |
+| 401 Unauthorized en rutas protegidas             | Token JWT ausente o expirado                   | Vuelve a iniciar sesión para obtener un token válido.                    |
+| `dotnet run` falla por dependencias              | Paquetes NuGet no restaurados                  | Ejecuta `dotnet restore`.                                                |
+| `npm start` falla                                | Dependencias no instaladas                     | Ejecuta `npm install` en la carpeta del frontend.                        |
 
 ### Tipos de mantenimiento aplicados
 
@@ -864,7 +1139,29 @@ Las actualizaciones actuales pueden incluir:
 
 ---
 
-### 8.Copias de seguridad y recuperacion.
+## 8.SEGURIDAD
+
+### 8.1 Políticas y Consideraciones de Seguridad
+
+- Comunicación cliente-servidor sobre **HTTPS** en producción.
+- Configuración explícita de **CORS** para permitir únicamente el origen del frontend.
+- Validación de entradas tanto en el frontend como en el backend para prevenir datos malformados.
+- Uso de **Entity Framework Core** (consultas parametrizadas) para mitigar inyección SQL.
+- Principio de **mínimo privilegio**: las operaciones de escritura del catálogo solo están disponibles para administradores.
+- No exponer información sensible en mensajes de error mostrados al usuario.
+
+### 8.2 Manejo de Datos Sensibles (Cifrado y Almacenamiento)
+
+- **Contraseñas**: deben almacenarse con *hashing* y *salt* (por ejemplo, BCrypt) y nunca en texto plano. Si el campo `Contrasena` actualmente guarda valores sin cifrar, es una mejora prioritaria.
+- **Tokens JWT**: la clave de firma se mantiene fuera del control de versiones (variables de entorno o *user secrets*), no en `appsettings.json` versionado.
+- **Cadena de conexión**: en producción debe gestionarse mediante variables de entorno o servicios seguros (Azure Key Vault), no en texto plano dentro del repositorio.
+- **Datos personales** (nombre, email, teléfono): tratarlos conforme a buenas prácticas de protección de datos, recopilando solo lo necesario y limitando su exposición en respuestas de la API.
+
+### 8.3 Autenticación y Control de Acceso
+- **Autenticación**: implementada con **JWT** mediante `Microsoft.AspNetCore.Authentication.JwtBearer`. Al iniciar sesión (`/api/Auth/login`) se emite un token que el frontend envía en el encabezado `Authorization: Bearer <token>`.
+- **Registro**: disponible en `/api/Auth/register`; tras el alta el sistema inicia sesión automáticamente.
+- **Control de acceso por rol**: el campo `EsAdmin` distingue usuarios generales de administradores. Las rutas de administración (alta, edición y baja de productos) deben protegerse con `[Authorize]` y validación de rol.
+- **Sesión**: el cierre de sesión descarta el token en el cliente. Se recomienda configurar una expiración razonable del token.
 
 Al tratarse de un catalogo de ropa que teoricamente se encargara de manejar el inventario fisico de la tienda, es de suma importancia que se tengan copias de seguridad periodicas de la base de datos para no generar conflictos de faltantes o productos inexistentes. Es por esto que una parte fundamental del mantenimiento y el correcto funcionamiento de este proyecto seria realizar las siguientes actividades de seguridad y recuperacion: 
 
@@ -882,7 +1179,7 @@ CatalogoRopaDB_backup_2026-06-02.bak
 
 ---
 
-### 9. SEGURIDAD
+## 8. SEGURIDAD
 
 - **Resumen:** Principios aplicados en el proyecto: mínimo privilegio, defensa en profundidad, transporte seguro y validación de entradas.
 
@@ -912,7 +1209,9 @@ CatalogoRopaDB_backup_2026-06-02.bak
     - La clave JWT y la cadena de conexión están en `appsettings.json` en el repositorio de desarrollo; en despliegue deberán administrarse de forma segura fuera del repo.
     - `RopaController` permite acceso anónimo a la mayoría de sus endpoints; la identificación del usuario en acciones como favoritos depende del `idUsuario` pasado desde el cliente.
 
-### 10.Referencias y recursos.
+## 9.REFERENCIAS Y RECURSOS.
+
+### Manuales, tutoriales:
 
 Durante el desarrollo de la aplicacion utilizamos tanto diversas tecnologias como diversos recursos para consultar y utilizar en nuesro codigo, al igual que diversas herramientas de desarollo, estas son las principales: 
 
