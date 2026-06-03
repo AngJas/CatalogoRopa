@@ -683,6 +683,7 @@ apareceran filtros en el lado posterior de la pantalla que al seleccionarlos fil
 
 
 
+---
 
 
 
@@ -821,6 +822,102 @@ La entidad `Categoria` permite una relación jerárquica, ya que una categoría 
 En estas consultas podemos visualizar todo el contenido de las tablas. 
 ![Consultas en la base de datos 1](./documentacion/imagenes%20de%20documentacion/CONSULTAS%20EN%20LA%20BASE%20DE%20DATOS%201.png)
 ![Consultas en la base de datos 2](./documentacion/imagenes%20de%20documentacion/CONSULTAS%20EN%20LA%20BASE%20DE%20DATOS%202%20.png)
+
+---
+
+### 7.Mantenimiento y Actualizaciones
+
+El sistema **TUROPA.COM - Catálogo de Ropa en Línea** ha sido diseñado como una aplicación web modular, dividida en frontend, backend y base de datos. Esta estructura facilita su mantenimiento, permite realizar mejoras de forma ordenada y favorece la incorporación de nuevas funcionalidades conforme evolucionen las necesidades de la tienda.
+
+Actualmente, el sistema funciona como un catálogo digital para una tienda que realiza sus ventas de manera física. Por ello, el mantenimiento se enfoca principalmente en conservar actualizada la información de productos, existencias, imágenes, usuarios y permisos administrativos.
+
+### Tipos de mantenimiento aplicados
+
+**Mantenimiento correctivo:**  
+Se enfoca en corregir errores detectados durante el uso o las pruebas del sistema. Algunos ejemplos son fallos en el registro o inicio de sesión, errores al cargar productos desde la base de datos, problemas al guardar cambios en el inventario, imágenes que no se muestran correctamente o botones administrativos que no responden como se espera.
+
+**Mantenimiento preventivo:**  
+Se realizaran ajustes antes de que ocurran errores mayores. Esto incluye revisar la conexión con la base de datos, validar correctamente los formularios, mejorar el manejo de errores, actualizar dependencias del frontend y backend, revisar la estructura de los servicios y mantener organizado el código de controladores, servicios y repositorios.
+
+**Mantenimiento adaptativo:**  
+Nos permite modificar o ampliar el sistema para responder a nuevas necesidades de la tienda. En el estado actual, esto puede reflejarse en mejoras como agregar filtros adicionales por colecciones, talla,  mejorar la visualización de productos, ampliar la información del inventario o preparar la funcion de carrito de compras en un futuro, cuando la tienda fisica tenga la posibilidad de expandir sus servicios. 
+
+
+### Actualizaciones del sistema
+Las actualizaciones del sistema deben realizarse de manera controlada para evitar afectar el funcionamiento del catalogo. Ya que en teoria el sistema muestra la informacion relacionada con productos que estan disponibles en la tienda fisica, es necesario revisar con antelacion que la informacion que se tiene en sistema es la misma informacion disponible en fisico, cualquier cambio en productos, existencias o promociones debe ser revisado cuidadosamente antes de aplicarse.
+
+Las actualizaciones actuales pueden incluir:
+
+- Corrección de errores en el frontend o backend.
+- Ajustes en formularios de registro, inicio de sesión y administración de productos.
+- Actualización de productos, precios, imágenes, marcas, categorías, colecciones y promociones.
+- Mejora en la administración del inventario digital.
+- Actualización de dependencias de Angular, ASP.NET Core y Entity Framework Core.
+- Mejora de validaciones para evitar datos incompletos o incorrectos.
+- Ajustes en la interfaz para mejorar la navegación del usuario.
+- Revisión de permisos para usuarios administradores.
+
+---
+
+### 8.Copias de seguridad y recuperacion.
+
+Al tratarse de un catalogo de ropa que teoricamente se encargara de manejar el inventario fisico de la tienda, es de suma importancia que se tengan copias de seguridad periodicas de la base de datos para no generar conflictos de faltantes o productos inexistentes. Es por esto que una parte fundamental del mantenimiento y el correcto funcionamiento de este proyecto seria realizar las siguientes actividades de seguridad y recuperacion: 
+
+-Realizar respaldos completos de la base de datos periodicamente. (cada mes o cada semana dependiendo del flujo en tienda fisica)
+-Crear respaldo antes de actualizaciones importantes. 
+-Guardar  copias de seguridad en ubiaciones seguras.
+-Nombrar los reslpados con fecha y descripcion para que sea mas facil detectar las fechas en las que se realizo el respaldo.
+-Verificar que los respaldos puedan restaurarse correctamente. 
+-Mantener por lo menos una copia reciente funcional.
+
+Un ejemplo de como se podria llamar un respaldo seria:
+```txt 
+CatalogoRopaDB_backup_2026-06-02.bak
+```
+
+---
+
+### .Solucion de problemas. 
+
+### 9.SEGURIDAD
+
+### 10.Referencias y recursos.
+
+Durante el desarrollo de la aplicacion utilizamos tanto diversas tecnologias como diversos recursos para consultar y utilizar en nuesro codigo, al igual que diversas herramientas de desarollo, estas son las principales: 
+
+-Documentacion oficial de Angular. 
+-Documentacion oficial de ASP .NET Core.
+-Documentacion oficial de Entity y Framework Core.
+-Documentacion oficial de SQL server. 
+
+---
+
+### Recursos externos.
+Links a documentacion oficial y recursos confiables: 
+- Documentacion de angular:
+  https://angular.dev/overview
+
+-ASP.NET Core: 
+https://learn.microsoft.com/es-mx/aspnet/core/?view=aspnetcore-10.0
+
+-SQLE Server: 
+  https://learn.microsoft.com/sql/sql-server
+
+-SQL Server Backup y restauracion: 
+  https://learn.microsoft.com/sql/relational-databases/backup-restore/back-up-and-restore-of-sql-server-databases
+
+-SQLE Server Conexion: 
+https://learn.microsoft.com/es-es/ssms/quickstarts/ssms-connect-query-sql-server?tabs=modern
+
+-Bootstrap Documentacion: 
+https://getbootstrap.com/docs/5.3/getting-started/introduction/
+
+
+Solución de Problemas
+SEGURIDAD
+Políticas y Consideraciones de Seguridad
+Manejo de Datos Sensibles (Cifrado y Almacenamiento)
+Autenticación y Control de Acceso
 
 
 
