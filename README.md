@@ -522,12 +522,16 @@ El sistema **Turopa.com** está diseñado para permitir que los usuarios consult
 
 Los usuarios que no cuentan con permisos de administrador pueden realizar las siguientes acciones:
 
-- Visualizar productos del catálogo.
+- Visualizar productos del catálogo y la cantidad de los productos disponibles.
 - Consultar productos almacenados en SQL Server.
-- Ver imágenes de los productos registrados.
+- Ver informacion basica de cada priducto, como nombre, descripcion, precio, etc..
 - Registrarse en el sistema.
-- Iniciar sesión.
+- Iniciar sesión con una cuenta registrada.
 - Cerrar sesión.
+- Navegar en la pagina principal del catalogo
+- Ver la barra de navegación con secciones como Novedades, Promociones, Hombres, Mujeres y Todo.
+
+
 
 #### Usuarios administradores
 
@@ -539,6 +543,8 @@ Los usuarios administradores cuentan con todas las funciones anteriores y, adici
 - Consultar un listado con todos los productos registrados.
 - Acceder al botón de administración de inventario.
 - Visualizar mensajes emergentes de éxito, error o carga.
+- Gestionar  los productos apartados/favoritos de cada usuario.
+  
 
 > Nota: Actualmente un usuario no puede registrarse directamente como administrador. El permiso de administrador debe asignarse desde la base de datos.
 
@@ -643,6 +649,10 @@ Para eliminar un producto, primero debe seleccionarse desde el listado. Una vez 
 Después de eliminarlo, el producto deja de aparecer en el listado y ya no estará disponible en el catálogo.
 
 ---
+
+### 5.9 FUNCIONALIDADES NUEVAS AGREGADAS 
+
+Recientemente se agregaron funcionalidades nuevas y se hicieron ajustes a la interfaz. 
 
 ## 6. Base de datos (Modelado)
 
