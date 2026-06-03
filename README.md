@@ -879,8 +879,6 @@ CatalogoRopaDB_backup_2026-06-02.bak
 
 ### 9. SEGURIDAD
 
-En esta sección se documentan las medidas de seguridad que ya están implementadas en el sistema (no recomendaciones), indicando dónde encontrar el código relacionado.
-
 - **Resumen:** Principios aplicados en el proyecto: mínimo privilegio, defensa en profundidad, transporte seguro y validación de entradas.
 
 - **Backend:**
